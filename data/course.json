@@ -1,0 +1,346 @@
+{
+  "id": "nmt-math-2026",
+  "name": "НМТ Математика 2026",
+  "description": "Тренажер з математики для підготовки до НМТ",
+
+  "topics": [
+    {
+      "id": "fractions",
+      "name": "Звичайні дроби",
+      "generators": [
+        {
+          "id": "fraction",
+          "config": {
+            "numeratorRange": [1, 12],
+            "denominatorRange": [2, 12],
+            "forms": [
+              "reduce",
+              "compare",
+              "add",
+              "subtract",
+              "multiply",
+              "divide"
+            ],
+            "allowNegative": false,
+            "allowImproper": false
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "percentages",
+      "name": "Відсотки",
+      "generators": [
+        {
+          "id": "percentage",
+          "config": {
+            "numberRange": [100, 5000],
+            "percentValues": [5, 10, 15, 20, 25, 30, 40, 50],
+            "forms": [
+              "percent-of-number",
+              "number-by-percent",
+              "percentage-ratio",
+              "increase-by-percent",
+              "decrease-by-percent",
+              "percentage-change",
+              "successive-change"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "powers-roots",
+      "name": "Степені та корені",
+      "generators": [
+        {
+          "id": "powers-roots",
+          "config": {
+            "baseRange": [2, 10],
+            "exponentRange": [2, 4],
+            "allowNegativeBase": true,
+            "forms": [
+              "power-value",
+              "multiply-same-base",
+              "divide-same-base",
+              "power-of-power",
+              "square-root",
+              "cube-root",
+              "simplify-square-root"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "expressions",
+      "name": "Алгебраїчні вирази",
+      "generators": [
+        {
+          "id": "expressions",
+          "config": {
+            "coefficientRange": [-9, 9],
+            "constantRange": [-15, 15],
+            "forms": [
+              "expand-brackets",
+              "combine-like-terms",
+              "factor-common",
+              "difference-of-squares"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "equations",
+      "name": "Рівняння",
+      "generators": [
+        {
+          "id": "linear-equation",
+          "config": {
+            "answerRange": [-10, 10],
+            "coefficientRange": [-9, 9],
+            "constantRange": [-15, 15],
+            "forms": ["ax+b=c", "ax=b", "a(x+b)=c", "ax+b=cx+d"]
+          }
+        },
+
+        {
+          "id": "quadratic-equation",
+          "config": {
+            "rootRange": [-10, 10],
+            "forms": ["two-roots", "double-root"]
+          }
+        },
+
+        {
+          "id": "rational-equation",
+          "config": {
+            "answerRange": [-10, 10],
+            "coefficientRange": [-6, 6],
+            "constantRange": [-10, 10],
+            "forms": ["a-over-x-minus-b", "linear-fraction"]
+          }
+        },
+
+        {
+          "id": "advanced-equation",
+          "config": {
+            "answerRange": [0, 8],
+            "baseRange": [2, 5],
+            "constantRange": [-10, 10],
+            "forms": ["exponential", "irrational", "logarithmic-shift"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "inequalities",
+      "name": "Нерівності",
+      "generators": [
+        {
+          "id": "inequality",
+          "config": {
+            "rootRange": [-10, 10],
+            "coefficientRange": [-9, 9],
+            "constantRange": [-15, 15],
+            "forms": ["linear", "quadratic", "system-linear"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "functions",
+      "name": "Функції",
+      "generators": [
+        {
+          "id": "function",
+          "config": {
+            "xRange": [-8, 8],
+            "coefficientRange": [-5, 5],
+            "constantRange": [-10, 10],
+            "forms": ["value", "zeros", "vertex", "graph-value"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "logarithms",
+      "name": "Логарифми",
+      "generators": [
+        {
+          "id": "logarithm-equation"
+        }
+      ]
+    },
+
+    {
+      "id": "sequences",
+      "name": "Послідовності та прогресії",
+      "generators": [
+        {
+          "id": "sequence",
+          "config": {
+            "startRange": [-10, 10],
+            "differenceRange": [-5, 5],
+            "ratioRange": [-3, 3],
+            "nRange": [3, 7],
+            "forms": [
+              "arithmetic-next",
+              "arithmetic-nth",
+              "arithmetic-sum",
+              "geometric-next",
+              "geometric-nth",
+              "geometric-sum"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "trigonometry",
+      "name": "Тригонометрія",
+      "generators": [
+        {
+          "id": "trigonometry",
+          "config": {
+            "forms": [
+              "standard-value",
+              "basic-equation",
+              "identity",
+              "right-triangle"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "geometry2d",
+      "name": "Планіметрія",
+      "generators": [
+        {
+          "id": "geometry2d",
+          "config": {
+            "lengthRange": [2, 15],
+            "forms": [
+              "rectangle-area",
+              "triangle-area",
+              "circle-area",
+              "pythagorean"
+            ]
+          }
+        },
+
+        {
+          "id": "geometry2d-extended",
+          "config": {
+            "lengthRange": [2, 12],
+            "coordinateRange": [-10, 10],
+            "forms": [
+              "trapezoid-area",
+              "parallelogram-area",
+              "rhombus-area",
+              "circumference",
+              "arc-length",
+              "sector-area",
+              "distance-between-points"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "geometry3d",
+      "name": "Стереометрія",
+      "generators": [
+        {
+          "id": "geometry3d",
+          "config": {
+            "lengthRange": [2, 9],
+            "forms": [
+              "rectangular-prism-volume",
+              "prism-volume",
+              "pyramid-volume",
+              "cylinder-volume",
+              "cone-volume",
+              "sphere-volume",
+              "sphere-surface"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "vectors",
+      "name": "Вектори",
+      "generators": [
+        {
+          "id": "vector",
+          "config": {
+            "coordinateRange": [-10, 10],
+            "forms": [
+              "coordinates-2d",
+              "coordinates-3d",
+              "length-2d",
+              "dot-product"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "combinatorics",
+      "name": "Комбінаторика",
+      "generators": [
+        {
+          "id": "combinatorics",
+          "config": {
+            "nRange": [4, 8],
+            "forms": ["permutation", "combination", "arrangement"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "probability",
+      "name": "Ймовірність",
+      "generators": [
+        {
+          "id": "probability",
+          "config": {
+            "countRange": [2, 20],
+            "forms": ["classical", "complement", "independent-events"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "statistics",
+      "name": "Статистика",
+      "generators": [
+        {
+          "id": "statistics",
+          "config": {
+            "valueRange": [1, 30],
+            "itemCountRange": [5, 9],
+            "forms": ["mean", "median", "mode", "range", "bar-chart"]
+          }
+        }
+      ]
+    }
+  ]
+}

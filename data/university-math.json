@@ -1,0 +1,283 @@
+{
+  "id": "university-math",
+
+  "name": "Університетська математика",
+
+  "description": "Універсальний тренажер університетської математики",
+
+  "topics": [
+    {
+      "id": "calculus",
+
+      "name": "Математичний аналіз",
+
+      "generators": [
+        {
+          "id": "calculus",
+
+          "config": {
+            "coefficientRange": [-6, 6],
+            "powerRange": [1, 5],
+            "xRange": [-5, 5],
+
+            "forms": [
+              "limit-polynomial",
+              "derivative-at-point",
+              "tangent-slope",
+              "indefinite-integral-monomial",
+              "definite-integral-monomial"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "advanced-calculus",
+
+      "name": "Поглиблений математичний аналіз",
+
+      "generators": [
+        {
+          "id": "advanced-calculus",
+
+          "config": {
+            "coefficientRange": [-6, 6],
+
+            "xRange": [-5, 5],
+
+            "powerRange": [1, 5],
+
+            "forms": [
+              "limit-factorization",
+              "chain-rule",
+              "product-rule",
+              "quotient-rule",
+              "extremum-quadratic",
+              "substitution-integral"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "linear-algebra",
+
+      "name": "Лінійна алгебра",
+
+      "generators": [
+        {
+          "id": "linear-algebra",
+
+          "config": {
+            "valueRange": [-5, 5],
+
+            "forms": [
+              "matrix-addition",
+              "matrix-multiplication",
+              "determinant-2x2",
+              "linear-system-2x2",
+              "vector-linear-combination"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "advanced-linear-algebra",
+
+      "name": "Поглиблена лінійна алгебра",
+
+      "generators": [
+        {
+          "id": "advanced-linear-algebra",
+
+          "config": {
+            "valueRange": [-5, 5],
+
+            "forms": [
+              "determinant-3x3",
+              "inverse-2x2",
+              "rank-basic",
+              "eigenvalues-diagonal",
+              "eigenvector-diagonal"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "complex-numbers",
+
+      "name": "Комплексні числа",
+
+      "generators": [
+        {
+          "id": "complex-number",
+
+          "config": {
+            "valueRange": [-6, 6],
+
+            "forms": [
+              "addition",
+              "subtraction",
+              "multiplication",
+              "modulus",
+              "power-of-i"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "series",
+
+      "name": "Ряди",
+
+      "generators": [
+        {
+          "id": "series",
+
+          "config": {
+            "valueRange": [-8, 8],
+
+            "nRange": [3, 8],
+
+            "forms": [
+              "finite-arithmetic-sum",
+              "finite-geometric-sum",
+              "infinite-geometric-sum",
+              "convergence-geometric",
+              "taylor-basic"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "differential-equations",
+
+      "name": "Диференціальні рівняння",
+
+      "generators": [
+        {
+          "id": "differential-equation",
+
+          "config": {
+            "coefficientRange": [-6, 6],
+
+            "initialValueRange": [-10, 10],
+
+            "xRange": [-5, 5],
+
+            "forms": [
+              "constant-derivative",
+              "linear-x-derivative",
+              "exponential-general-solution"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "discrete-math",
+
+      "name": "Дискретна математика",
+
+      "generators": [
+        {
+          "id": "discrete-math",
+
+          "config": {
+            "valueRange": [1, 12],
+
+            "forms": [
+              "set-union",
+              "set-intersection",
+              "set-cardinality",
+              "logic-implication",
+              "graph-handshake"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "number-theory",
+
+      "name": "Теорія чисел",
+
+      "generators": [
+        {
+          "id": "number-theory",
+
+          "config": {
+            "valueRange": [2, 50],
+
+            "forms": [
+              "gcd",
+              "lcm",
+              "divisibility",
+              "prime-check",
+              "modular-remainder"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "graph-theory",
+
+      "name": "Теорія графів",
+
+      "generators": [
+        {
+          "id": "graph-theory",
+
+          "config": {
+            "vertexRange": [3, 12],
+
+            "forms": [
+              "complete-graph-edges",
+              "tree-edges",
+              "degree-sum",
+              "cycle-vertices",
+              "path-length"
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "numerical-methods",
+
+      "name": "Чисельні методи",
+
+      "generators": [
+        {
+          "id": "numerical-method",
+
+          "config": {
+            "xRange": [-6, 6],
+
+            "forms": [
+              "bisection-step",
+              "newton-step",
+              "finite-difference",
+              "trapezoid-rule"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

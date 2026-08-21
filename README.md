@@ -14,9 +14,27 @@ The application dynamically generates mathematics problems, checks answers, prov
 
 **NMT Math Trainer** is an interactive mathematics practice platform designed to help students prepare for the Ukrainian National Multi-Subject Test (NMT).
 
-Instead of relying only on a fixed collection of questions, the application uses multiple mathematical generators to dynamically create new exercises.
+Instead of relying only on a fixed collection of questions, the application uses mathematical generators that dynamically create new exercises.
 
-Users can practice individual topics or combine several topics into a mixed training session.
+This makes it possible to generate many variations of the same mathematical concept while keeping the underlying mathematical rules consistent.
+
+Users can practice one topic at a time or combine several topics into a mixed training session.
+
+The project also includes automated mathematical validation, unit and integration tests, browser E2E tests, mobile tests, and stress scenarios.
+
+---
+
+## Live Demo
+
+[NMT Math Trainer](https://nmt-two.vercel.app/)
+
+---
+
+## Repository
+
+[GitHub Repository](https://github.com/SuperCat2812/Nmt/)
+
+---
 
 ## Features
 
@@ -31,84 +49,324 @@ Users can practice individual topics or combine several topics into a mixed trai
 - Step-by-step solutions
 - Mathematical formulas rendered with KaTeX
 - Function and geometry visualizations
-- Training results and statistics
+- Training results
+- Training statistics
 - Topic progress tracking
 - Training history
 - Browser persistence with `localStorage`
 - Responsive interface
-- Desktop and mobile support
-- Automated unit and integration tests
-- End-to-end browser testing with Playwright
+- Desktop support
+- Mobile support
+- Automated mathematical validation
+- Unit and integration testing with Vitest
+- End-to-end testing with Playwright
+- Desktop and mobile E2E projects
+- Stress testing of generators and user flows
+- Production build validation
+
+---
 
 ## Supported Mathematics
 
-The project contains generators for a wide range of mathematical topics, including:
+The NMT course contains generators for a wide range of school mathematics topics.
 
-- Fractions
-- Percentages
-- Powers and roots
-- Algebraic expressions
-- Linear equations
-- Quadratic equations
-- Rational equations
-- Inequalities
-- Functions
-- Logarithms
-- Sequences and progressions
-- Trigonometry
-- Plane geometry
-- Solid geometry
-- Vectors
-- Combinatorics
-- Probability
-- Statistics
+### Fractions
 
-The project also contains generators for more advanced mathematical topics used for extended testing and development.
+- fraction operations
+- comparison
+- simplification
+- related fraction exercises
+
+### Percentages
+
+- percentage of a number
+- finding a number from its percentage
+- percentage increase
+- percentage decrease
+- percentage change
+- ratios
+
+### Powers and Roots
+
+- powers
+- roots
+- exponent rules
+- simplification
+
+### Algebraic Expressions
+
+- algebraic transformations
+- identities
+- difference of squares
+- simplification of expressions
+
+### Equations
+
+- linear equations
+- quadratic equations
+- rational equations
+- advanced equation forms
+
+### Inequalities
+
+- algebraic inequalities
+- interval reasoning
+- inequality transformations
+
+### Functions
+
+- function values
+- function properties
+- graph-related questions
+- analytical interpretation
+
+### Logarithms
+
+- logarithmic expressions
+- logarithmic equations
+- logarithm properties
+
+### Sequences and Progressions
+
+- arithmetic progressions
+- geometric progressions
+- sequence terms
+- progression formulas
+
+### Trigonometry
+
+- trigonometric values
+- identities
+- equations
+- basic trigonometric relationships
+
+### Plane Geometry
+
+- triangles
+- quadrilaterals
+- circles
+- areas
+- perimeters
+- extended geometry problems
+
+### Solid Geometry
+
+- three-dimensional figures
+- volumes
+- surface-related calculations
+- spheres and other solids
+
+### Vectors
+
+- vector operations
+- coordinates
+- scalar products
+- vector relationships
+
+### Combinatorics
+
+- counting problems
+- permutations
+- combinations
+- related combinatorial calculations
+
+### Probability
+
+- basic probability
+- event calculations
+- probability problems
+
+### Statistics
+
+- statistical values
+- data analysis
+- basic descriptive statistics
+
+---
+
+## Advanced Mathematics
+
+The project also contains generators for advanced mathematical topics used to extend and stress-test the generation architecture.
+
+These include:
+
+- Calculus
+- Advanced Calculus
+- Linear Algebra
+- Advanced Linear Algebra
+- Complex Numbers
+- Series
+- Differential Equations
+- Discrete Mathematics
+- Number Theory
+- Graph Theory
+- Numerical Methods
+
+These generators demonstrate that the training architecture is not limited only to NMT mathematics.
+
+---
 
 ## Training Modes
 
 ### Single Topic
 
-The user selects one mathematical topic and practices questions generated specifically for that topic.
+The user selects one mathematical topic.
+
+The trainer generates questions specifically for that topic.
+
+Typical flow:
+
+1. Select single-topic mode.
+2. Select a topic.
+3. Choose the number of questions.
+4. Start training.
+5. Answer the questions.
+6. View the final result.
 
 ### Mixed Mode
 
-Several topics can be selected at the same time.
+Several topics can be selected simultaneously.
 
-The trainer then generates a mixed training session containing questions from the selected topics.
+The trainer creates one training session containing questions from the selected categories.
 
-## How It Works
+This makes it possible to practice several areas of mathematics in one session.
 
-The basic training flow is:
+---
 
-1. Select a training mode.
-2. Select one or multiple topics.
-3. Choose the number of questions.
-4. Start the training session.
-5. Answer generated questions.
-6. Check the answer.
-7. View the solution.
-8. Continue to the next question.
-9. Finish the session.
-10. Review the results and training history.
+## Training Flow
+
+The general user flow is:
+
+1. Open the trainer.
+2. Select a training mode.
+3. Select one or multiple topics.
+4. Choose the number of questions.
+5. Start the training session.
+6. Read the generated question.
+7. Select or enter an answer.
+8. Check the answer.
+9. View whether the answer is correct.
+10. Read the step-by-step solution.
+11. Continue to the next question.
+12. Complete the training session.
+13. Review the result.
+14. Review topic progress and training history.
+
+---
 
 ## Question Generation
 
-Questions are created dynamically by dedicated generators.
+Questions are generated dynamically by dedicated mathematical generators.
 
-A generated question contains information such as:
+A generated question can contain:
 
+- unique question ID
 - generator ID
+- family ID
+- variant key
 - topic ID
 - question type
+- title
 - question text
 - mathematical expression
 - answer options
 - correct answer
 - solution steps
-- unique variant key
+- visual data
 
-Randomized generators are tested with thousands of generated questions to detect invalid mathematical cases.
+A simplified generated question may look like:
+
+```ts
+{
+  id: '...',
+  generatorId: 'linear-equation',
+  familyId: 'linear',
+  variantKey: 'linear:2:3:7',
+  topicId: 'equations',
+  type: 'single-choice',
+  title: 'Розв’яжіть рівняння',
+  math: '2x + 3 = 7',
+  options: [
+    // ...
+  ],
+  correctAnswer: '2',
+  solution: [
+    // ...
+  ]
+}
+```
+
+Randomized generators are tested with large numbers of generated questions to help detect rare invalid combinations.
+
+---
+
+## Answer Validation
+
+The application supports several question formats.
+
+### Single Choice
+
+The user selects one answer from the generated options.
+
+### Numeric Answer
+
+The user enters a numerical result.
+
+### Matching
+
+The user matches elements from two sets.
+
+The answer-checking engine validates the user response according to the question type.
+
+---
+
+## Step-by-Step Solutions
+
+After checking an answer, the trainer displays:
+
+- whether the answer is correct
+- the correct answer when appropriate
+- a separate solution section
+- mathematical steps required to solve the problem
+
+Mathematical expressions are rendered using KaTeX.
+
+---
+
+## Visualizations
+
+Some mathematical questions can contain visual information.
+
+The project uses visualization components for mathematical content such as:
+
+- function graphs
+- geometry
+- charts
+- other generated visual representations
+
+The visualization stack includes:
+
+- JSXGraph
+- Recharts
+
+---
+
+## Progress and History
+
+The application tracks training activity locally.
+
+It can store information such as:
+
+- completed training sessions
+- results
+- topic progress
+- training history
+
+Data is currently persisted using browser `localStorage`.
+
+This allows the application to work without a backend server or database.
+
+---
 
 ## Tech Stack
 
@@ -145,6 +403,12 @@ Randomized generators are tested with thousands of generated questions to detect
 - npm
 - Git
 
+### Deployment
+
+- Vercel
+
+---
+
 ## Project Structure
 
 ```text
@@ -156,6 +420,13 @@ nmt-math-trainer/
 ├── components/
 │   ├── QuestionCard/
 │   ├── Trainer/
+│   ├── MathFormula/
+│   ├── VisualRenderer/
+│   └── ...
+│
+├── engine/
+│   ├── answerChecker.ts
+│   ├── generatorRegistry.ts
 │   └── ...
 │
 ├── generators/
@@ -169,6 +440,7 @@ nmt-math-trainer/
 │   ├── inequalities/
 │   ├── powersRoots/
 │   ├── probability/
+│   ├── sequences/
 │   ├── trigonometry/
 │   ├── vectors/
 │   └── ...
@@ -178,22 +450,28 @@ nmt-math-trainer/
 │   └── ...
 │
 ├── e2e/
+│   ├── helpers.ts
+│   ├── allTopics.spec.ts
+│   ├── userStress.spec.ts
 │   └── ...
 │
 ├── types/
 ├── utils/
+│
 ├── playwright.config.ts
 ├── vitest.config.mts
 ├── package.json
 └── README.md
 ```
 
+---
+
 ## Installation
 
 Clone the repository:
 
 ```bash
-git clone YOUR_REPOSITORY_URL
+git clone https://github.com/SuperCat2812/Nmt.git
 ```
 
 Open the project directory:
@@ -214,41 +492,23 @@ Start the development server:
 npm run dev
 ```
 
-Then open the local Next.js application in your browser.
+Then open the local application in your browser.
+
+---
 
 ## Available Commands
 
-Start the development server:
+### Development
+
+Start the Next.js development server:
 
 ```bash
 npm run dev
 ```
 
-Run unit and integration tests:
+### Production Build
 
-```bash
-npm run test
-```
-
-Run Vitest in watch mode:
-
-```bash
-npm run test:watch
-```
-
-Run ESLint:
-
-```bash
-npm run lint
-```
-
-Check TypeScript:
-
-```bash
-npx tsc --noEmit
-```
-
-Create a production build:
+Create an optimized production build:
 
 ```bash
 npm run build
@@ -260,31 +520,154 @@ Start the production server:
 npm run start
 ```
 
-## Testing
+### ESLint
 
-The project uses two levels of automated testing.
+```bash
+npm run lint
+```
+
+### TypeScript
+
+```bash
+npm run typecheck
+```
 
 ### Vitest
 
-Vitest tests mathematical generators and application logic.
+Run unit and integration tests:
 
-The test suite checks, among other things:
+```bash
+npm run test
+```
+
+or:
+
+```bash
+npm run test:unit
+```
+
+Watch mode:
+
+```bash
+npm run test:watch
+```
+
+### Playwright
+
+Run all E2E tests:
+
+```bash
+npm run test:e2e
+```
+
+Open Playwright UI mode:
+
+```bash
+npm run test:e2e:ui
+```
+
+Run tests in a visible browser:
+
+```bash
+npm run test:e2e:headed
+```
+
+Run Chromium tests:
+
+```bash
+npm run test:e2e:chromium
+```
+
+Run mobile tests:
+
+```bash
+npm run test:e2e:mobile
+```
+
+### Complete Project Check
+
+Run the complete validation pipeline:
+
+```bash
+npm run test:full
+```
+
+This runs:
+
+```text
+ESLint
+   ↓
+TypeScript
+   ↓
+Vitest
+   ↓
+Playwright
+   ↓
+Next.js production build
+```
+
+---
+
+## Testing Strategy
+
+The project uses several levels of automated validation.
+
+### 1. TypeScript
+
+TypeScript verifies the static type safety of the application.
+
+Run:
+
+```bash
+npm run typecheck
+```
+
+---
+
+### 2. ESLint
+
+ESLint checks source-code quality and common programming problems.
+
+Run:
+
+```bash
+npm run lint
+```
+
+---
+
+### 3. Vitest
+
+Vitest tests mathematical generators and internal application logic.
+
+The tests cover areas such as:
 
 - mathematical correctness
+- generator output
 - fraction calculations
-- equation generators
-- function generators
-- inequality generators
-- percentage generators
-- geometry generators
-- trigonometry generators
-- advanced mathematics generators
+- percentages
+- expressions
+- equations
+- inequalities
+- functions
+- logarithms
+- sequences
+- trigonometry
+- geometry
+- vectors
+- combinatorics
+- probability
+- statistics
+- advanced mathematics
 - answer validation
-- course configuration
 - training sessions
-- training storage
-- topic progress
+- storage
+- progress calculations
 - generated answer options
+- formula sanity
+- generator stress scenarios
+
+Some generator tests create thousands of randomized questions to detect rare mathematical or generation errors.
 
 Run:
 
@@ -292,120 +675,193 @@ Run:
 npm run test
 ```
 
-Current verified result:
+---
 
-```text
-Test Files  25 passed (25)
-Tests       127 passed (127)
-```
+### 4. Formula Sanity Testing
 
-### Playwright
+Generated mathematical formulas are checked for suspicious output such as:
 
-Playwright is used for end-to-end testing of real user interactions in the browser.
+- malformed signs
+- invalid expression formatting
+- unexpectedly long floating-point representations
+- malformed generated mathematical notation
 
-The E2E tests cover flows such as:
+This is especially useful because the application dynamically generates questions.
+
+---
+
+### 5. Generator Stress Testing
+
+Generators are repeatedly executed with many randomized inputs.
+
+This helps detect problems that may only occur for rare combinations of generated values.
+
+Examples include:
+
+- invalid answer options
+- empty values
+- malformed formulas
+- duplicate or inconsistent answers
+- invalid generated states
+
+---
+
+### 6. Playwright E2E Testing
+
+Playwright tests the application from the perspective of a real browser user.
+
+The E2E suite covers scenarios such as:
 
 - opening the application
-- selecting a training mode
-- changing the number of questions
+- selecting a mode
 - selecting topics
-- using mixed mode
-- starting a training session
-- interacting with questions
+- changing the number of questions
+- starting training
+- answering questions
+- checking answers
+- viewing solutions
+- moving to the next question
 - completing training
-- saving training history
-- restoring history after page reload
-- clearing history
+- viewing results
+- saving history
+- restoring state after reload
+- avoiding duplicate history entries
+- mixed-topic training
+- desktop layouts
+- mobile layouts
+- horizontal overflow checks
+- repeated user interactions
 
-Run all Playwright tests:
+---
+
+### 7. User Stress Scenarios
+
+The E2E suite also contains stress-oriented user scenarios.
+
+Examples include:
+
+- completing several questions from every NMT topic
+- completing 50 questions without UI freezing
+- starting a 100-question training session
+- double-clicking the answer-check button
+- attempting to change an answer after it has been checked
+- reloading the page during configuration
+- checking history persistence
+- checking that reload does not duplicate history
+- checking horizontal overflow after multiple questions
+
+These tests help validate the application beyond the normal "happy path".
+
+---
+
+### 8. Desktop and Mobile Testing
+
+Playwright contains separate projects for desktop Chromium and mobile viewport testing.
+
+Run desktop Chromium:
 
 ```bash
-npx playwright test
+npm run test:e2e:chromium
 ```
 
-Run tests visually:
+Run mobile:
 
 ```bash
-npx playwright test --headed
+npm run test:e2e:mobile
 ```
 
-Run Playwright UI mode:
+This helps ensure that the trainer remains usable across different screen sizes.
+
+---
+
+## Pre-Deployment Check
+
+Before deployment, run:
 
 ```bash
-npx playwright test --ui
+npm run test:full
 ```
 
-Open the latest HTML report:
-
-```bash
-npx playwright show-report
-```
-
-## Full Project Check
-
-Before committing or deploying changes, the main checks can be run with:
+For an additional clean TypeScript check on Windows:
 
 ```powershell
 Remove-Item tsconfig.tsbuildinfo -ErrorAction SilentlyContinue
-
-npm run test
-npm run lint
-npx tsc --noEmit
-npx playwright test
-npm run build
+npm run typecheck
 ```
 
-This checks:
+The deployment checklist therefore validates:
 
+- source-code quality
+- TypeScript
 - mathematical logic
-- application logic
-- code quality
-- TypeScript types
+- generator logic
+- answer validation
+- application state
 - browser user flows
-- production build
+- desktop behavior
+- mobile behavior
+- production compilation
+
+---
 
 ## Data Storage
 
-Training progress and history are currently stored in the browser using `localStorage`.
+Training progress and history are currently stored in the browser using:
 
-This means the current version does not require a backend server or database for basic operation.
+```text
+localStorage
+```
 
-A database can be added later if the project needs features such as:
+Therefore, the current version does not require a backend server or database for its basic functionality.
+
+### Advantages
+
+- simple deployment
+- no server required
+- fast local persistence
+- training history survives page reloads
+
+### Limitation
+
+The data belongs to the current browser/device.
+
+It is not currently synchronized between different devices.
+
+---
+
+## Possible Backend Expansion
+
+A backend and database can be added in the future for features such as:
 
 - user accounts
-- synchronization between devices
+- authentication
 - cloud training history
+- synchronization between devices
 - global statistics
 - leaderboards
+- shared progress
+- teacher/student functionality
+
+The current generator architecture can continue working independently of the storage layer.
+
+---
 
 ## Future Improvements
 
 Possible future improvements include:
 
-- User authentication
-- Database integration
-- Cloud progress synchronization
-- More NMT question types
-- More mathematical generators
-- Difficulty levels
-- Timed exam mode
-- Full NMT simulation
-- Detailed analytics
-- Improved mobile experience
-
-## Live Demo
-
-Add the deployed application URL here:
-
-```text
-YOUR_DEPLOYMENT_URL
-```
-
-## Repository
-
-```text
-YOUR_REPOSITORY_URL
-```
+- user authentication
+- database integration
+- cloud progress synchronization
+- additional NMT question types
+- additional mathematical generators
+- difficulty levels
+- timed exam mode
+- full NMT simulation
+- detailed analytics
+- additional visualizations
+- accessibility improvements
+- further mobile optimization
 
 ---
 
@@ -413,11 +869,29 @@ YOUR_REPOSITORY_URL
 
 ## Про проєкт
 
-**NMT Math Trainer** — інтерактивний тренажер з математики для підготовки до українського Національного мультипредметного тесту (НМТ).
+**NMT Math Trainer** — інтерактивний математичний тренажер для підготовки до українського Національного мультипредметного тесту (НМТ).
 
-Замість використання лише фіксованого набору завдань застосунок має математичні генератори, які динамічно створюють нові задачі.
+На відміну від застосунків, які використовують лише фіксований набір запитань, NMT Math Trainer використовує математичні генератори для динамічного створення нових завдань.
 
-Користувач може тренувати окрему тему або об'єднати декілька тем у змішане тренування.
+Це дозволяє отримувати багато різних варіантів задач, зберігаючи правильну математичну логіку.
+
+Користувач може тренувати одну тему або об'єднати декілька тем у змішане тренування.
+
+Проєкт також містить автоматичну перевірку математичної логіки, unit/integration-тести, E2E-тести браузера, mobile-тести та stress-сценарії.
+
+---
+
+## Demo
+
+[NMT Math Trainer](https://nmt-two.vercel.app/)
+
+---
+
+## Repository
+
+[GitHub Repository](https://github.com/SuperCat2812/Nmt/)
+
+---
 
 ## Можливості
 
@@ -438,61 +912,275 @@ YOUR_REPOSITORY_URL
 - Історія тренувань
 - Збереження даних у `localStorage`
 - Адаптивний інтерфейс
-- Підтримка desktop і mobile
-- Автоматичні тести
+- Desktop-версія
+- Mobile-версія
+- Автоматичне тестування математичної логіки
+- Unit та integration-тести через Vitest
 - E2E-тестування через Playwright
+- Окремі desktop та mobile E2E-проєкти
+- Stress-тестування генераторів
+- Stress-тестування користувацьких сценаріїв
+- Перевірка production build
 
-## Математичні теми
+---
 
-Проєкт містить генератори для великої кількості тем, зокрема:
+## Математичні теми НМТ
 
-- Звичайні дроби
-- Відсотки
-- Степені та корені
-- Алгебраїчні вирази
-- Лінійні рівняння
-- Квадратні рівняння
-- Раціональні рівняння
-- Нерівності
-- Функції
-- Логарифми
-- Послідовності та прогресії
-- Тригонометрія
-- Планіметрія
-- Стереометрія
-- Вектори
-- Комбінаторика
-- Ймовірність
-- Статистика
+Тренажер містить генератори для основних математичних тем.
 
-Також у проєкті є генератори складніших математичних тем для розширення та тестування системи.
+### Звичайні дроби
+
+- операції з дробами
+- порівняння
+- скорочення
+- пов'язані задачі з дробами
+
+### Відсотки
+
+- відсоток від числа
+- знаходження числа за відсотком
+- збільшення на відсоток
+- зменшення на відсоток
+- відсоткова зміна
+- відношення
+
+### Степені та корені
+
+- степені
+- корені
+- властивості степенів
+- спрощення
+
+### Алгебраїчні вирази
+
+- перетворення виразів
+- тотожності
+- різниця квадратів
+- спрощення виразів
+
+### Рівняння
+
+- лінійні рівняння
+- квадратні рівняння
+- раціональні рівняння
+- складніші види рівнянь
+
+### Нерівності
+
+- алгебраїчні нерівності
+- інтервали
+- перетворення нерівностей
+
+### Функції
+
+- значення функції
+- властивості функцій
+- графічні завдання
+- аналіз функцій
+
+### Логарифми
+
+- логарифмічні вирази
+- логарифмічні рівняння
+- властивості логарифмів
+
+### Послідовності та прогресії
+
+- арифметична прогресія
+- геометрична прогресія
+- члени послідовностей
+- формули прогресій
+
+### Тригонометрія
+
+- тригонометричні значення
+- тотожності
+- рівняння
+- основні тригонометричні співвідношення
+
+### Планіметрія
+
+- трикутники
+- чотирикутники
+- кола
+- площі
+- периметри
+- розширені геометричні задачі
+
+### Стереометрія
+
+- просторові фігури
+- об'єми
+- площі поверхонь
+- сфери та інші тіла
+
+### Вектори
+
+- операції з векторами
+- координати
+- скалярний добуток
+- співвідношення між векторами
+
+### Комбінаторика
+
+- задачі на підрахунок
+- перестановки
+- комбінації
+- комбінаторні обчислення
+
+### Ймовірність
+
+- базова ймовірність
+- події
+- задачі на обчислення ймовірності
+
+### Статистика
+
+- статистичні величини
+- аналіз даних
+- базова описова статистика
+
+---
+
+## Розширена математика
+
+У проєкті також є генератори складніших математичних тем, які використовуються для розширення та stress-тестування архітектури:
+
+- Calculus
+- Advanced Calculus
+- Linear Algebra
+- Advanced Linear Algebra
+- Complex Numbers
+- Series
+- Differential Equations
+- Discrete Mathematics
+- Number Theory
+- Graph Theory
+- Numerical Methods
+
+Це демонструє, що архітектура генераторів не обмежується лише програмою НМТ.
+
+---
 
 ## Режими тренування
 
 ### Одна тема
 
-Користувач обирає одну математичну тему та отримує завдання саме з неї.
+Користувач обирає одну математичну тему.
 
-### Змішаний режим
-
-Користувач може вибрати декілька тем.
-
-Тренажер формує одну сесію із завдань вибраних категорій.
-
-## Як працює тренування
+Тренажер створює завдання саме з цієї теми.
 
 Основний сценарій:
 
-1. Обрати режим тренування.
-2. Обрати тему або декілька тем.
+1. Обрати режим однієї теми.
+2. Обрати тему.
 3. Вказати кількість завдань.
 4. Почати тренування.
-5. Відповісти на завдання.
-6. Перевірити відповідь.
-7. Переглянути розв'язання.
-8. Перейти до наступного завдання.
-9. Завершити тренування.
-10. Переглянути результат та історію.
+5. Виконати завдання.
+6. Переглянути результат.
+
+### Змішаний режим
+
+Користувач може обрати декілька тем одночасно.
+
+Тренажер формує одну сесію із завдань вибраних категорій.
+
+---
+
+## Як працює тренування
+
+Основний сценарій користувача:
+
+1. Відкрити тренажер.
+2. Обрати режим.
+3. Обрати одну або декілька тем.
+4. Вказати кількість завдань.
+5. Почати тренування.
+6. Прочитати згенероване завдання.
+7. Обрати або ввести відповідь.
+8. Натиснути «Перевірити».
+9. Побачити результат перевірки.
+10. Переглянути покрокове розв'язання.
+11. Перейти до наступного завдання.
+12. Завершити тренування.
+13. Переглянути результат.
+14. Переглянути прогрес та історію.
+
+---
+
+## Генерація завдань
+
+Завдання створюються динамічно спеціалізованими математичними генераторами.
+
+Згенероване завдання може містити:
+
+- унікальний ID
+- ID генератора
+- family ID
+- variant key
+- ID теми
+- тип завдання
+- заголовок
+- текст
+- математичну формулу
+- варіанти відповідей
+- правильну відповідь
+- кроки розв'язання
+- дані для візуалізації
+
+Генератори тестуються на великій кількості випадково створених завдань.
+
+Це допомагає знаходити рідкісні помилки у випадкових комбінаціях.
+
+---
+
+## Перевірка відповідей
+
+Тренажер підтримує декілька форматів завдань.
+
+### Вибір відповіді
+
+Користувач обирає один варіант із запропонованих.
+
+### Числова відповідь
+
+Користувач самостійно вводить числовий результат.
+
+### Встановлення відповідності
+
+Користувач встановлює відповідність між елементами двох наборів.
+
+Система перевірки відповіді враховує тип конкретного завдання.
+
+---
+
+## Покрокове розв'язання
+
+Після перевірки відповіді користувач бачить:
+
+- правильна відповідь чи ні
+- правильну відповідь, коли це необхідно
+- окремий блок розв'язання
+- математичні кроки
+
+Формули відображаються за допомогою KaTeX.
+
+---
+
+## Прогрес та історія
+
+Тренажер локально зберігає інформацію про навчання.
+
+Зберігатися можуть:
+
+- завершені тренування
+- результати
+- прогрес за темами
+- історія тренувань
+
+Для збереження використовується браузерний `localStorage`.
+
+---
 
 ## Технології
 
@@ -529,15 +1217,21 @@ YOUR_REPOSITORY_URL
 - npm
 - Git
 
+### Deploy
+
+- Vercel
+
+---
+
 ## Встановлення
 
 Клонуйте репозиторій:
 
 ```bash
-git clone YOUR_REPOSITORY_URL
+git clone https://github.com/SuperCat2812/Nmt.git
 ```
 
-Перейдіть до папки:
+Перейдіть до папки проєкту:
 
 ```bash
 cd nmt-math-trainer
@@ -555,123 +1249,331 @@ npm install
 npm run dev
 ```
 
-## Тестування
+---
+
+## Команди
+
+### Dev-сервер
+
+```bash
+npm run dev
+```
+
+### ESLint
+
+```bash
+npm run lint
+```
+
+### TypeScript
+
+```bash
+npm run typecheck
+```
 
 ### Vitest
 
-Для перевірки математичної логіки та внутрішньої логіки застосунку:
-
 ```bash
 npm run test
 ```
 
-Поточний перевірений результат:
+або:
 
-```text
-Test Files  25 passed (25)
-Tests       127 passed (127)
+```bash
+npm run test:unit
 ```
 
-Генератори тестуються на великій кількості випадково створених завдань, що допомагає знаходити рідкісні помилки у випадкових комбінаціях.
+Watch mode:
+
+```bash
+npm run test:watch
+```
 
 ### Playwright
 
-Playwright перевіряє застосунок з точки зору реального користувача.
+Усі E2E-тести:
+
+```bash
+npm run test:e2e
+```
+
+Playwright UI:
+
+```bash
+npm run test:e2e:ui
+```
+
+Видимий браузер:
+
+```bash
+npm run test:e2e:headed
+```
+
+Chromium:
+
+```bash
+npm run test:e2e:chromium
+```
+
+Mobile:
+
+```bash
+npm run test:e2e:mobile
+```
+
+### Production Build
+
+```bash
+npm run build
+```
+
+### Повна перевірка
+
+```bash
+npm run test:full
+```
+
+---
+
+## Система тестування
+
+Проєкт використовує декілька рівнів автоматичної перевірки.
+
+### TypeScript
+
+Перевіряє типи та допомагає знаходити помилки ще до запуску застосунку.
+
+```bash
+npm run typecheck
+```
+
+### ESLint
+
+Перевіряє якість коду та потенційні проблеми.
+
+```bash
+npm run lint
+```
+
+### Vitest
+
+Vitest використовується для перевірки математичних генераторів та внутрішньої логіки застосунку.
+
+Перевіряються, зокрема:
+
+- математична коректність
+- генератори дробів
+- відсотки
+- степені та корені
+- вирази
+- рівняння
+- нерівності
+- функції
+- логарифми
+- послідовності
+- тригонометрія
+- геометрія
+- вектори
+- комбінаторика
+- ймовірність
+- статистика
+- складні математичні генератори
+- перевірка відповідей
+- тренувальні сесії
+- storage
+- прогрес
+- варіанти відповідей
+- коректність формул
+- stress-сценарії генераторів
+
+Частина тестів генерує тисячі випадкових задач для пошуку рідкісних математичних помилок.
+
+---
+
+## Formula Sanity Tests
+
+Автоматичні тести перевіряють згенеровані формули на підозрілі конструкції, наприклад:
+
+- некоректні знаки
+- неправильне форматування
+- надто довгі десяткові числа
+- пошкоджений математичний запис
+
+Це особливо важливо для системи з випадковою генерацією завдань.
+
+---
+
+## Generator Stress Tests
+
+Генератори багаторазово запускаються з випадковими значеннями.
+
+Це допомагає знайти проблеми, які можуть виникати лише в рідкісних комбінаціях.
 
 Наприклад:
 
-- відкриття сторінки
+- порожні варіанти відповіді
+- неправильні значення
+- некоректні формули
+- дублікати
+- суперечливі відповіді
+- неправильний стан згенерованого завдання
+
+---
+
+## Playwright E2E
+
+Playwright перевіряє застосунок з точки зору реального користувача.
+
+Перевіряються:
+
+- відкриття застосунку
 - вибір режиму
 - вибір тем
+- кількість завдань
 - змішаний режим
 - запуск тренування
-- проходження завдань
+- відповіді на завдання
+- перевірка відповіді
+- перегляд розв'язання
+- перехід до наступного завдання
 - завершення тренування
+- результати
+- історія
+- відновлення після reload
+- відсутність дублювання історії
+- desktop
+- mobile
+- horizontal overflow
+- багаторазові взаємодії користувача
+
+---
+
+## User Stress Tests
+
+Окремі E2E-сценарії перевіряють поведінку застосунку при тривалішому використанні.
+
+Серед них:
+
+- декілька задач підряд з кожної теми НМТ
+- проходження 50 задач без зависання UI
+- запуск тренування зі 100 задач
+- подвійне натискання «Перевірити»
+- блокування зміни відповіді після перевірки
+- reload під час налаштування
 - збереження історії
-- відновлення історії після перезавантаження
-- очищення історії
+- відсутність дублювання історії після reload
+- перевірка horizontal overflow після декількох завдань
 
-Запуск:
+---
 
-```bash
-npx playwright test
-```
+## Desktop та Mobile
 
-Візуальний запуск браузера:
+Playwright містить окремі конфігурації для desktop Chromium та mobile.
 
-```bash
-npx playwright test --headed
-```
-
-Інтерактивний режим:
+Desktop:
 
 ```bash
-npx playwright test --ui
+npm run test:e2e:chromium
 ```
 
-## Повна перевірка проєкту
+Mobile:
 
-Перед commit або deploy:
+```bash
+npm run test:e2e:mobile
+```
 
-```powershell
-Remove-Item tsconfig.tsbuildinfo -ErrorAction SilentlyContinue
+Це дозволяє автоматично перевіряти адаптивність основних користувацьких сценаріїв.
 
-npm run test
-npm run lint
-npx tsc --noEmit
-npx playwright test
-npm run build
+---
+
+## Перевірка перед Deploy
+
+Перед commit або deploy достатньо виконати:
+
+```bash
+npm run test:full
+```
+
+Ця команда послідовно запускає:
+
+```text
+ESLint
+   ↓
+TypeScript
+   ↓
+Vitest
+   ↓
+Playwright
+   ↓
+Next.js production build
 ```
 
 Таким чином перевіряються:
 
-- математичні генератори
-- логіка застосунку
-- ESLint
+- якість коду
 - TypeScript
-- основні дії користувача
+- математична логіка
+- генератори
+- перевірка відповідей
+- внутрішня логіка застосунку
+- користувацькі сценарії
+- desktop
+- mobile
 - production build
+
+---
 
 ## Збереження даних
 
-У поточній версії історія та прогрес зберігаються локально в браузері через `localStorage`.
+У поточній версії прогрес та історія тренувань зберігаються локально в браузері через:
 
-Тому для базової роботи застосунку сервер і база даних не потрібні.
+```text
+localStorage
+```
 
-У майбутньому базу даних можна використати для:
+Тому для базової роботи застосунку не потрібні:
+
+- backend
+- база даних
+- авторизація
+
+Дані зберігаються на поточному пристрої та в поточному браузері.
+
+---
+
+## Можливе підключення Backend
+
+У майбутньому backend і базу даних можна використати для:
 
 - акаунтів користувачів
+- авторизації
 - синхронізації між пристроями
-- хмарного збереження прогресу
-- статистики
+- хмарної історії тренувань
+- глобальної статистики
 - рейтингу користувачів
+- спільного прогресу
+- функціоналу викладач/учень
+
+При цьому математичні генератори можуть залишатися незалежними від способу збереження даних.
+
+---
 
 ## Подальший розвиток
 
 Можливі наступні покращення:
 
-- Авторизація користувачів
-- Підключення бази даних
-- Синхронізація прогресу
-- Нові типи завдань НМТ
-- Нові генератори
-- Рівні складності
-- Таймер
-- Повна симуляція НМТ
-- Розширена статистика
-- Покращення мобільної версії
-
-## Demo
-
-```text
-YOUR_DEPLOYMENT_URL
-```
-
-## Repository
-
-```text
-YOUR_REPOSITORY_URL
-```
+- авторизація користувачів
+- база даних
+- синхронізація прогресу
+- нові типи завдань НМТ
+- нові генератори
+- рівні складності
+- таймер
+- повна симуляція НМТ
+- розширена статистика
+- додаткові візуалізації
+- accessibility
+- подальше покращення mobile UI
 
 ---
 

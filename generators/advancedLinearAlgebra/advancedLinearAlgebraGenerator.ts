@@ -36,12 +36,12 @@ function createStringOptions(
 
   let offset = 1;
 
-  while (unique.size < 4) {
+  while (unique.size < 3) {
     unique.add(`${correct}:wrong:${offset}`);
     offset++;
   }
 
-  return shuffle([correct, ...Array.from(unique).slice(0, 4)]).map(
+  return shuffle([correct, ...Array.from(unique).slice(0, 3)]).map(
     (value, index) => ({
       id: String(index),
       value,
@@ -184,11 +184,8 @@ ${c}&${d}
       correct,
       [
         [a, -b, -c, d].join(';'),
-
         [d, b, c, a].join(';'),
-
         [d, -c, -b, a].join(';'),
-
         [-d, b, c, -a].join(';'),
       ],
       render,
@@ -295,7 +292,6 @@ function generateEigenvaluesDiagonal(
     id: crypto.randomUUID(),
 
     generatorId: 'advanced-linear-algebra',
-
     familyId: 'linear-algebra',
 
     variantKey: `advanced-linear-algebra:eigenvalues:${lambda1}:${lambda2}`,
@@ -353,25 +349,36 @@ function generateEigenvectorDiagonal(
 
   const answer = chooseFirst ? '1;0' : '0;1';
 
-  const options = createStringOptions(
-    answer,
-    ['1;1', '-1;0', '0;-1', chooseFirst ? '0;1' : '1;0'],
-    (value) => {
-      if (value.includes(':wrong:')) {
-        return '\\text{інший вектор}';
-      }
+  /*
+   * ВАЖНО:
+   *
+   * Если (1, 0) — собственный вектор,
+   * то (-1, 0) тоже является собственным вектором.
+   *
+   * Поэтому его нельзя использовать как неправильный
+   * вариант в single-choice задаче.
+   *
+   * То же самое касается (0, 1) и (0, -1).
+   */
 
-      const [x, y] = value.split(';');
+  const wrongCandidates = chooseFirst
+    ? ['0;1', '1;1', '1;-1']
+    : ['1;0', '1;1', '-1;1'];
 
-      return `\\begin{pmatrix}${x}\\\\${y}\\end{pmatrix}`;
-    },
-  );
+  const options = createStringOptions(answer, wrongCandidates, (value) => {
+    if (value.includes(':wrong:')) {
+      return '\\text{інший вектор}';
+    }
+
+    const [x, y] = value.split(';');
+
+    return `\\begin{pmatrix}${x}\\\\${y}\\end{pmatrix}`;
+  });
 
   return {
     id: crypto.randomUUID(),
 
     generatorId: 'advanced-linear-algebra',
-
     familyId: 'linear-algebra',
 
     variantKey: `advanced-linear-algebra:eigenvector:${lambda1}:${lambda2}:${lambda}`,
@@ -410,13 +417,9 @@ const generatorsByForm: Record<
   (config: AdvancedLinearAlgebraConfig) => Question
 > = {
   'determinant-3x3': generateDeterminant3x3,
-
   'inverse-2x2': generateInverse2x2,
-
   'rank-basic': generateRankBasic,
-
   'eigenvalues-diagonal': generateEigenvaluesDiagonal,
-
   'eigenvector-diagonal': generateEigenvectorDiagonal,
 };
 

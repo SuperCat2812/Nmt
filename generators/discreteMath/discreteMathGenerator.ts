@@ -19,13 +19,20 @@ function createSet(config: DiscreteMathConfig): number[] {
 }
 
 function setKey(values: number[]): string {
+  if (values.length === 0) {
+    return 'empty-set';
+  }
+
   return values.join(',');
 }
 
 function setMath(values: number[]): string {
+  if (values.length === 0) {
+    return '\\varnothing';
+  }
+
   return `\\{${values.join(',')}\\}`;
 }
-
 function generateSetUnion(config: DiscreteMathConfig): Question {
   const a = createSet(config);
 

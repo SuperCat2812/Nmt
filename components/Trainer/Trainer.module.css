@@ -1,7 +1,8 @@
 .pageShell {
   width: min(100% - 32px, 820px);
   margin: 0 auto;
-  padding: 32px 0 56px;
+  padding: 32px 20px 56px;
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .header {
@@ -32,6 +33,10 @@
   background: transparent;
   box-shadow: none;
   padding: 0;
+}
+
+.setupCard + .historyCard {
+  margin-top: 24px;
 }
 
 .sectionHeading,
@@ -386,6 +391,12 @@
 }
 
 @media (max-width: 760px) {
+  .header {
+    margin-bottom: 0;
+  }
+  .setupCard + .historyCard {
+    margin-top: 20px;
+  }
   .pageShell {
     width: min(100% - 24px, 820px);
     padding-top: 24px;

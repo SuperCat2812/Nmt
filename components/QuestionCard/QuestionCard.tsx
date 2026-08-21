@@ -7,14 +7,12 @@ import type { MatchingAnswer, MatchingItem, Question } from '@/types/question';
 import { checkAnswer, type UserAnswer } from '@/engine/answerChecker';
 
 import MathFormula from '../MathFormula/MathFormula';
-
 import VisualRenderer from '../VisualRenderer/VisualRenderer';
 
 import styles from './QuestionCard.module.css';
 
 type Props = {
   question: Question;
-
   topicName: string;
 
   onAnswered: (correct: boolean, userAnswer: UserAnswer) => void;
@@ -39,13 +37,15 @@ export default function QuestionCard({
 
   const isCorrect = checkAnswer(question, userAnswer);
 
+  const matching = question.type === 'matching' ? question.matching : undefined;
+
   function handleCheck() {
     if (question.type === 'matching') {
-      if (!question.matching) {
+      if (!matching) {
         return;
       }
 
-      const allAnswered = question.matching.left.every(
+      const allAnswered = matching.left.every(
         (item) => matchingAnswer[item.id],
       );
 
@@ -63,9 +63,7 @@ export default function QuestionCard({
 
   function handleNext() {
     setSelectedAnswer('');
-
     setMatchingAnswer({});
-
     setChecked(false);
 
     onNext();
@@ -140,9 +138,9 @@ export default function QuestionCard({
         </div>
       )}
 
-      {question.type === 'matching' && question.matching && (
+      {matching && (
         <div className={styles.matchingList} data-testid="matching-answer">
-          {question.matching.left.map((leftItem) => (
+          {matching.left.map((leftItem) => (
             <div className={styles.matchingRow} key={leftItem.id}>
               <MatchingItemContent item={leftItem} />
 
@@ -153,14 +151,13 @@ export default function QuestionCard({
                 onChange={(event) =>
                   setMatchingAnswer((previous) => ({
                     ...previous,
-
                     [leftItem.id]: event.target.value,
                   }))
                 }
               >
                 <option value="">Оберіть відповідність</option>
 
-                {question.matching!.right.map((rightItem) => (
+                {matching.right.map((rightItem) => (
                   <option key={rightItem.id} value={rightItem.id}>
                     {rightItem.text ?? rightItem.math ?? rightItem.id}
                   </option>
@@ -182,19 +179,23 @@ export default function QuestionCard({
       )}
 
       {checked && (
-        <div
-          data-testid="answer-feedback"
-          className={`${styles.feedback} ${
-            isCorrect ? styles.correct : styles.incorrect
-          }`}
-        >
-          <p className={styles.feedbackTitle}>
-            {isCorrect ? 'Правильно!' : 'Неправильно'}
-          </p>
+        <div className={styles.answerState} data-testid="answer-feedback">
+          <div
+            className={`${styles.feedback} ${
+              isCorrect ? styles.correct : styles.incorrect
+            }`}
+          >
+            <p className={styles.feedbackTitle}>
+              {isCorrect ? 'Правильно!' : 'Неправильно'}
+            </p>
 
-          {!isCorrect && question.type !== 'matching' && (
-            <p>Правильна відповідь: {String(question.correctAnswer)}</p>
-          )}
+            {!isCorrect && question.type !== 'matching' && (
+              <p>
+                Правильна відповідь:{' '}
+                <strong>{String(question.correctAnswer)}</strong>
+              </p>
+            )}
+          </div>
 
           <div className={styles.solution}>
             <h3>Розв&apos;язання</h3>

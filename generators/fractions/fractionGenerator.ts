@@ -11,6 +11,7 @@ import {
   divideFractions,
   fractionKey,
   fractionToLatex,
+  fractionToLatexRaw,
   multiplyFractions,
   simplifyFraction,
   subtractFractions,
@@ -126,7 +127,7 @@ function generateReduce(config: FractionConfig): Question {
 
     text: 'Скоротіть дріб.',
 
-    math: fractionToLatex(original),
+    math: fractionToLatexRaw(original),
 
     options,
 
@@ -137,7 +138,7 @@ function generateReduce(config: FractionConfig): Question {
         text: `Чисельник і знаменник ділимо на ${multiplier}.`,
       },
       {
-        math: `${fractionToLatex(original)} = ${fractionToLatex(answer)}`,
+        math: `${fractionToLatexRaw(original)} = ${fractionToLatex(answer)}`,
       },
     ],
   };

@@ -4,6 +4,8 @@ import type { Question } from '@/types/question';
 
 import { createNumericOptions } from '@/utils/createNumericOptions';
 
+import { formatPowerBase } from '@/utils/formatMath';
+
 import { randomFromRange, randomItem } from '@/utils/random';
 
 function createOptions(answer: number, candidates: number[]) {
@@ -17,7 +19,6 @@ function generateBase(config: PowerRootConfig): number {
     base = Math.abs(base);
   }
 
-  // 0 даёт слишком много бессмысленных примеров.
   if (base === 0) {
     base = 2;
   }
@@ -38,9 +39,13 @@ function generatePowerValue(config: PowerRootConfig): Question {
 
   const options = createOptions(answer, [
     base * exponent,
+
     base + exponent,
+
     answer + base,
+
     answer - base,
+
     base ** Math.max(1, exponent - 1),
   ]);
 
@@ -59,7 +64,7 @@ function generatePowerValue(config: PowerRootConfig): Question {
 
     title: 'Степінь числа',
 
-    math: `${base}^{${exponent}}`,
+    math: `${formatPowerBase(base)}^{${exponent}}`,
 
     options,
 
@@ -69,8 +74,9 @@ function generatePowerValue(config: PowerRootConfig): Question {
       {
         text: 'Степінь показує, скільки разів основу множимо саму на себе.',
       },
+
       {
-        math: `${base}^{${exponent}} = ${answer}`,
+        math: `${formatPowerBase(base)}^{${exponent}} = ${answer}`,
       },
     ],
   };
@@ -112,7 +118,7 @@ function generateMultiplySameBase(config: PowerRootConfig): Question {
 
     title: 'Множення степенів',
 
-    math: `${base}^{${firstExponent}} \\cdot ${base}^{${secondExponent}}`,
+    math: `${base}^{${firstExponent}} ` + `\\cdot ${base}^{${secondExponent}}`,
 
     options,
 
@@ -122,9 +128,11 @@ function generateMultiplySameBase(config: PowerRootConfig): Question {
       {
         math: `a^m \\cdot a^n = a^{m+n}`,
       },
+
       {
         math: `${base}^{${firstExponent}+${secondExponent}}`,
       },
+
       {
         math: `${base}^{${resultExponent}} = ${answer}`,
       },
@@ -168,7 +176,8 @@ function generateDivideSameBase(config: PowerRootConfig): Question {
 
     title: 'Ділення степенів',
 
-    math: `\\frac{${base}^{${firstExponent}}}{${base}^{${secondExponent}}}`,
+    math:
+      `\\frac{${base}^{${firstExponent}}}` + `{${base}^{${secondExponent}}}`,
 
     options,
 
@@ -178,9 +187,11 @@ function generateDivideSameBase(config: PowerRootConfig): Question {
       {
         math: `\\frac{a^m}{a^n} = a^{m-n}`,
       },
+
       {
         math: `${base}^{${firstExponent}-${secondExponent}}`,
       },
+
       {
         math: `${base}^{${difference}} = ${answer}`,
       },
@@ -224,7 +235,7 @@ function generatePowerOfPower(config: PowerRootConfig): Question {
 
     title: 'Степінь степеня',
 
-    math: `\\left(${base}^{${firstExponent}}\\right)^{${secondExponent}}`,
+    math: `\\left(${base}^{${firstExponent}}\\right)` + `^{${secondExponent}}`,
 
     options,
 
@@ -234,9 +245,11 @@ function generatePowerOfPower(config: PowerRootConfig): Question {
       {
         math: `\\left(a^m\\right)^n = a^{mn}`,
       },
+
       {
         math: `${base}^{${firstExponent}\\cdot${secondExponent}}`,
       },
+
       {
         math: `${base}^{${resultExponent}} = ${answer}`,
       },
@@ -251,9 +264,13 @@ function generateSquareRoot(): Question {
 
   const options = createOptions(root, [
     root + 1,
+
     root - 1,
+
     number / 2,
+
     root * 2,
+
     number,
   ]);
 
@@ -282,6 +299,7 @@ function generateSquareRoot(): Question {
       {
         math: `${root}^2 = ${number}`,
       },
+
       {
         math: `\\sqrt{${number}} = ${root}`,
       },
@@ -296,9 +314,13 @@ function generateCubeRoot(): Question {
 
   const options = createOptions(root, [
     -root,
+
     root + 1,
+
     root - 1,
+
     root * 2,
+
     Math.abs(root),
   ]);
 
@@ -325,8 +347,9 @@ function generateCubeRoot(): Question {
 
     solution: [
       {
-        math: `${root}^3 = ${number}`,
+        math: `${formatPowerBase(root)}^3 = ${number}`,
       },
+
       {
         math: `\\sqrt[3]{${number}} = ${root}`,
       },
@@ -346,18 +369,25 @@ function generateSimplifySquareRoot(): Question {
   const mathOptions = [
     {
       value: correctString,
+
       math: `${outside}\\sqrt{${remainder}}`,
     },
+
     {
       value: `${outside + 1}*sqrt(${remainder})`,
+
       math: `${outside + 1}\\sqrt{${remainder}}`,
     },
+
     {
       value: `${outside}*sqrt(${remainder + 1})`,
+
       math: `${outside}\\sqrt{${remainder + 1}}`,
     },
+
     {
       value: String(outside * remainder),
+
       math: String(outside * remainder),
     },
   ];
@@ -381,7 +411,9 @@ function generateSimplifySquareRoot(): Question {
 
     options: mathOptions.map((option, index) => ({
       id: String(index),
+
       value: option.value,
+
       math: option.math,
     })),
 
@@ -389,11 +421,15 @@ function generateSimplifySquareRoot(): Question {
 
     solution: [
       {
-        math: `${radicand} = ${outside ** 2}\\cdot${remainder}`,
+        math: `${radicand} = ` + `${outside ** 2}\\cdot${remainder}`,
       },
+
       {
-        math: `\\sqrt{${radicand}} = \\sqrt{${outside ** 2}\\cdot${remainder}}`,
+        math:
+          `\\sqrt{${radicand}} = ` +
+          `\\sqrt{${outside ** 2}\\cdot${remainder}}`,
       },
+
       {
         math: `= ${outside}\\sqrt{${remainder}}`,
       },

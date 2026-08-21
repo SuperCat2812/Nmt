@@ -144,8 +144,11 @@ export default function Trainer() {
   function createSettings(): TrainingSettings {
     return {
       mode,
+
       questionCount,
+
       topicIds: selectedTopicIds,
+
       timeLimitSeconds,
     };
   }
@@ -608,7 +611,7 @@ export default function Trainer() {
         </section>
       )}
 
-      {history.length > 0 && (
+      {!running && history.length > 0 && (
         <section
           className={`${styles.card} ${styles.historyCard}`}
           data-testid="training-history"

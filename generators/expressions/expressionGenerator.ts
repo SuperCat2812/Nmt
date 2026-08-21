@@ -49,7 +49,7 @@ function createMathOptions(
 
     unique.set(value, {
       value,
-      math: `${correctMath} + ${fallbackIndex}`,
+      math: `${correctMath}+${fallbackIndex}`,
     });
 
     fallbackIndex++;
@@ -66,9 +66,19 @@ function createMathOptions(
 
   return shuffle(options).map((option, index) => ({
     id: String(index),
+
     value: option.value,
+
     math: option.math,
   }));
+}
+
+function formatNumericSum(first: number, second: number): string {
+  if (second >= 0) {
+    return `${first}+${second}`;
+  }
+
+  return `${first}-${Math.abs(second)}`;
 }
 
 // ========================================
@@ -137,11 +147,16 @@ function generateExpandBrackets(config: ExpressionConfig): Question {
       {
         text: 'Помножимо кожний доданок у дужках на множник перед дужками.',
       },
+
       {
-        math: `${a}\\cdot x + ${a}\\cdot(${b})`,
+        math:
+          `${a}\\cdot x` +
+          `${b >= 0 ? '+' : '-'}` +
+          `${Math.abs(a)}\\cdot${Math.abs(b)}`,
       },
+
       {
-        math: `= ${answer}`,
+        math: `=${answer}`,
       },
     ],
   };
@@ -223,11 +238,13 @@ function generateCombineLikeTerms(config: ExpressionConfig): Question {
       {
         text: 'Додамо коефіцієнти при x та окремо сталі числа.',
       },
+
       {
-        math: `(${a}+${c})x + (${b}+${d})`,
+        math: `(${formatNumericSum(a, c)})x` + `+(${formatNumericSum(b, d)})`,
       },
+
       {
-        math: `= ${answer}`,
+        math: `=${answer}`,
       },
     ],
   };
@@ -311,8 +328,9 @@ function generateFactorCommon(config: ExpressionConfig): Question {
       {
         text: `Спільний множник дорівнює ${common}.`,
       },
+
       {
-        math: `${source} = ${common}\\left(${inside}\\right)`,
+        math: `${source}=${common}\\left(${inside}\\right)`,
       },
     ],
   };
@@ -370,7 +388,7 @@ function generateDifferenceSquares(): Question {
 
     title: 'Різниця квадратів',
 
-    math: `x^2 - ${square}`,
+    math: `x^2-${square}`,
 
     options,
 
@@ -380,6 +398,7 @@ function generateDifferenceSquares(): Question {
       {
         math: `a^2-b^2=(a-b)(a+b)`,
       },
+
       {
         math: `x^2-${a}^2=(x-${a})(x+${a})`,
       },

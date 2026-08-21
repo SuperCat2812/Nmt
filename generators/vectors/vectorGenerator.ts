@@ -5,6 +5,7 @@ import type { Question } from '@/types/question';
 import { createNumericOptions } from '@/utils/createNumericOptions';
 
 import { randomFromRange, randomItem } from '@/utils/random';
+
 import { shuffle } from '@/utils/shuffle';
 
 function createVectorOptions(correct: number[], candidates: number[][]) {
@@ -39,7 +40,9 @@ function createVectorOptions(correct: number[], candidates: number[][]) {
   return shuffle([correct, ...Array.from(unique.values()).slice(0, 3)]).map(
     (vector, index) => ({
       id: String(index),
+
       value: vector.join(';'),
+
       math: `(${vector.join(';')})`,
     }),
   );
@@ -75,7 +78,10 @@ function generateCoordinates2D(config: VectorConfig): Question {
 
     title: 'Координати вектора',
 
-    text: `Дано A(${x1}; ${y1}) та B(${x2}; ${y2}). Знайдіть координати вектора AB.`,
+    text:
+      `Дано A(${x1}; ${y1}) та ` +
+      `B(${x2}; ${y2}). ` +
+      `Знайдіть координати вектора AB.`,
 
     options: createVectorOptions(
       [dx, dy],
@@ -98,9 +104,11 @@ function generateCoordinates2D(config: VectorConfig): Question {
       {
         math: '\\overrightarrow{AB}=(x_B-x_A;\\;y_B-y_A)',
       },
+
       {
-        math: `\\overrightarrow{AB}=(${x2}-${x1};\\;${y2}-${y1})`,
+        math: `\\overrightarrow{AB}=(${x2}-(${x1});\\;${y2}-(${y1}))`,
       },
+
       {
         math: `=(${dx};${dy})`,
       },
@@ -111,13 +119,17 @@ function generateCoordinates2D(config: VectorConfig): Question {
 function generateCoordinates3D(config: VectorConfig): Question {
   const a = [
     randomFromRange(config.coordinateRange),
+
     randomFromRange(config.coordinateRange),
+
     randomFromRange(config.coordinateRange),
   ];
 
   const b = [
     randomFromRange(config.coordinateRange),
+
     randomFromRange(config.coordinateRange),
+
     randomFromRange(config.coordinateRange),
   ];
 
@@ -142,7 +154,10 @@ function generateCoordinates3D(config: VectorConfig): Question {
 
     title: 'Координати вектора у просторі',
 
-    text: `A(${a.join('; ')}) і B(${b.join('; ')}). Знайдіть координати вектора AB.`,
+    text:
+      `A(${a.join('; ')}) і ` +
+      `B(${b.join('; ')}). ` +
+      `Знайдіть координати вектора AB.`,
 
     options: createVectorOptions(result, [
       wrong,
@@ -160,6 +175,7 @@ function generateCoordinates3D(config: VectorConfig): Question {
       {
         math: '\\overrightarrow{AB}=(x_B-x_A;\\;y_B-y_A;\\;z_B-z_A)',
       },
+
       {
         math: `(${result.join(';')})`,
       },
@@ -212,6 +228,7 @@ function generateLength2D(): Question {
       Math.sqrt(Math.abs(x) + Math.abs(y)),
 
       answer + 1,
+
       answer - 1,
     ]),
 
@@ -221,8 +238,9 @@ function generateLength2D(): Question {
       {
         math: `|\\vec a|=\\sqrt{x^2+y^2}`,
       },
+
       {
-        math: `=\\sqrt{${x}^2+${y}^2}=${answer}`,
+        math: `=\\sqrt{(${x})^2+(${y})^2}=${answer}`,
       },
     ],
   };
@@ -254,7 +272,7 @@ function generateDotProduct(config: VectorConfig): Question {
 
     title: 'Скалярний добуток',
 
-    math: `\\vec a=(${a1};${a2}),\\quad\\vec b=(${b1};${b2})`,
+    math: `\\vec a=(${a1};${a2}),` + `\\quad\\vec b=(${b1};${b2})`,
 
     options: createNumericOptions(answer, [
       a1 + a2 + b1 + b2,
@@ -264,6 +282,7 @@ function generateDotProduct(config: VectorConfig): Question {
       a1 * a2 + b1 * b2,
 
       answer + 1,
+
       answer - 1,
     ]),
 
@@ -273,8 +292,9 @@ function generateDotProduct(config: VectorConfig): Question {
       {
         math: `\\vec a\\cdot\\vec b=a_1b_1+a_2b_2`,
       },
+
       {
-        math: `=${a1}\\cdot${b1}+${a2}\\cdot${b2}=${answer}`,
+        math: `=(${a1})\\cdot(${b1})+` + `(${a2})\\cdot(${b2})=${answer}`,
       },
     ],
   };

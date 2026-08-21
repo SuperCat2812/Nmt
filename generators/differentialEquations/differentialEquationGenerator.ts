@@ -15,6 +15,14 @@ import {
 
 import { shuffle } from '@/utils/shuffle';
 
+function formatCPlusKX(k: number): string {
+  if (k >= 0) {
+    return `C+${k}x`;
+  }
+
+  return `C-${Math.abs(k)}x`;
+}
+
 function generateConstantDerivative(
   config: DifferentialEquationConfig,
 ): Question {
@@ -41,13 +49,17 @@ function generateConstantDerivative(
 
     title: 'Диференціальне рівняння',
 
-    text: `Дано y' = ${k}, y(0) = ${initial}. Знайдіть y(${x}).`,
+    text: `Дано y' = ${k}, y(0) = ${initial}. ` + `Знайдіть y(${x}).`,
 
     options: createNumericOptions(answer, [
       k + initial,
+
       k * x,
+
       initial * x,
+
       answer + 1,
+
       answer - 1,
     ]),
 
@@ -95,7 +107,7 @@ function generateLinearXDerivative(
 
     title: 'Диференціальне рівняння',
 
-    text: `Дано y' = ${a}x, y(0) = ${initial}. Знайдіть y(${x}).`,
+    text: `Дано y' = ${a}x, y(0) = ${initial}. ` + `Знайдіть y(${x}).`,
 
     options: createNumericOptions(answer, [
       a * x + initial,
@@ -138,6 +150,8 @@ function generateExponentialGeneralSolution(
 
   const correct = `Ce^(${k}x)`;
 
+  const additiveWrong = formatCPlusKX(k);
+
   const options: QuestionOption[] = shuffle([
     {
       value: correct,
@@ -146,9 +160,9 @@ function generateExponentialGeneralSolution(
     },
 
     {
-      value: `C+${k}x`,
+      value: additiveWrong,
 
-      math: `y=C+${k}x`,
+      math: `y=${additiveWrong}`,
     },
 
     {

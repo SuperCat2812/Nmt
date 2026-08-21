@@ -13,7 +13,6 @@ function createData(config: StatisticsConfig): number[] {
     {
       length: count,
     },
-
     () => randomFromRange(config.valueRange),
   );
 }
@@ -40,7 +39,9 @@ function generateMean(config: StatisticsConfig): Question {
 
     title: 'Середнє арифметичне',
 
-    text: `Знайдіть середнє арифметичне: ${data.join(', ')}.`,
+    text: `Знайдіть середнє арифметичне: ${data.join(
+      ', ',
+    )}. За потреби округліть до сотих.`,
 
     options: createNumericOptions(answer, [
       sum,
@@ -67,7 +68,6 @@ function generateMedian(config: StatisticsConfig): Question {
     {
       length: count,
     },
-
     () => randomFromRange(config.valueRange),
   );
 

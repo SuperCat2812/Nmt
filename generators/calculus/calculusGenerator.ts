@@ -4,6 +4,8 @@ import type { Question, QuestionOption } from '@/types/question';
 
 import { createNumericOptions } from '@/utils/createNumericOptions';
 
+import { formatFractionLatex } from '@/utils/formatMath';
+
 import {
   randomFromRange,
   randomItem,
@@ -11,6 +13,18 @@ import {
 } from '@/utils/random';
 
 import { shuffle } from '@/utils/shuffle';
+
+function signedConstant(value: number): string {
+  if (value === 0) {
+    return '';
+  }
+
+  if (value > 0) {
+    return `+${value}`;
+  }
+
+  return `-${Math.abs(value)}`;
+}
 
 function createMathOptions(
   correctValue: string,
@@ -41,6 +55,7 @@ function createMathOptions(
 
     unique.set(value, {
       value,
+
       math: `${correctMath}+${index}`,
     });
 
@@ -50,6 +65,7 @@ function createMathOptions(
   return shuffle([
     {
       value: correctValue,
+
       math: correctMath,
     },
 
@@ -62,11 +78,6 @@ function createMathOptions(
     math: option.math,
   }));
 }
-
-// ========================================
-// LIMIT
-// lim x→a (kx+b)
-// ========================================
 
 function generateLimitPolynomial(config: CalculusConfig): Question {
   const k = randomNonZeroFromRange(config.coefficientRange);
@@ -92,13 +103,17 @@ function generateLimitPolynomial(config: CalculusConfig): Question {
 
     title: 'Границя функції',
 
-    math: `\\lim_{x\\to ${a}}(${k}x${b >= 0 ? '+' : ''}${b})`,
+    math: `\\lim_{x\\to ${a}}` + `(${k}x${signedConstant(b)})`,
 
     options: createNumericOptions(answer, [
       k + a + b,
+
       k * a - b,
+
       a + b,
+
       k * a,
+
       answer + 1,
     ]),
 
@@ -110,16 +125,11 @@ function generateLimitPolynomial(config: CalculusConfig): Question {
       },
 
       {
-        math: `${k}\\cdot(${a})${b >= 0 ? '+' : ''}${b}=${answer}`,
+        math: `${k}\\cdot(${a})${signedConstant(b)}=${answer}`,
       },
     ],
   };
 }
-
-// ========================================
-// DERIVATIVE AT POINT
-// f(x)=ax^n
-// ========================================
 
 function generateDerivativeAtPoint(config: CalculusConfig): Question {
   const a = randomNonZeroFromRange(config.coefficientRange);
@@ -179,10 +189,6 @@ function generateDerivativeAtPoint(config: CalculusConfig): Question {
   };
 }
 
-// ========================================
-// TANGENT SLOPE
-// ========================================
-
 function generateTangentSlope(config: CalculusConfig): Question {
   const a = randomNonZeroFromRange(config.coefficientRange);
 
@@ -211,9 +217,13 @@ function generateTangentSlope(config: CalculusConfig): Question {
 
     options: createNumericOptions(answer, [
       a * x,
+
       2 * a,
+
       a * x ** 2,
+
       answer + 1,
+
       answer - 1,
     ]),
 
@@ -235,10 +245,6 @@ function generateTangentSlope(config: CalculusConfig): Question {
   };
 }
 
-// ========================================
-// INDEFINITE INTEGRAL
-// ========================================
-
 function generateIndefiniteIntegral(config: CalculusConfig): Question {
   const a = randomNonZeroFromRange(config.coefficientRange);
 
@@ -250,7 +256,9 @@ function generateIndefiniteIntegral(config: CalculusConfig): Question {
 
   const value = `${coefficient}:x:${newPower}`;
 
-  const math = `${coefficient}x^{${newPower}}+C`;
+  const coefficientMath = formatFractionLatex(a, newPower);
+
+  const math = `${coefficientMath}` + `x^{${newPower}}+C`;
 
   return {
     id: crypto.randomUUID(),
@@ -285,13 +293,13 @@ function generateIndefiniteIntegral(config: CalculusConfig): Question {
       {
         value: `${a / n}:x:${n}`,
 
-        math: `${a / n}x^{${n}}+C`,
+        math: `${formatFractionLatex(a, n)}x^{${n}}+C`,
       },
 
       {
         value: `${coefficient}:x:${n}`,
 
-        math: `${coefficient}x^{${n}}+C`,
+        math: `${coefficientMath}x^{${n}}+C`,
       },
     ]),
 
@@ -309,17 +317,14 @@ function generateIndefiniteIntegral(config: CalculusConfig): Question {
   };
 }
 
-// ========================================
-// DEFINITE INTEGRAL
-// ∫0^b ax dx
-// ========================================
-
 function generateDefiniteIntegral(config: CalculusConfig): Question {
   const a = randomNonZeroFromRange(config.coefficientRange);
 
   const upper = Math.max(1, Math.abs(randomFromRange(config.xRange)));
 
   const answer = (a * upper ** 2) / 2;
+
+  const primitiveCoefficient = formatFractionLatex(a, 2);
 
   return {
     id: crypto.randomUUID(),
@@ -354,11 +359,11 @@ function generateDefiniteIntegral(config: CalculusConfig): Question {
 
     solution: [
       {
-        math: `\\int ${a}x\\,dx=\\frac{${a}}{2}x^2`,
+        math: `\\int ${a}x\\,dx=${primitiveCoefficient}x^2`,
       },
 
       {
-        math: `\\left.\\frac{${a}}{2}x^2\\right|_0^{${upper}}=${answer}`,
+        math: `\\left.${primitiveCoefficient}x^2\\right|_0^{${upper}}=${answer}`,
       },
     ],
   };

@@ -15,6 +15,41 @@ import {
 
 import { shuffle } from '@/utils/shuffle';
 
+function formatLinear(coefficient: number, constant: number): string {
+  const coefficientPart =
+    coefficient === 1 ? 'x' : coefficient === -1 ? '-x' : `${coefficient}x`;
+
+  if (constant === 0) {
+    return coefficientPart;
+  }
+
+  if (constant > 0) {
+    return `${coefficientPart}+${constant}`;
+  }
+
+  return `${coefficientPart}-${Math.abs(constant)}`;
+}
+
+function xMinus(value: number): string {
+  if (value >= 0) {
+    return `x-${value}`;
+  }
+
+  return `x+${Math.abs(value)}`;
+}
+
+function xPlus(value: number): string {
+  if (value >= 0) {
+    return `x+${value}`;
+  }
+
+  return `x-${Math.abs(value)}`;
+}
+
+function formatLinearPolynomial(coefficient: number, constant: number): string {
+  return formatLinear(coefficient, constant);
+}
+
 function createMathOptions(
   correctValue: string,
   correctMath: string,
@@ -32,7 +67,7 @@ function createMathOptions(
   >();
 
   for (const candidate of candidates) {
-    if (candidate.value !== correctValue) {
+    if (candidate.value !== correctValue && !unique.has(candidate.value)) {
       unique.set(candidate.value, candidate);
     }
   }
@@ -44,6 +79,7 @@ function createMathOptions(
 
     unique.set(value, {
       value,
+
       math: `\\left(${correctMath}\\right)+${offset}`,
     });
 
@@ -59,7 +95,9 @@ function createMathOptions(
     ...Array.from(unique.values()).slice(0, 3),
   ]).map((option, index) => ({
     id: String(index),
+
     value: option.value,
+
     math: option.math,
   }));
 }
@@ -73,6 +111,10 @@ function generateLimitFactorization(config: AdvancedCalculusConfig): Question {
   const a = randomNonZeroFromRange(config.xRange);
 
   const answer = 2 * a;
+
+  const denominator = xMinus(a);
+
+  const secondFactor = xPlus(a);
 
   return {
     id: crypto.randomUUID(),
@@ -89,7 +131,7 @@ function generateLimitFactorization(config: AdvancedCalculusConfig): Question {
 
     title: 'Границя з невизначеністю 0/0',
 
-    math: `\\lim_{x\\to ${a}}\\frac{x^2-${a ** 2}}{x-${a}}`,
+    math: `\\lim_{x\\to ${a}}` + `\\frac{x^2-${a ** 2}}{${denominator}}`,
 
     options: createNumericOptions(answer, [
       a,
@@ -103,13 +145,17 @@ function generateLimitFactorization(config: AdvancedCalculusConfig): Question {
 
     solution: [
       {
-        math: `x^2-${a ** 2}=(x-${a})(x+${a})`,
+        math: `x^2-${a ** 2}=` + `(${denominator})(${secondFactor})`,
       },
+
       {
-        math: `\\frac{(x-${a})(x+${a})}{x-${a}}=x+${a}`,
+        math:
+          `\\frac{(${denominator})(${secondFactor})}` +
+          `{${denominator}}=${secondFactor}`,
       },
+
       {
-        math: `\\lim_{x\\to ${a}}(x+${a})=${answer}`,
+        math: `\\lim_{x\\to ${a}}` + `(${secondFactor})=${answer}`,
       },
     ],
   };
@@ -129,9 +175,11 @@ function generateChainRule(config: AdvancedCalculusConfig): Question {
 
   const coefficient = n * a;
 
+  const inner = formatLinear(a, b);
+
   const correctValue = `${coefficient}:${a}:${b}:${n - 1}`;
 
-  const correctMath = `${coefficient}(${a}x${b >= 0 ? '+' : ''}${b})^{${n - 1}}`;
+  const correctMath = `${coefficient}` + `(${inner})^{${n - 1}}`;
 
   return {
     id: crypto.randomUUID(),
@@ -150,31 +198,31 @@ function generateChainRule(config: AdvancedCalculusConfig): Question {
 
     text: 'Знайдіть похідну.',
 
-    math: `f(x)=(${a}x${b >= 0 ? '+' : ''}${b})^{${n}}`,
+    math: `f(x)=(${inner})^{${n}}`,
 
     options: createMathOptions(correctValue, correctMath, [
       {
         value: `${n}:${a}:${b}:${n - 1}`,
 
-        math: `${n}(${a}x${b >= 0 ? '+' : ''}${b})^{${n - 1}}`,
+        math: `${n}(${inner})^{${n - 1}}`,
       },
 
       {
         value: `${coefficient}:${a}:${b}:${n}`,
 
-        math: `${coefficient}(${a}x${b >= 0 ? '+' : ''}${b})^{${n}}`,
+        math: `${coefficient}(${inner})^{${n}}`,
       },
 
       {
         value: `${a}:${a}:${b}:${n - 1}`,
 
-        math: `${a}(${a}x${b >= 0 ? '+' : ''}${b})^{${n - 1}}`,
+        math: `${a}(${inner})^{${n - 1}}`,
       },
 
       {
         value: `${coefficient + 1}:${a}:${b}:${n - 1}`,
 
-        math: `${coefficient + 1}(${a}x${b >= 0 ? '+' : ''}${b})^{${n - 1}}`,
+        math: `${coefficient + 1}` + `(${inner})^{${n - 1}}`,
       },
     ]),
 
@@ -184,9 +232,11 @@ function generateChainRule(config: AdvancedCalculusConfig): Question {
       {
         math: `(u^n)'=nu^{n-1}u'`,
       },
+
       {
-        math: `u=${a}x${b >= 0 ? '+' : ''}${b},\\quad u'=${a}`,
+        math: `u=${inner},\\quad u'=${a}`,
       },
+
       {
         math: `f'(x)=${correctMath}`,
       },
@@ -208,13 +258,17 @@ function generateProductRule(config: AdvancedCalculusConfig): Question {
 
   const d = randomFromRange(config.coefficientRange);
 
+  const first = formatLinear(a, b);
+
+  const second = formatLinear(c, d);
+
   const quadraticCoefficient = 2 * a * c;
 
   const constant = a * d + b * c;
 
   const correctValue = `${quadraticCoefficient};${constant}`;
 
-  const correctMath = `${quadraticCoefficient}x${constant >= 0 ? '+' : ''}${constant}`;
+  const correctMath = formatLinearPolynomial(quadraticCoefficient, constant);
 
   return {
     id: crypto.randomUUID(),
@@ -231,31 +285,31 @@ function generateProductRule(config: AdvancedCalculusConfig): Question {
 
     title: 'Похідна добутку',
 
-    math: `f(x)=(${a}x${b >= 0 ? '+' : ''}${b})(${c}x${d >= 0 ? '+' : ''}${d})`,
+    math: `f(x)=(${first})(${second})`,
 
     options: createMathOptions(correctValue, correctMath, [
       {
         value: `${a * c};${constant}`,
 
-        math: `${a * c}x${constant >= 0 ? '+' : ''}${constant}`,
+        math: formatLinearPolynomial(a * c, constant),
       },
 
       {
         value: `${quadraticCoefficient};${b * d}`,
 
-        math: `${quadraticCoefficient}x${b * d >= 0 ? '+' : ''}${b * d}`,
+        math: formatLinearPolynomial(quadraticCoefficient, b * d),
       },
 
       {
         value: `${a + c};${b + d}`,
 
-        math: `${a + c}x${b + d >= 0 ? '+' : ''}${b + d}`,
+        math: formatLinearPolynomial(a + c, b + d),
       },
 
       {
         value: `${quadraticCoefficient + 1};${constant}`,
 
-        math: `${quadraticCoefficient + 1}x${constant >= 0 ? '+' : ''}${constant}`,
+        math: formatLinearPolynomial(quadraticCoefficient + 1, constant),
       },
     ]),
 
@@ -265,6 +319,7 @@ function generateProductRule(config: AdvancedCalculusConfig): Question {
       {
         math: `(uv)'=u'v+uv'`,
       },
+
       {
         math: `f'(x)=${correctMath}`,
       },
@@ -274,7 +329,7 @@ function generateProductRule(config: AdvancedCalculusConfig): Question {
 
 // ========================================
 // QUOTIENT RULE
-// f(x)=(ax+b)/(cx+d)
+// (ax+b)/(cx+d)
 // ========================================
 
 function generateQuotientRule(config: AdvancedCalculusConfig): Question {
@@ -288,9 +343,13 @@ function generateQuotientRule(config: AdvancedCalculusConfig): Question {
 
   const numerator = a * d - b * c;
 
+  const numeratorExpression = formatLinear(a, b);
+
+  const denominatorExpression = formatLinear(c, d);
+
   const correctValue = `${numerator}:${c}:${d}`;
 
-  const correctMath = `\\frac{${numerator}}{(${c}x${d >= 0 ? '+' : ''}${d})^2}`;
+  const correctMath = `\\frac{${numerator}}` + `{(${denominatorExpression})^2}`;
 
   return {
     id: crypto.randomUUID(),
@@ -307,31 +366,31 @@ function generateQuotientRule(config: AdvancedCalculusConfig): Question {
 
     title: 'Похідна частки',
 
-    math: `f(x)=\\frac{${a}x${b >= 0 ? '+' : ''}${b}}{${c}x${d >= 0 ? '+' : ''}${d}}`,
+    math: `f(x)=\\frac{${numeratorExpression}}` + `{${denominatorExpression}}`,
 
     options: createMathOptions(correctValue, correctMath, [
       {
         value: `${a * d + b * c}:${c}:${d}`,
 
-        math: `\\frac{${a * d + b * c}}{(${c}x${d >= 0 ? '+' : ''}${d})^2}`,
+        math: `\\frac{${a * d + b * c}}` + `{(${denominatorExpression})^2}`,
       },
 
       {
         value: `${a - c}:${c}:${d}`,
 
-        math: `\\frac{${a - c}}{(${c}x${d >= 0 ? '+' : ''}${d})^2}`,
+        math: `\\frac{${a - c}}` + `{(${denominatorExpression})^2}`,
       },
 
       {
         value: `${numerator}:${c}:${d}:no-square`,
 
-        math: `\\frac{${numerator}}{${c}x${d >= 0 ? '+' : ''}${d}}`,
+        math: `\\frac{${numerator}}` + `{${denominatorExpression}}`,
       },
 
       {
         value: `${-numerator}:${c}:${d}`,
 
-        math: `\\frac{${-numerator}}{(${c}x${d >= 0 ? '+' : ''}${d})^2}`,
+        math: `\\frac{${-numerator}}` + `{(${denominatorExpression})^2}`,
       },
     ]),
 
@@ -339,8 +398,9 @@ function generateQuotientRule(config: AdvancedCalculusConfig): Question {
 
     solution: [
       {
-        math: `\\left(\\frac{u}{v}\\right)'=\\frac{u'v-uv'}{v^2}`,
+        math: `\\left(\\frac{u}{v}\\right)'=` + `\\frac{u'v-uv'}{v^2}`,
       },
+
       {
         math: `f'(x)=${correctMath}`,
       },
@@ -364,29 +424,51 @@ function generateQuadraticExtremum(config: AdvancedCalculusConfig): Question {
 
   const extremumType = a > 0 ? 'мінімум' : 'максимум';
 
-  const options = shuffle([
-    answer,
-    `${-h};${k}`,
-    `${h};${-k}`,
-    `${k};${h}`,
-    `${h + 1};${k}`,
-  ]);
+  const candidates = new Set<string>();
 
-  const unique = Array.from(new Set(options));
-
-  let offset = 1;
-
-  while (unique.length < 5) {
-    const value = `${h + offset};${k + offset}`;
-
-    if (value !== answer && !unique.includes(value)) {
-      unique.push(value);
+  function addCandidate(value: string) {
+    if (value !== answer) {
+      candidates.add(value);
     }
+  }
+
+  addCandidate(`${-h};${k}`);
+
+  addCandidate(`${h};${-k}`);
+
+  addCandidate(`${k};${h}`);
+
+  addCandidate(`${h + 1};${k}`);
+
+  addCandidate(`${h - 1};${k}`);
+
+  addCandidate(`${h};${k + 1}`);
+
+  let offset = 2;
+
+  while (candidates.size < 3) {
+    addCandidate(`${h + offset};${k + offset}`);
 
     offset++;
   }
 
-  const inside = h >= 0 ? `x-${h}` : `x+${Math.abs(h)}`;
+  const inside = xMinus(h);
+
+  const constantPart = k === 0 ? '' : k > 0 ? `+${k}` : `-${Math.abs(k)}`;
+
+  const options = shuffle([answer, ...Array.from(candidates).slice(0, 3)]).map(
+    (value, index) => {
+      const [x, y] = value.split(';');
+
+      return {
+        id: String(index),
+
+        value,
+
+        math: `(${x};${y})`,
+      };
+    },
+  );
 
   return {
     id: crypto.randomUUID(),
@@ -405,19 +487,9 @@ function generateQuadraticExtremum(config: AdvancedCalculusConfig): Question {
 
     text: `Знайдіть точку, у якій функція має ${extremumType}.`,
 
-    math: `f(x)=${a}(${inside})^2${k >= 0 ? '+' : ''}${k}`,
+    math: `f(x)=${a}(${inside})^2${constantPart}`,
 
-    options: unique.slice(0, 5).map((value, index) => {
-      const [x, y] = value.split(';');
-
-      return {
-        id: String(index),
-
-        value,
-
-        math: `(${x};${y})`,
-      };
-    }),
+    options,
 
     correctAnswer: answer,
 
@@ -425,9 +497,11 @@ function generateQuadraticExtremum(config: AdvancedCalculusConfig): Question {
       {
         text: 'Функція вже записана у вершинній формі.',
       },
+
       {
         math: `f(x)=a(x-h)^2+k`,
       },
+
       {
         math: `(${h};${k})`,
       },
@@ -453,9 +527,11 @@ function generateSubstitutionIntegral(
 
   const coefficient = 1 / newPower;
 
+  const inner = formatLinear(a, b);
+
   const correctValue = `${coefficient}:${a}:${b}:${newPower}`;
 
-  const correctMath = `\\frac{(${a}x${b >= 0 ? '+' : ''}${b})^{${newPower}}}{${newPower}}+C`;
+  const correctMath = `\\frac{(${inner})^{${newPower}}}` + `{${newPower}}+C`;
 
   return {
     id: crypto.randomUUID(),
@@ -472,31 +548,31 @@ function generateSubstitutionIntegral(
 
     title: 'Інтегрування підстановкою',
 
-    math: `\\int ${a}(${a}x${b >= 0 ? '+' : ''}${b})^{${n}}dx`,
+    math: `\\int ${a}(${inner})^{${n}}dx`,
 
     options: createMathOptions(correctValue, correctMath, [
       {
         value: `1:${a}:${b}:${newPower}`,
 
-        math: `(${a}x${b >= 0 ? '+' : ''}${b})^{${newPower}}+C`,
+        math: `(${inner})^{${newPower}}+C`,
       },
 
       {
         value: `${coefficient}:${a}:${b}:${n}`,
 
-        math: `\\frac{(${a}x${b >= 0 ? '+' : ''}${b})^{${n}}}{${newPower}}+C`,
+        math: `\\frac{(${inner})^{${n}}}` + `{${newPower}}+C`,
       },
 
       {
         value: `${a / newPower}:${a}:${b}:${newPower}`,
 
-        math: `\\frac{${a}}{${newPower}}(${a}x${b >= 0 ? '+' : ''}${b})^{${newPower}}+C`,
+        math: `\\frac{${a}}{${newPower}}` + `(${inner})^{${newPower}}+C`,
       },
 
       {
         value: `${newPower}:${a}:${b}:${newPower}`,
 
-        math: `${newPower}(${a}x${b >= 0 ? '+' : ''}${b})^{${newPower}}+C`,
+        math: `${newPower}` + `(${inner})^{${newPower}}+C`,
       },
     ]),
 
@@ -504,14 +580,17 @@ function generateSubstitutionIntegral(
 
     solution: [
       {
-        math: `u=${a}x${b >= 0 ? '+' : ''}${b}`,
+        math: `u=${inner}`,
       },
+
       {
         math: `du=${a}\\,dx`,
       },
+
       {
-        math: `\\int u^{${n}}du=\\frac{u^{${newPower}}}{${newPower}}+C`,
+        math: `\\int u^{${n}}du=` + `\\frac{u^{${newPower}}}{${newPower}}+C`,
       },
+
       {
         math: correctMath,
       },

@@ -293,7 +293,7 @@ function generateModulus(): Question {
       },
 
       {
-        math: `|z|=\\sqrt{${a}^2+${b}^2}=${answer}`,
+        math: `|z|=\\sqrt{(${a})^2+(${b})^2}=${answer}`,
       },
     ],
   };

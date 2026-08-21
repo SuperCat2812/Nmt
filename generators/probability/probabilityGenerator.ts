@@ -1,6 +1,9 @@
 import type { ProbabilityConfig, ProbabilityForm } from '@/types/generator';
+
 import type { Question, QuestionOption } from '@/types/question';
+
 import { randomFromRange, randomItem } from '@/utils/random';
+
 import { shuffle } from '@/utils/shuffle';
 
 function createProbabilityOptions(
@@ -28,8 +31,8 @@ function createProbabilityOptions(
     add(candidate);
   }
 
-  // Гарантированный набор допустимых
-  // вероятностей от 0 до 1.
+  // Гарантований набір допустимих
+  // ймовірностей від 0 до 1.
   for (let value = 0; value <= 1; value += 0.05) {
     add(value);
 
@@ -79,7 +82,7 @@ function generateClassical(config: ProbabilityConfig): Question {
 
     title: 'Класична ймовірність',
 
-    text: `Є ${total} рівноймовірних результатів, з них ${favorable} сприятливих. Знайдіть ймовірність події.`,
+    text: `Є ${total} рівноймовірних результатів, з них ${favorable} сприятливих. Знайдіть ймовірність події. За потреби округліть до тисячних.`,
 
     options: createProbabilityOptions(answer, [
       total / favorable,
@@ -100,7 +103,7 @@ function generateClassical(config: ProbabilityConfig): Question {
         math: `P=\\frac{m}{n}`,
       },
       {
-        math: `P=\\frac{${favorable}}{${total}}=${answer}`,
+        math: `P=\\frac{${favorable}}{${total}}\\approx${answer}`,
       },
     ],
   };
@@ -132,9 +135,13 @@ function generateComplement(): Question {
 
     options: createProbabilityOptions(answer, [
       probability,
+
       probability / 2,
+
       answer / 2,
+
       1 + probability,
+
       Math.abs(probability - answer),
     ]),
 
@@ -177,12 +184,16 @@ function generateIndependentEvents(): Question {
 
     options: createProbabilityOptions(answer, [
       p1 + p2,
+
       Math.abs(p1 - p2),
 
       1 - answer,
+
       p1,
+
       p2,
     ]),
+
     correctAnswer: String(answer),
 
     solution: [

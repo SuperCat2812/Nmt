@@ -52,15 +52,13 @@ function generateExponential(config: AdvancedEquationConfig): Question {
 }
 
 function generateIrrational(config: AdvancedEquationConfig): Question {
-  const x = Math.max(0, randomFromRange(config.answerRange));
-
   const shift = randomFromRange(config.constantRange);
 
   const root = randomItem([2, 3, 4, 5, 6, 7, 8]);
 
   const value = root ** 2;
 
-  const right = x + shift;
+  const x = value - shift;
 
   return {
     id: crypto.randomUUID(),
@@ -79,7 +77,7 @@ function generateIrrational(config: AdvancedEquationConfig): Question {
 
     math: `\\sqrt{x${shift >= 0 ? '+' : ''}${shift}}=${root}`,
 
-    options: createNumericOptions(right - shift, [
+    options: createNumericOptions(x, [
       value + shift,
       root - shift,
       value,

@@ -17,6 +17,26 @@ import {
 
 import { shuffle } from '@/utils/shuffle';
 
+function signedConstant(value: number): string {
+  if (value === 0) {
+    return '';
+  }
+
+  if (value > 0) {
+    return `+${value}`;
+  }
+
+  return `-${Math.abs(value)}`;
+}
+
+function factorByRoot(root: number): string {
+  if (root >= 0) {
+    return `(x-${root})`;
+  }
+
+  return `(x+${Math.abs(root)})`;
+}
+
 // ========================================
 // f(x0)
 // ========================================
@@ -51,9 +71,13 @@ function generateValue(config: FunctionConfig): Question {
 
     options: createNumericOptions(answer, [
       a + x + b,
+
       a * x - b,
+
       a + b,
+
       answer + 1,
+
       answer - 1,
     ]),
 
@@ -61,8 +85,9 @@ function generateValue(config: FunctionConfig): Question {
 
     solution: [
       {
-        math: `f(${x})=${a}\\cdot(${x})+${b}`,
+        math: `f(${x})=${a}\\cdot(${x})${signedConstant(b)}`,
       },
+
       {
         math: `f(${x})=${answer}`,
       },
@@ -93,28 +118,35 @@ function generateZeros(config: FunctionConfig): Question {
 
   const correct = `${first};${second}`;
 
-  const candidates = new Set<string>([
-    `${-first};${second}`,
-    `${first};${-second}`,
-    `${first + 1};${second}`,
-    `${first};${second + 1}`,
-    `${-first};${-second}`,
-  ]);
+  const candidates = new Set<string>();
 
-  candidates.delete(correct);
+  function addCandidate(value: string) {
+    if (value !== correct) {
+      candidates.add(value);
+    }
+  }
+
+  addCandidate(`${-first};${second}`);
+
+  addCandidate(`${first};${-second}`);
+
+  addCandidate(`${first + 1};${second}`);
+
+  addCandidate(`${first};${second + 1}`);
+
+  addCandidate(`${-first};${-second}`);
 
   let offset = 2;
 
   while (candidates.size < 3) {
-    candidates.add(`${first + offset};${second}`);
-
-    candidates.delete(correct);
+    addCandidate(`${first + offset};${second}`);
 
     offset++;
   }
 
   const options: QuestionOption[] = shuffle([
     correct,
+
     ...Array.from(candidates).slice(0, 3),
   ]).map((value, index) => {
     const [x1, x2] = value.split(';');
@@ -155,9 +187,11 @@ function generateZeros(config: FunctionConfig): Question {
       {
         math: `f(x)=0`,
       },
+
       {
-        math: `(x-${first})(x-${second})=0`,
+        math: `${factorByRoot(first)}${factorByRoot(second)}=0`,
       },
+
       {
         math: `x_1=${first},\\quad x_2=${second}`,
       },
@@ -171,7 +205,9 @@ function generateZeros(config: FunctionConfig): Question {
 
 function generateVertex(config: FunctionConfig): Question {
   const h = randomFromRange(config.xRange);
+
   const k = randomFromRange(config.constantRange);
+
   const a = randomItem([-2, -1, 1, 2]);
 
   const correct = `${h};${k}`;
@@ -185,39 +221,52 @@ function generateVertex(config: FunctionConfig): Question {
   }
 
   addCandidate(`${-h};${k}`);
+
   addCandidate(`${h};${-k}`);
+
   addCandidate(`${k};${h}`);
+
   addCandidate(`${h + 1};${k}`);
+
   addCandidate(`${h - 1};${k}`);
+
   addCandidate(`${h};${k + 1}`);
+
   addCandidate(`${h};${k - 1}`);
 
   let offset = 2;
 
   while (candidates.size < 3) {
     addCandidate(`${h + offset};${k + offset}`);
+
     offset++;
   }
 
   const options: QuestionOption[] = shuffle([
     correct,
+
     ...Array.from(candidates).slice(0, 3),
   ]).map((value, index) => {
     const [x, y] = value.split(';');
 
     return {
       id: String(index),
+
       value,
+
       math: `(${x};${y})`,
     };
   });
 
   const inside = h >= 0 ? `x-${h}` : `x+${Math.abs(h)}`;
 
+  const constantPart = k === 0 ? '' : k > 0 ? `+${k}` : `-${Math.abs(k)}`;
+
   return {
     id: crypto.randomUUID(),
 
     generatorId: 'function',
+
     familyId: 'functions',
 
     variantKey: `function:vertex:${a}:${h}:${k}`,
@@ -230,7 +279,7 @@ function generateVertex(config: FunctionConfig): Question {
 
     text: 'Визначте координати вершини параболи.',
 
-    math: `f(x)=${a}(${inside})^2${k >= 0 ? '+' : ''}${k}`,
+    math: `f(x)=${a}(${inside})^2${constantPart}`,
 
     options,
 
@@ -240,9 +289,11 @@ function generateVertex(config: FunctionConfig): Question {
       {
         math: `f(x)=a(x-h)^2+k`,
       },
+
       {
         text: 'Вершина параболи має координати (h; k).',
       },
+
       {
         math: `(${h};${k})`,
       },
@@ -298,9 +349,13 @@ function generateGraphValue(config: FunctionConfig): Question {
 
     options: createNumericOptions(answer, [
       answer + 1,
+
       answer - 1,
+
       -answer,
+
       a + b,
+
       a * x,
     ]),
 
@@ -308,8 +363,9 @@ function generateGraphValue(config: FunctionConfig): Question {
 
     solution: [
       {
-        math: `y=${a}\\cdot(${x})+${b}`,
+        math: `y=${a}\\cdot(${x})${signedConstant(b)}`,
       },
+
       {
         math: `y=${answer}`,
       },

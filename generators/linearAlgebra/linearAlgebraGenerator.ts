@@ -23,6 +23,26 @@ function matrixLatex(matrix: Matrix2): string {
   );
 }
 
+function signedVectorScalar(coefficient: number): string {
+  if (coefficient >= 0) {
+    return `+${coefficient}`;
+  }
+
+  return `-${Math.abs(coefficient)}`;
+}
+
+function formatScalarCombination(
+  base: number,
+  coefficient: number,
+  value: number,
+): string {
+  if (coefficient >= 0) {
+    return `${base}+` + `${coefficient}\\cdot(${value})`;
+  }
+
+  return `${base}-` + `${Math.abs(coefficient)}\\cdot(${value})`;
+}
+
 function createMatrixOptions(
   correct: Matrix2,
   candidates: Matrix2[],
@@ -48,7 +68,11 @@ function createMatrixOptions(
       [correct[1][0], correct[1][1]],
     ];
 
-    unique.set(matrixKey(fallback), fallback);
+    unique.set(
+      matrixKey(fallback),
+
+      fallback,
+    );
 
     offset++;
   }
@@ -250,7 +274,7 @@ function generateDeterminant(config: LinearAlgebraConfig): Question {
       },
 
       {
-        math: `${a}\\cdot${d}-${b}\\cdot${c}=${answer}`,
+        math: `\\det A=(${a})\\cdot(${d})-(${b})\\cdot(${c})=${answer}`,
       },
     ],
   };
@@ -258,25 +282,29 @@ function generateDeterminant(config: LinearAlgebraConfig): Question {
 
 function generateSystem2x2(config: LinearAlgebraConfig): Question {
   const x = randomFromRange(config.valueRange);
+
   const y = randomFromRange(config.valueRange);
 
   let a = randomFromRange(config.valueRange);
+
   let b = randomFromRange(config.valueRange);
+
   let c = randomFromRange(config.valueRange);
+
   let d = randomFromRange(config.valueRange);
 
-  // Матрица коэффициентов должна иметь ненулевой определитель,
-  // иначе система может не иметь единственного решения.
   while (a * d - b * c === 0) {
     a = randomFromRange(config.valueRange);
+
     b = randomFromRange(config.valueRange);
+
     c = randomFromRange(config.valueRange);
+
     d = randomFromRange(config.valueRange);
   }
 
-  // Строим правые части так, чтобы заранее выбранные x и y
-  // гарантированно являлись решением системы.
   const e = a * x + b * y;
+
   const f = c * x + d * y;
 
   const answer = `${x};${y}`;
@@ -302,17 +330,20 @@ function generateSystem2x2(config: LinearAlgebraConfig): Question {
     }
   }
 
-  // На случай особых значений вроде x = 0 или y = 0,
-  // когда некоторые варианты выше совпадают.
   let offset = 1;
 
   while (unique.size < 4) {
     const fallbacks = [
       `${x + offset};${y}`,
+
       `${x - offset};${y}`,
+
       `${x};${y + offset}`,
+
       `${x};${y - offset}`,
+
       `${x + offset};${y + offset}`,
+
       `${x - offset};${y - offset}`,
     ];
 
@@ -327,15 +358,15 @@ function generateSystem2x2(config: LinearAlgebraConfig): Question {
     }
 
     offset++;
-
-    if (offset > 10_000) {
-      throw new Error(
-        'Не вдалося створити унікальні варіанти відповіді для системи рівнянь.',
-      );
-    }
   }
 
   const optionValues = shuffle([answer, ...Array.from(unique).slice(0, 4)]);
+
+  const firstEquation =
+    b >= 0 ? `${a}x+${b}y=${e}` : `${a}x-${Math.abs(b)}y=${e}`;
+
+  const secondEquation =
+    d >= 0 ? `${c}x+${d}y=${f}` : `${c}x-${Math.abs(d)}y=${f}`;
 
   return {
     id: crypto.randomUUID(),
@@ -352,17 +383,20 @@ function generateSystem2x2(config: LinearAlgebraConfig): Question {
 
     title: 'Система лінійних рівнянь',
 
-    math: `\\begin{cases}
-${a}x${b >= 0 ? '+' : ''}${b}y=${e},\\\\
-${c}x${d >= 0 ? '+' : ''}${d}y=${f}
-\\end{cases}`,
+    math:
+      `\\begin{cases}` +
+      `${firstEquation},\\\\` +
+      `${secondEquation}` +
+      `\\end{cases}`,
 
     options: optionValues.map((value, index) => {
       const [optionX, optionY] = value.split(';');
 
       return {
         id: String(index),
+
         value,
+
         math: `(${optionX};${optionY})`,
       };
     }),
@@ -375,7 +409,7 @@ ${c}x${d >= 0 ? '+' : ''}${d}y=${f}
       },
 
       {
-        math: `\\Delta=${a}\\cdot${d}-${b}\\cdot${c}=${a * d - b * c}\\neq0`,
+        math: `\\Delta=(${a})\\cdot(${d})-(${b})\\cdot(${c})=${a * d - b * c}\\neq0`,
       },
 
       {
@@ -387,7 +421,7 @@ ${c}x${d >= 0 ? '+' : ''}${d}y=${f}
       },
 
       {
-        math: `${a}\\cdot(${x})${b >= 0 ? '+' : ''}${b}\\cdot(${y})=${e}`,
+        math: `(${a})\\cdot(${x})+(${b})\\cdot(${y})=${e}`,
       },
 
       {
@@ -395,7 +429,7 @@ ${c}x${d >= 0 ? '+' : ''}${d}y=${f}
       },
 
       {
-        math: `${c}\\cdot(${x})${d >= 0 ? '+' : ''}${d}\\cdot(${y})=${f}`,
+        math: `(${c})\\cdot(${x})+(${d})\\cdot(${y})=${f}`,
       },
     ],
   };
@@ -404,11 +438,13 @@ ${c}x${d >= 0 ? '+' : ''}${d}y=${f}
 function generateLinearCombination(config: LinearAlgebraConfig): Question {
   const a = [
     randomFromRange(config.valueRange),
+
     randomFromRange(config.valueRange),
   ];
 
   const b = [
     randomFromRange(config.valueRange),
+
     randomFromRange(config.valueRange),
   ];
 
@@ -447,40 +483,22 @@ function generateLinearCombination(config: LinearAlgebraConfig): Question {
   let offset = 1;
 
   while (unique.size < 4) {
-    const fallbacks = [
-      `${result[0] + offset};${result[1]}`,
+    const fallback = `${result[0] + offset};${result[1]}`;
 
-      `${result[0] - offset};${result[1]}`,
-
-      `${result[0]};${result[1] + offset}`,
-
-      `${result[0]};${result[1] - offset}`,
-
-      `${result[0] + offset};${result[1] + offset}`,
-
-      `${result[0] - offset};${result[1] - offset}`,
-    ];
-
-    for (const fallback of fallbacks) {
-      if (fallback !== answer) {
-        unique.add(fallback);
-      }
-
-      if (unique.size >= 4) {
-        break;
-      }
+    if (fallback !== answer) {
+      unique.add(fallback);
     }
 
     offset++;
-
-    if (offset > 10_000) {
-      throw new Error(
-        'Не вдалося створити унікальні варіанти для лінійної комбінації.',
-      );
-    }
   }
 
   const optionValues = shuffle([answer, ...Array.from(unique).slice(0, 4)]);
+
+  const operation = `\\vec a` + `${signedVectorScalar(k)}` + `\\vec b`;
+
+  const firstCoordinate = formatScalarCombination(a[0], k, b[0]);
+
+  const secondCoordinate = formatScalarCombination(a[1], k, b[1]);
 
   return {
     id: crypto.randomUUID(),
@@ -497,9 +515,10 @@ function generateLinearCombination(config: LinearAlgebraConfig): Question {
 
     title: 'Лінійна комбінація векторів',
 
-    math: `\\vec a=(${a.join(';')}),\\quad
-\\vec b=(${b.join(';')}),\\quad
-\\vec a+${k}\\vec b`,
+    math:
+      `\\vec a=(${a.join(';')}),\\quad` +
+      `\\vec b=(${b.join(';')}),\\quad` +
+      `${operation}`,
 
     options: optionValues.map((value, index) => {
       const [x, y] = value.split(';');
@@ -521,11 +540,11 @@ function generateLinearCombination(config: LinearAlgebraConfig): Question {
       },
 
       {
-        math: `\\vec a+${k}\\vec b`,
+        math: operation,
       },
 
       {
-        math: `=(${a[0]}+${k}\\cdot${b[0]};\\;${a[1]}+${k}\\cdot${b[1]})`,
+        math: `=(${firstCoordinate};\\;${secondCoordinate})`,
       },
 
       {

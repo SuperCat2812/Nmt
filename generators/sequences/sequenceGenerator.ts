@@ -10,12 +10,29 @@ import {
   randomNonZeroFromRange,
 } from '@/utils/random';
 
+function formatAddition(first: number, second: number): string {
+  if (second >= 0) {
+    return `${first}+${second}`;
+  }
+
+  return `${first}-${Math.abs(second)}`;
+}
+
+function formatMultiplication(first: number, second: number): string {
+  return `${first}\\cdot(${second})`;
+}
+
+// ========================================
+// Arithmetic next
+// ========================================
+
 function generateArithmeticNext(config: SequenceConfig): Question {
   const a1 = randomFromRange(config.startRange);
 
   const d = randomNonZeroFromRange(config.differenceRange);
 
   const a2 = a1 + d;
+
   const a3 = a2 + d;
 
   const answer = a3 + d;
@@ -24,6 +41,7 @@ function generateArithmeticNext(config: SequenceConfig): Question {
     id: crypto.randomUUID(),
 
     generatorId: 'sequence',
+
     familyId: 'sequences',
 
     variantKey: `sequence:arithmetic-next:${a1}:${d}`,
@@ -34,13 +52,17 @@ function generateArithmeticNext(config: SequenceConfig): Question {
 
     title: 'Арифметична прогресія',
 
-    text: `Продовжіть послідовність: ${a1}, ${a2}, ${a3}, ...`,
+    text: `Продовжіть послідовність: ` + `${a1}, ${a2}, ${a3}, ...`,
 
     options: createNumericOptions(answer, [
       a3 - d,
+
       a3 + 2 * d,
+
       a1 + d,
+
       answer + 1,
+
       answer - 1,
     ]),
 
@@ -48,14 +70,19 @@ function generateArithmeticNext(config: SequenceConfig): Question {
 
     solution: [
       {
-        math: `d=${a2}-${a1}=${d}`,
+        math: `d=${a2}-(${a1})=${d}`,
       },
+
       {
-        math: `a_4=${a3}+${d}=${answer}`,
+        math: `a_4=${formatAddition(a3, d)}=${answer}`,
       },
     ],
   };
 }
+
+// ========================================
+// Arithmetic nth
+// ========================================
 
 function generateArithmeticNth(config: SequenceConfig): Question {
   const a1 = randomFromRange(config.startRange);
@@ -70,6 +97,7 @@ function generateArithmeticNth(config: SequenceConfig): Question {
     id: crypto.randomUUID(),
 
     generatorId: 'sequence',
+
     familyId: 'sequences',
 
     variantKey: `sequence:arithmetic-nth:${a1}:${d}:${n}`,
@@ -80,13 +108,17 @@ function generateArithmeticNth(config: SequenceConfig): Question {
 
     title: 'n-й член арифметичної прогресії',
 
-    text: `Дано a₁ = ${a1}, d = ${d}. Знайдіть a${n}.`,
+    text: `Дано a₁ = ${a1}, d = ${d}. ` + `Знайдіть a${n}.`,
 
     options: createNumericOptions(answer, [
       a1 + n * d,
+
       a1 + (n - 2) * d,
+
       n * d,
+
       answer + d,
+
       answer - d,
     ]),
 
@@ -96,12 +128,17 @@ function generateArithmeticNth(config: SequenceConfig): Question {
       {
         math: `a_n=a_1+(n-1)d`,
       },
+
       {
-        math: `a_${n}=${a1}+(${n}-1)\\cdot${d}=${answer}`,
+        math: `a_${n}=${a1}+` + `(${n}-1)\\cdot(${d})=${answer}`,
       },
     ],
   };
 }
+
+// ========================================
+// Arithmetic sum
+// ========================================
 
 function generateArithmeticSum(config: SequenceConfig): Question {
   const a1 = randomFromRange(config.startRange);
@@ -114,10 +151,13 @@ function generateArithmeticSum(config: SequenceConfig): Question {
 
   const answer = (n * (a1 + an)) / 2;
 
+  const endpoints = formatAddition(a1, an);
+
   return {
     id: crypto.randomUUID(),
 
     generatorId: 'sequence',
+
     familyId: 'sequences',
 
     variantKey: `sequence:arithmetic-sum:${a1}:${d}:${n}`,
@@ -128,13 +168,17 @@ function generateArithmeticSum(config: SequenceConfig): Question {
 
     title: 'Сума арифметичної прогресії',
 
-    text: `Дано a₁ = ${a1}, d = ${d}, n = ${n}. Знайдіть Sₙ.`,
+    text: `Дано a₁ = ${a1}, d = ${d}, ` + `n = ${n}. Знайдіть Sₙ.`,
 
     options: createNumericOptions(answer, [
       n * a1,
+
       a1 + an,
+
       answer + n,
+
       answer - n,
+
       an * n,
     ]),
 
@@ -144,15 +188,21 @@ function generateArithmeticSum(config: SequenceConfig): Question {
       {
         math: `a_n=a_1+(n-1)d=${an}`,
       },
+
       {
         math: `S_n=\\frac{n(a_1+a_n)}{2}`,
       },
+
       {
-        math: `S_${n}=\\frac{${n}(${a1}+${an})}{2}=${answer}`,
+        math: `S_${n}=\\frac{${n}(${endpoints})}{2}=${answer}`,
       },
     ],
   };
 }
+
+// ========================================
+// Geometric next
+// ========================================
 
 function generateGeometricNext(config: SequenceConfig): Question {
   const b1 = randomNonZeroFromRange(config.startRange);
@@ -169,6 +219,7 @@ function generateGeometricNext(config: SequenceConfig): Question {
     id: crypto.randomUUID(),
 
     generatorId: 'sequence',
+
     familyId: 'sequences',
 
     variantKey: `sequence:geometric-next:${b1}:${q}`,
@@ -179,13 +230,17 @@ function generateGeometricNext(config: SequenceConfig): Question {
 
     title: 'Геометрична прогресія',
 
-    text: `Продовжіть послідовність: ${b1}, ${b2}, ${b3}, ...`,
+    text: `Продовжіть послідовність: ` + `${b1}, ${b2}, ${b3}, ...`,
 
     options: createNumericOptions(answer, [
       b3 + q,
+
       b3 - q,
+
       b1 * q,
+
       answer + q,
+
       answer - q,
     ]),
 
@@ -195,12 +250,17 @@ function generateGeometricNext(config: SequenceConfig): Question {
       {
         math: `q=\\frac{b_2}{b_1}=${q}`,
       },
+
       {
-        math: `b_4=${b3}\\cdot${q}=${answer}`,
+        math: `b_4=${formatMultiplication(b3, q)}=${answer}`,
       },
     ],
   };
 }
+
+// ========================================
+// Geometric nth
+// ========================================
 
 function generateGeometricNth(config: SequenceConfig): Question {
   const b1 = randomNonZeroFromRange(config.startRange);
@@ -219,6 +279,7 @@ function generateGeometricNth(config: SequenceConfig): Question {
     id: crypto.randomUUID(),
 
     generatorId: 'sequence',
+
     familyId: 'sequences',
 
     variantKey: `sequence:geometric-nth:${b1}:${q}:${n}`,
@@ -229,13 +290,17 @@ function generateGeometricNth(config: SequenceConfig): Question {
 
     title: 'n-й член геометричної прогресії',
 
-    text: `Дано b₁ = ${b1}, q = ${q}. Знайдіть b${n}.`,
+    text: `Дано b₁ = ${b1}, q = ${q}. ` + `Знайдіть b${n}.`,
 
     options: createNumericOptions(answer, [
       b1 * q ** n,
+
       b1 * (n - 1) * q,
+
       q ** (n - 1),
+
       answer + q,
+
       answer - q,
     ]),
 
@@ -245,12 +310,17 @@ function generateGeometricNth(config: SequenceConfig): Question {
       {
         math: `b_n=b_1q^{n-1}`,
       },
+
       {
-        math: `b_${n}=${b1}\\cdot${q}^{${n - 1}}=${answer}`,
+        math: `b_${n}=${b1}\\cdot(${q})^{${n - 1}}=${answer}`,
       },
     ],
   };
 }
+
+// ========================================
+// Geometric sum
+// ========================================
 
 function generateGeometricSum(config: SequenceConfig): Question {
   const b1 = randomNonZeroFromRange(config.startRange);
@@ -265,10 +335,13 @@ function generateGeometricSum(config: SequenceConfig): Question {
 
   const answer = (b1 * (q ** n - 1)) / (q - 1);
 
+  const qMinusOne = q >= 1 ? `${q}-1` : `(${q})-1`;
+
   return {
     id: crypto.randomUUID(),
 
     generatorId: 'sequence',
+
     familyId: 'sequences',
 
     variantKey: `sequence:geometric-sum:${b1}:${q}:${n}`,
@@ -279,13 +352,17 @@ function generateGeometricSum(config: SequenceConfig): Question {
 
     title: 'Сума геометричної прогресії',
 
-    text: `Дано b₁ = ${b1}, q = ${q}, n = ${n}. Знайдіть Sₙ.`,
+    text: `Дано b₁ = ${b1}, q = ${q}, ` + `n = ${n}. Знайдіть Sₙ.`,
 
     options: createNumericOptions(answer, [
       b1 * q ** n,
+
       b1 * n,
+
       answer + q,
+
       answer - q,
+
       q ** n,
     ]),
 
@@ -295,8 +372,11 @@ function generateGeometricSum(config: SequenceConfig): Question {
       {
         math: `S_n=b_1\\frac{q^n-1}{q-1}`,
       },
+
       {
-        math: `S_${n}=${b1}\\cdot\\frac{${q}^{${n}}-1}{${q}-1}=${answer}`,
+        math:
+          `S_${n}=${b1}\\cdot` +
+          `\\frac{(${q})^{${n}}-1}{${qMinusOne}}=${answer}`,
       },
     ],
   };

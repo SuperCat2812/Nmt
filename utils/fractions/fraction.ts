@@ -144,6 +144,28 @@ export function fractionToLatex(fraction: Fraction): string {
 
   return `\\frac{${normalized.numerator}}{${normalized.denominator}}`;
 }
+export function fractionToLatexRaw(fraction: Fraction): string {
+  let { numerator, denominator } = fraction;
+
+  if (denominator === 0) {
+    throw new Error('Знаменник не може дорівнювати нулю.');
+  }
+
+  if (denominator < 0) {
+    numerator *= -1;
+    denominator *= -1;
+  }
+
+  if (denominator === 1) {
+    return String(numerator);
+  }
+
+  if (numerator < 0) {
+    return `-\\frac{${Math.abs(numerator)}}{${denominator}}`;
+  }
+
+  return `\\frac{${numerator}}{${denominator}}`;
+}
 
 export function parseFraction(value: string): Fraction | null {
   const normalized = value.trim().replace(',', '.');

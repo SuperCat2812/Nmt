@@ -312,7 +312,7 @@
 .statsGrid div {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: center;
   gap: 12px;
   border-bottom: 1px solid #e5e7eb;
   padding: 12px 0;
@@ -370,6 +370,7 @@
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 20px;
+  justify-content: space-around;
 }
 
 .historyCard {
@@ -392,7 +393,10 @@
 
 @media (max-width: 760px) {
   .header {
-    margin-bottom: 0;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    text-align: center;
   }
   .setupCard + .historyCard {
     margin-top: 20px;

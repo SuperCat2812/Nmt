@@ -22,7 +22,7 @@ function createVectorOptions(correct: number[], candidates: number[][]) {
 
   let offset = 1;
 
-  while (unique.size < 4) {
+  while (unique.size < 3) {
     const fallback = correct.map((value, index) =>
       index === 0 ? value + offset : value,
     );
@@ -36,7 +36,7 @@ function createVectorOptions(correct: number[], candidates: number[][]) {
     offset++;
   }
 
-  return shuffle([correct, ...Array.from(unique.values()).slice(0, 4)]).map(
+  return shuffle([correct, ...Array.from(unique.values()).slice(0, 3)]).map(
     (vector, index) => ({
       id: String(index),
       value: vector.join(';'),

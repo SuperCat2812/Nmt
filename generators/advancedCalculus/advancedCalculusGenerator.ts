@@ -39,7 +39,7 @@ function createMathOptions(
 
   let offset = 1;
 
-  while (unique.size < 4) {
+  while (unique.size < 3) {
     const value = `${correctValue}:wrong:${offset}`;
 
     unique.set(value, {
@@ -56,7 +56,7 @@ function createMathOptions(
       math: correctMath,
     },
 
-    ...Array.from(unique.values()).slice(0, 4),
+    ...Array.from(unique.values()).slice(0, 3),
   ]).map((option, index) => ({
     id: String(index),
     value: option.value,

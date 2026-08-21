@@ -27,7 +27,7 @@ function createTextOptions(
     throw new Error('Недостатньо варіантів відповіді для нерівності.');
   }
 
-  return shuffle([correct, ...unique.slice(0, 4)]).map((value, index) => ({
+  return shuffle([correct, ...unique.slice(0, 3)]).map((value, index) => ({
     id: String(index),
     value,
     math: value,

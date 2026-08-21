@@ -41,6 +41,8 @@ import { calculateLifetimeTopicProgress } from '@/engine/topicProgress';
 
 import QuestionCard from '../QuestionCard/QuestionCard';
 
+import styles from './Trainer.module.css';
+
 function serializeUserAnswer(answer: UserAnswer): string {
   if (typeof answer === 'string') {
     return answer;
@@ -97,6 +99,7 @@ export default function Trainer() {
       window.clearTimeout(timeoutId);
     };
   }, []);
+
   useEffect(() => {
     if (session?.status !== 'running') {
       return;
@@ -134,17 +137,15 @@ export default function Trainer() {
     }
 
     finishAndSave(session, now);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [now, session?.status]);
 
   function createSettings(): TrainingSettings {
     return {
       mode,
-
       questionCount,
-
       topicIds: selectedTopicIds,
-
       timeLimitSeconds,
     };
   }
@@ -356,155 +357,204 @@ export default function Trainer() {
       : 0;
 
   return (
-    <main>
-      <h1>{course.name}</h1>
+    <main className={styles.pageShell}>
+      <header className={styles.header}>
+        <div>
+          <h1>{course.name}</h1>
+        </div>
+      </header>
 
       {!running && !finished && (
-        <section>
-          <h2>Налаштування тренування</h2>
+        <section className={`${styles.card} ${styles.setupCard}`}>
+          <div className={styles.sectionHeading}>
+            <h2>Налаштування тренування</h2>
+          </div>
 
-          <label>
-            Режим:
-            <select
-              value={mode}
-              onChange={(event) =>
-                changeMode(event.target.value as TrainingSettings['mode'])
-              }
-            >
-              <option value="single-topic">Одна тема</option>
+          <div className={styles.setupGrid}>
+            <label className={styles.field}>
+              <span>Режим</span>
 
-              <option value="mixed">Змішаний режим</option>
-            </select>
-          </label>
-
-          {mode === 'single-topic' ? (
-            <label>
-              Обери тему:
               <select
-                value={selectedTopicIds[0] ?? ''}
-                onChange={(event) => setSelectedTopicIds([event.target.value])}
+                data-testid="training-mode"
+                value={mode}
+                onChange={(event) =>
+                  changeMode(event.target.value as TrainingSettings['mode'])
+                }
               >
-                {courseTopics.map((topic) => (
-                  <option key={topic.id} value={topic.id}>
-                    {topic.name}
-                  </option>
-                ))}
+                <option value="single-topic">Одна тема</option>
+
+                <option value="mixed">Змішаний режим</option>
               </select>
             </label>
-          ) : (
-            <fieldset>
-              <legend>Обери теми:</legend>
 
-              {courseTopics.map((topic) => (
-                <label key={topic.id}>
-                  <input
-                    type="checkbox"
-                    checked={selectedTopicIds.includes(topic.id)}
-                    onChange={() => toggleTopic(topic.id)}
-                  />
+            {mode === 'single-topic' ? (
+              <label className={styles.field}>
+                <span>Тема</span>
 
-                  {topic.name}
-                </label>
-              ))}
-            </fieldset>
-          )}
+                <select
+                  data-testid="single-topic-select"
+                  value={selectedTopicIds[0] ?? ''}
+                  onChange={(event) =>
+                    setSelectedTopicIds([event.target.value])
+                  }
+                >
+                  {courseTopics.map((topic) => (
+                    <option key={topic.id} value={topic.id}>
+                      {topic.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ) : (
+              <fieldset className={`${styles.field} ${styles.topicField}`}>
+                <legend>Обери теми:</legend>
 
-          <label>
-            Кількість завдань:
-            <input
-              type="number"
-              min="1"
-              max="100"
-              value={questionCount}
-              onChange={(event) => {
-                const value = Number(event.target.value);
+                <div className={styles.topicList}>
+                  {courseTopics.map((topic) => (
+                    <label
+                      className={styles.topicOption}
+                      key={topic.id}
+                      data-testid="topic-option"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedTopicIds.includes(topic.id)}
+                        onChange={() => toggleTopic(topic.id)}
+                      />
 
-                setQuestionCount(Math.min(100, Math.max(1, value || 1)));
-              }}
-            />
-          </label>
+                      {topic.name}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            )}
 
-          <label>
-            Таймер:
-            <select
-              value={timeLimitSeconds ?? 0}
-              onChange={(event) => {
-                const value = Number(event.target.value);
+            <label className={styles.field}>
+              <span>Кількість завдань</span>
 
-                setTimeLimitSeconds(value > 0 ? value : undefined);
-              }}
+              <input
+                data-testid="question-count"
+                type="number"
+                min="1"
+                max="100"
+                value={questionCount}
+                onChange={(event) => {
+                  const value = Number(event.target.value);
+
+                  setQuestionCount(Math.min(100, Math.max(1, value || 1)));
+                }}
+              />
+            </label>
+
+            <button
+              className={styles.primaryButton}
+              type="button"
+              onClick={start}
+              disabled={selectedTopicIds.length === 0}
             >
-              <option value={0}>Без таймера</option>
-
-              <option value={300}>5 хвилин</option>
-
-              <option value={600}>10 хвилин</option>
-
-              <option value={1200}>20 хвилин</option>
-            </select>
-          </label>
-
-          <button
-            type="button"
-            onClick={start}
-            disabled={selectedTopicIds.length === 0}
-          >
-            Старт
-          </button>
+              Почати тренування <span aria-hidden="true">→</span>
+            </button>
+          </div>
         </section>
       )}
 
       {running && currentQuestion && (
-        <>
-          <section>
-            <p>
-              Завдання {currentNumber}/{session.settings.questionCount}
-            </p>
+        <div className={styles.trainingArea}>
+          <section
+            className={styles.progressCard}
+            aria-label="Прогрес тренування"
+          >
+            <div className={styles.progressTopline}>
+              <p className={styles.progressLabel}>
+                Завдання <strong>{currentNumber}</strong> з{' '}
+                {session.settings.questionCount}
+              </p>
+
+              {remainingSeconds !== null && (
+                <p className={styles.timer}>◷ {formatTime(remainingSeconds)}</p>
+              )}
+            </div>
 
             <progress
+              className={styles.progressBar}
               max={session.settings.questionCount}
               value={session.answers.length}
             />
 
-            {remainingSeconds !== null && (
-              <p>Залишилось: {formatTime(remainingSeconds)}</p>
-            )}
+            <p className={styles.scoreLine}>
+              <span className={styles.goodText}>
+                ● {correctCount} правильно
+              </span>
 
-            <p>
-              Правильно: {correctCount} · Помилки: {wrongCount}
+              <span className={styles.mutedText}>● {wrongCount} помилок</span>
             </p>
           </section>
 
           <QuestionCard
             key={currentQuestion.id}
             question={currentQuestion}
+            topicName={
+              courseTopics.find((topic) => topic.id === currentQuestion.topicId)
+                ?.name ?? currentQuestion.topicId
+            }
             onAnswered={handleAnswered}
             onNext={next}
           />
-        </>
+        </div>
       )}
 
       {finished && session && (
-        <section>
-          <h2>Результат</h2>
+        <section
+          className={`${styles.card} ${styles.resultCard}`}
+          data-testid="training-result"
+        >
+          <div className={styles.resultHeader}>
+            <div>
+              <p className={styles.kicker}>Сесію завершено</p>
 
-          <p>
-            Правильних відповідей: {result.correct} з {result.total}
-          </p>
+              <h2>Твій результат</h2>
+            </div>
 
-          <p>Точність: {result.accuracy}%</p>
+            <div className={styles.scoreCircle}>
+              <strong>{result.accuracy}%</strong>
 
-          <p>Помилок: {result.incorrect}</p>
+              <span>точність</span>
+            </div>
+          </div>
 
-          <p>Час: {formatTime(result.elapsedSeconds)}</p>
+          <div className={styles.statsGrid}>
+            <div>
+              <strong>
+                {result.correct}/{result.total}
+              </strong>
 
-          <p>Середній час відповіді: {averageAnswerTime} с</p>
+              <span>правильних відповідей</span>
+            </div>
+
+            <div>
+              <strong>{result.incorrect}</strong>
+
+              <span>помилок</span>
+            </div>
+
+            <div>
+              <strong>{formatTime(result.elapsedSeconds)}</strong>
+
+              <span>загальний час</span>
+            </div>
+
+            <div>
+              <strong>{averageAnswerTime} с</strong>
+
+              <span>середній час</span>
+            </div>
+          </div>
 
           {result.topicProgress.length > 0 && (
             <>
-              <h3>Результат за темами</h3>
+              <h3 className={styles.subheading}>Результат за темами</h3>
 
-              <ul>
+              <ul className={styles.topicResults}>
                 {result.topicProgress.map((progress) => {
                   const topic = courseTopics.find(
                     (item) => item.id === progress.topicId,
@@ -512,9 +562,15 @@ export default function Trainer() {
 
                   return (
                     <li key={progress.topicId}>
-                      {topic?.name ?? progress.topicId}: {progress.correct}/
-                      {progress.answered} ({progress.accuracy}
-                      %)
+                      <span>{topic?.name ?? progress.topicId}</span>
+
+                      <strong>
+                        {progress.correct}/{progress.answered}{' '}
+                        <small>
+                          ({progress.accuracy}
+                          %)
+                        </small>
+                      </strong>
                     </li>
                   );
                 })}
@@ -522,29 +578,54 @@ export default function Trainer() {
             </>
           )}
 
-          <button type="button" onClick={repeatTraining}>
-            Пройти ще раз
-          </button>
-
-          {result.incorrect > 0 && (
-            <button type="button" onClick={repeatMistakeTopics}>
-              Повторити теми з помилками
+          <div className={styles.actionRow}>
+            <button
+              className={styles.primaryButton}
+              type="button"
+              onClick={repeatTraining}
+            >
+              Пройти ще раз
             </button>
-          )}
 
-          <button type="button" onClick={newTraining}>
-            Нове тренування
-          </button>
+            {result.incorrect > 0 && (
+              <button
+                className={styles.secondaryButton}
+                type="button"
+                onClick={repeatMistakeTopics}
+              >
+                Повторити теми з помилками
+              </button>
+            )}
+
+            <button
+              className={styles.ghostButton}
+              type="button"
+              onClick={newTraining}
+            >
+              Нове тренування
+            </button>
+          </div>
         </section>
       )}
 
       {history.length > 0 && (
-        <section>
-          <h2>Загальний прогрес</h2>
+        <section
+          className={`${styles.card} ${styles.historyCard}`}
+          data-testid="training-history"
+        >
+          <div className={styles.sectionHeading}>
+            <div>
+              <p className={styles.kicker}>Твоя статистика</p>
 
-          <p>Тренувань: {history.length}</p>
+              <h2>Загальний прогрес</h2>
+            </div>
+          </div>
 
-          <ul>
+          <p className={styles.historyCount}>
+            Всього тренувань: <strong>{history.length}</strong>
+          </p>
+
+          <ul className={styles.topicResults}>
             {lifetimeProgress.map((progress) => {
               const topic = courseTopics.find(
                 (item) => item.id === progress.topicId,
@@ -552,15 +633,26 @@ export default function Trainer() {
 
               return (
                 <li key={progress.topicId}>
-                  {topic?.name ?? progress.topicId}: {progress.correct}/
-                  {progress.answered} ({progress.accuracy}
-                  %), тренувань: {progress.sessions}
+                  <span>
+                    {topic?.name ?? progress.topicId}
+
+                    <small>{progress.sessions} тренувань</small>
+                  </span>
+
+                  <strong>
+                    {progress.correct}/{progress.answered}{' '}
+                    <small>
+                      ({progress.accuracy}
+                      %)
+                    </small>
+                  </strong>
                 </li>
               );
             })}
           </ul>
 
           <button
+            className={styles.ghostButton}
             type="button"
             onClick={() => {
               clearTrainingHistory();

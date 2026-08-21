@@ -17,7 +17,7 @@ function createPiOptions(correctCoefficient: number, candidates: number[]) {
 
   let offset = 1;
 
-  while (unique.size < 4) {
+  while (unique.size < 3) {
     const candidate = correctCoefficient + offset;
 
     if (candidate !== correctCoefficient) {
@@ -27,7 +27,7 @@ function createPiOptions(correctCoefficient: number, candidates: number[]) {
     offset++;
   }
 
-  return [correctCoefficient, ...Array.from(unique).slice(0, 4)].map(
+  return [correctCoefficient, ...Array.from(unique).slice(0, 3)].map(
     (coefficient, index) => ({
       id: String(index),
 

@@ -27,13 +27,13 @@ function createPiOptions(coefficient: number): QuestionOption[] {
 
   let offset = 2;
 
-  while (unique.size < 4) {
+  while (unique.size < 3) {
     unique.add(coefficient + offset);
 
     offset++;
   }
 
-  return shuffle([coefficient, ...Array.from(unique).slice(0, 4)]).map(
+  return shuffle([coefficient, ...Array.from(unique).slice(0, 3)]).map(
     (value, index) => ({
       id: String(index),
 

@@ -53,14 +53,14 @@ function createFractionOptions(
       unique.set(key, candidate);
     }
 
-    if (unique.size >= 4) {
+    if (unique.size >= 3) {
       break;
     }
   }
 
   let offset = 1;
 
-  while (unique.size < 4) {
+  while (unique.size < 3) {
     const candidate = createFraction(
       correct.numerator + offset,
       correct.denominator,
@@ -75,7 +75,7 @@ function createFractionOptions(
     offset++;
   }
 
-  const values = shuffle([correct, ...Array.from(unique.values()).slice(0, 4)]);
+  const values = shuffle([correct, ...Array.from(unique.values()).slice(0, 3)]);
 
   return values.map((fraction, index) => ({
     id: String(index),

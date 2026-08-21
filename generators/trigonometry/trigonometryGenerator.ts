@@ -86,7 +86,7 @@ function generateStandardValue(): Question {
 
   const options: QuestionOption[] = shuffle([
     answer,
-    ...shuffle(candidateValues).slice(0, 4),
+    ...shuffle(candidateValues).slice(0, 3),
   ]).map((value, index) => ({
     id: String(index),
 
@@ -145,17 +145,11 @@ function generateIdentity(): Question {
     },
 
     {
-      value: 'sin*cos=1',
-      math: '\\sin x\\cos x=1',
-    },
-
-    {
       value: 'tan=sin*cos',
       math: '\\tan x=\\sin x\\cos x',
     },
   ]).map((option, index) => ({
     id: String(index),
-
     ...option,
   }));
 
@@ -163,7 +157,6 @@ function generateIdentity(): Question {
     id: crypto.randomUUID(),
 
     generatorId: 'trigonometry',
-
     familyId: 'trigonometry',
 
     variantKey: 'trigonometry:identity:basic',

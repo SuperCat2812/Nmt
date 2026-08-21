@@ -8,11 +8,8 @@ import { validateQuestion } from '@/test/helpers/validateQuestion';
 
 const baseConfig = {
   numeratorRange: [1, 12],
-
   denominatorRange: [2, 12],
-
   allowNegative: false,
-
   allowImproper: false,
 } as const;
 
@@ -39,12 +36,21 @@ describe('fractionGenerator', () => {
         validateQuestion(question);
 
         expect(question.generatorId).toBe('fraction');
-
         expect(question.familyId).toBe('fractions');
-
         expect(question.topicId).toBe('fractions');
-
         expect(question.variantKey).toContain(`fraction:${form}:`);
+
+        if (form === 'compare') {
+          expect(
+            question.options,
+            `${question.variantKey} має мати 3 варіанти відповіді`,
+          ).toHaveLength(3);
+        } else {
+          expect(
+            question.options,
+            `${question.variantKey} має мати 4 варіанти відповіді`,
+          ).toHaveLength(4);
+        }
       }
     });
   }

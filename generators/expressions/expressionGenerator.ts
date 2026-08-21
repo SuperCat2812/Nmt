@@ -36,17 +36,20 @@ function createMathOptions(
     if (candidate.value !== correctValue) {
       unique.set(candidate.value, candidate);
     }
+
+    if (unique.size >= 3) {
+      break;
+    }
   }
 
   let fallbackIndex = 1;
 
-  while (unique.size < 4) {
+  while (unique.size < 3) {
     const value = `${correctValue}__wrong_${fallbackIndex}`;
 
     unique.set(value, {
       value,
-
-      math: `${correctMath} ${fallbackIndex > 0 ? '+' : '-'} ${fallbackIndex}`,
+      math: `${correctMath} + ${fallbackIndex}`,
     });
 
     fallbackIndex++;
@@ -58,14 +61,12 @@ function createMathOptions(
       math: correctMath,
     },
 
-    ...Array.from(unique.values()).slice(0, 4),
+    ...Array.from(unique.values()).slice(0, 3),
   ];
 
   return shuffle(options).map((option, index) => ({
     id: String(index),
-
     value: option.value,
-
     math: option.math,
   }));
 }

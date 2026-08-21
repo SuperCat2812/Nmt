@@ -341,56 +341,26 @@ function generateSimplifySquareRoot(): Question {
 
   const radicand = outside ** 2 * remainder;
 
-  const correctValue = outside * Math.sqrt(remainder);
-
-  const options = createNumericOptions(correctValue, [
-    Math.sqrt(radicand) + 1,
-
-    outside + Math.sqrt(remainder),
-
-    outside * remainder,
-
-    Math.sqrt(outside * remainder),
-  ]);
-
-  // Числовые options здесь нам не очень подходят,
-  // поэтому заменяем отображение правильной математической формой.
   const correctString = `${outside}*sqrt(${remainder})`;
 
   const mathOptions = [
     {
       value: correctString,
-
       math: `${outside}\\sqrt{${remainder}}`,
     },
-
     {
       value: `${outside + 1}*sqrt(${remainder})`,
-
       math: `${outside + 1}\\sqrt{${remainder}}`,
     },
-
     {
       value: `${outside}*sqrt(${remainder + 1})`,
-
       math: `${outside}\\sqrt{${remainder + 1}}`,
     },
-
-    {
-      value: `sqrt(${radicand})`,
-
-      math: `\\sqrt{${radicand}}`,
-    },
-
     {
       value: String(outside * remainder),
-
       math: String(outside * remainder),
     },
   ];
-
-  // Не используем options выше:
-  void options;
 
   return {
     id: crypto.randomUUID(),
@@ -411,9 +381,7 @@ function generateSimplifySquareRoot(): Question {
 
     options: mathOptions.map((option, index) => ({
       id: String(index),
-
       value: option.value,
-
       math: option.math,
     })),
 

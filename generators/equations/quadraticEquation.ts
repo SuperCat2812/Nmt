@@ -45,32 +45,25 @@ function createRootOptions(x1: number, x2: number): QuestionOption[] {
   }
 
   add(-x1, x2);
-
   add(x1, -x2);
-
   add(-x1, -x2);
-
   add(x1 + 1, x2);
-
   add(x1, x2 + 1);
 
-  let offset = 2;
+  let offset = 3;
 
-  while (candidates.size < 4) {
+  while (candidates.size < 3) {
     add(x1 + offset, x2);
-
     offset++;
   }
 
-  return shuffle([correct, ...Array.from(candidates).slice(0, 4)]).map(
+  return shuffle([correct, ...Array.from(candidates).slice(0, 3)]).map(
     (value, index) => {
       const [first, second] = value.split(';');
 
       return {
         id: String(index),
-
         value,
-
         math: `x_1=${first},\\;x_2=${second}`,
       };
     },
@@ -136,41 +129,52 @@ function generateDoubleRoot(config: QuadraticEquationConfig): Question {
   const root = randomFromRange(config.rootRange);
 
   const b = -2 * root;
-
   const c = root ** 2;
 
   const equation = `x^2${formatTerm(b, 'x')}${formatTerm(c, '')} = 0`;
 
-  const options = shuffle([root, -root, root + 1, root - 1, root + 2])
-    .filter((value, index, array) => array.indexOf(value) === index)
-    .slice(0, 5)
-    .map((value, index) => ({
+  const wrongAnswers = new Set<number>();
+
+  for (const candidate of [-root, root + 1, root - 1, root + 2, root - 2]) {
+    if (candidate !== root) {
+      wrongAnswers.add(candidate);
+    }
+
+    if (wrongAnswers.size >= 3) {
+      break;
+    }
+  }
+
+  let offset = 3;
+
+  while (wrongAnswers.size < 3) {
+    const candidate = root + offset;
+
+    if (candidate !== root) {
+      wrongAnswers.add(candidate);
+    }
+
+    offset++;
+  }
+
+  const options = shuffle([root, ...Array.from(wrongAnswers).slice(0, 3)]).map(
+    (value, index) => ({
       id: String(index),
-
       value: String(value),
-
       text: String(value),
-    }));
+    }),
+  );
 
   return {
     id: crypto.randomUUID(),
-
     generatorId: 'quadratic-equation',
-
     familyId: 'equations',
-
     variantKey: `quadratic:double-root:${root}`,
-
     topicId: 'equations',
-
     type: 'single-choice',
-
     title: 'Квадратне рівняння',
-
     math: equation,
-
     options,
-
     correctAnswer: String(root),
 
     solution: [

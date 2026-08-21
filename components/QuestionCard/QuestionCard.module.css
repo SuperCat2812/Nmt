@@ -1,0 +1,252 @@
+.questionCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 18px 24px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
+.questionIntro {
+  text-align: center;
+}
+
+.topicPill {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: #c2410c;
+  font-size: 0.75rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+}
+
+.questionCard h2 {
+  color: #1f2937;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.questionIntro p {
+  margin-top: 6px;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+.formula {
+  margin: 12px 0;
+  overflow-x: auto;
+  padding: 8px;
+  color: #1f2937;
+}
+
+.formula :global(.katex-display) {
+  margin: 0;
+  font-size: clamp(1.2rem, 3vw, 1.75rem);
+}
+
+.visual {
+  margin: 10px 0;
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+  margin-top: 14px;
+}
+
+.option {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 10px 12px;
+  color: #1f2937;
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.option:hover:not(:disabled),
+.option.selected {
+  border-color: #fdba74;
+  background: #fff7ed;
+}
+
+.option:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.option:disabled {
+  cursor: default;
+}
+
+.numericAnswer {
+  width: min(100%, 120px);
+  margin: 14px auto 0;
+}
+
+.numericAnswer label {
+  display: grid;
+  gap: 7px;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 650;
+  text-align: center;
+}
+
+.numericInput {
+  min-height: 44px;
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0 10px;
+  color: #1f2937;
+  font: inherit;
+  font-size: 1rem;
+  text-align: center;
+  outline: none;
+}
+
+.numericInput:focus,
+.matchingSelect:focus {
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+  outline: none;
+}
+
+.matchingList {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.matchingRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 0.8fr);
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 8px 0;
+  color: #1f2937;
+}
+
+.matchingSelect {
+  min-height: 40px;
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 0 10px;
+  color: #1f2937;
+  font: inherit;
+}
+
+.checkButton,
+.nextButton {
+  min-height: 42px;
+  margin-top: 14px;
+  border: 1px solid #f97316;
+  border-radius: 8px;
+  background: #f97316;
+  padding: 0 18px;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.checkButton:hover,
+.nextButton:hover {
+  background: #ea580c;
+  transform: translateY(-1px);
+}
+
+.nextButton {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+}
+
+.feedback {
+  margin-top: 14px;
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.correct {
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+.incorrect {
+  border-color: #fca5a5;
+  background: #fffafa;
+}
+
+.feedbackTitle {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.correct .feedbackTitle {
+  color: #15803d;
+}
+
+.incorrect .feedbackTitle {
+  color: #b91c1c;
+}
+
+.feedback > p:not(.feedbackTitle) {
+  margin-top: 6px;
+  color: #7f1d1d;
+}
+
+.solution {
+  margin-top: 10px;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 10px;
+}
+
+.solution h3 {
+  color: #1f2937;
+  font-size: 1rem;
+}
+
+.solution ol {
+  display: grid;
+  gap: 4px;
+  margin: 6px 0 0 20px;
+  color: #475569;
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .questionCard {
+    padding: 16px 16px;
+  }
+
+  .optionsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .matchingRow {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .nextButton {
+    width: 100%;
+  }
+}

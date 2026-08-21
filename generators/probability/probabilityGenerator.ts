@@ -33,16 +33,16 @@ function createProbabilityOptions(
   for (let value = 0; value <= 1; value += 0.05) {
     add(value);
 
-    if (unique.size >= 4) {
+    if (unique.size >= 3) {
       break;
     }
   }
 
-  if (unique.size < 4) {
+  if (unique.size < 3) {
     throw new Error('Не вдалося створити варіанти ймовірності.');
   }
 
-  return shuffle([normalizedAnswer, ...Array.from(unique).slice(0, 4)]).map(
+  return shuffle([normalizedAnswer, ...Array.from(unique).slice(0, 3)]).map(
     (value, index) => ({
       id: String(index),
 

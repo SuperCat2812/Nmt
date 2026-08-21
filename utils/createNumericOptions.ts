@@ -10,7 +10,7 @@ export function createNumericOptions(
   candidates: number[],
   config: NumericOptionsConfig = {},
 ): QuestionOption[] {
-  const { count = 5, isAllowed = Number.isFinite } = config;
+  const { count = 4, isAllowed = Number.isFinite } = config;
   if (!Number.isFinite(answer))
     throw new Error('Правильна відповідь має бути скінченним числом.');
   if (count < 2) throw new Error('Кількість варіантів має бути не менше 2.');

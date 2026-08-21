@@ -10,5 +10,11 @@ export default defineConfig({
 
   test: {
     environment: 'node',
+
+    // Vitest запускает только unit/integration тесты
+    include: ['test/**/*.test.ts'],
+
+    // Playwright E2E-тесты Vitest не трогает
+    exclude: ['e2e/**', 'node_modules/**', '.next/**'],
   },
 });

@@ -105,7 +105,7 @@ function generateZeros(config: FunctionConfig): Question {
 
   let offset = 2;
 
-  while (candidates.size < 4) {
+  while (candidates.size < 3) {
     candidates.add(`${first + offset};${second}`);
 
     candidates.delete(correct);
@@ -115,7 +115,7 @@ function generateZeros(config: FunctionConfig): Question {
 
   const options: QuestionOption[] = shuffle([
     correct,
-    ...Array.from(candidates).slice(0, 4),
+    ...Array.from(candidates).slice(0, 3),
   ]).map((value, index) => {
     const [x1, x2] = value.split(';');
 
@@ -171,32 +171,46 @@ function generateZeros(config: FunctionConfig): Question {
 
 function generateVertex(config: FunctionConfig): Question {
   const h = randomFromRange(config.xRange);
-
   const k = randomFromRange(config.constantRange);
-
   const a = randomItem([-2, -1, 1, 2]);
 
   const correct = `${h};${k}`;
 
+  const candidates = new Set<string>();
+
+  function addCandidate(value: string) {
+    if (value !== correct) {
+      candidates.add(value);
+    }
+  }
+
+  addCandidate(`${-h};${k}`);
+  addCandidate(`${h};${-k}`);
+  addCandidate(`${k};${h}`);
+  addCandidate(`${h + 1};${k}`);
+  addCandidate(`${h - 1};${k}`);
+  addCandidate(`${h};${k + 1}`);
+  addCandidate(`${h};${k - 1}`);
+
+  let offset = 2;
+
+  while (candidates.size < 3) {
+    addCandidate(`${h + offset};${k + offset}`);
+    offset++;
+  }
+
   const options: QuestionOption[] = shuffle([
     correct,
-    `${-h};${k}`,
-    `${h};${-k}`,
-    `${k};${h}`,
-    `${h + 1};${k}`,
-  ])
-    .filter((value, index, array) => array.indexOf(value) === index)
-    .map((value, index) => {
-      const [x, y] = value.split(';');
+    ...Array.from(candidates).slice(0, 3),
+  ]).map((value, index) => {
+    const [x, y] = value.split(';');
 
-      return {
-        id: String(index),
-
-        value,
-
-        math: `(${x};${y})`,
-      };
-    });
+    return {
+      id: String(index),
+      value,
+      math: `(${x};${y})`,
+    };
+  });
 
   const inside = h >= 0 ? `x-${h}` : `x+${Math.abs(h)}`;
 
@@ -204,7 +218,6 @@ function generateVertex(config: FunctionConfig): Question {
     id: crypto.randomUUID(),
 
     generatorId: 'function',
-
     familyId: 'functions',
 
     variantKey: `function:vertex:${a}:${h}:${k}`,

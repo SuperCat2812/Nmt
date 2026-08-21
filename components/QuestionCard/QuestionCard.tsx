@@ -10,15 +10,24 @@ import MathFormula from '../MathFormula/MathFormula';
 
 import VisualRenderer from '../VisualRenderer/VisualRenderer';
 
+import styles from './QuestionCard.module.css';
+
 type Props = {
   question: Question;
+
+  topicName: string;
 
   onAnswered: (correct: boolean, userAnswer: UserAnswer) => void;
 
   onNext: () => void;
 };
 
-export default function QuestionCard({ question, onAnswered, onNext }: Props) {
+export default function QuestionCard({
+  question,
+  topicName,
+  onAnswered,
+  onNext,
+}: Props) {
   const [selectedAnswer, setSelectedAnswer] = useState('');
 
   const [checked, setChecked] = useState(false);
@@ -73,19 +82,34 @@ export default function QuestionCard({ question, onAnswered, onNext }: Props) {
   }
 
   return (
-    <section>
-      <h2>{question.title}</h2>
+    <section className={styles.questionCard} data-testid="question-card">
+      <div className={styles.questionIntro}>
+        <span className={styles.topicPill}>{topicName}</span>
 
-      {question.text && <p>{question.text}</p>}
+        <h2>{question.title}</h2>
 
-      {question.math && <MathFormula math={question.math} />}
+        {question.text && <p>{question.text}</p>}
+      </div>
 
-      {question.visual && <VisualRenderer visual={question.visual} />}
+      {question.math && (
+        <div className={styles.formula}>
+          <MathFormula math={question.math} />
+        </div>
+      )}
+
+      {question.visual && (
+        <div className={styles.visual}>
+          <VisualRenderer visual={question.visual} />
+        </div>
+      )}
 
       {question.type === 'single-choice' && (
-        <div>
+        <div className={styles.optionsGrid} data-testid="answer-options">
           {question.options?.map((option) => (
             <button
+              className={`${styles.option} ${
+                selectedAnswer === option.value ? styles.selected : ''
+              }`}
               key={option.id}
               type="button"
               disabled={checked}
@@ -100,10 +124,12 @@ export default function QuestionCard({ question, onAnswered, onNext }: Props) {
       )}
 
       {question.type === 'numeric' && (
-        <div>
+        <div className={styles.numericAnswer}>
           <label>
-            Ваша відповідь:
+            Ваша відповідь
             <input
+              data-testid="numeric-answer"
+              className={styles.numericInput}
               type="text"
               inputMode="decimal"
               value={selectedAnswer}
@@ -115,12 +141,13 @@ export default function QuestionCard({ question, onAnswered, onNext }: Props) {
       )}
 
       {question.type === 'matching' && question.matching && (
-        <div>
+        <div className={styles.matchingList} data-testid="matching-answer">
           {question.matching.left.map((leftItem) => (
-            <div key={leftItem.id}>
+            <div className={styles.matchingRow} key={leftItem.id}>
               <MatchingItemContent item={leftItem} />
 
               <select
+                className={styles.matchingSelect}
                 value={matchingAnswer[leftItem.id] ?? ''}
                 disabled={checked}
                 onChange={(event) =>
@@ -145,35 +172,52 @@ export default function QuestionCard({ question, onAnswered, onNext }: Props) {
       )}
 
       {!checked && (
-        <button type="button" onClick={handleCheck}>
+        <button
+          className={styles.checkButton}
+          type="button"
+          onClick={handleCheck}
+        >
           Перевірити
         </button>
       )}
 
       {checked && (
-        <>
-          <p>{isCorrect ? '✅ Правильно!' : '❌ Неправильно'}</p>
+        <div
+          data-testid="answer-feedback"
+          className={`${styles.feedback} ${
+            isCorrect ? styles.correct : styles.incorrect
+          }`}
+        >
+          <p className={styles.feedbackTitle}>
+            {isCorrect ? 'Правильно!' : 'Неправильно'}
+          </p>
 
           {!isCorrect && question.type !== 'matching' && (
             <p>Правильна відповідь: {String(question.correctAnswer)}</p>
           )}
 
-          <h3>Розв&apos;язання</h3>
+          <div className={styles.solution}>
+            <h3>Розв&apos;язання</h3>
 
-          <ol>
-            {question.solution.map((step, index) => (
-              <li key={index}>
-                {step.text && <span>{step.text}</span>}
+            <ol>
+              {question.solution.map((step, index) => (
+                <li key={index}>
+                  {step.text && <span>{step.text}</span>}
 
-                {step.math && <MathFormula math={step.math} />}
-              </li>
-            ))}
-          </ol>
+                  {step.math && <MathFormula math={step.math} />}
+                </li>
+              ))}
+            </ol>
+          </div>
 
-          <button type="button" onClick={handleNext}>
+          <button
+            className={styles.nextButton}
+            type="button"
+            onClick={handleNext}
+          >
             Наступне завдання
           </button>
-        </>
+        </div>
       )}
     </section>
   );

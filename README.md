@@ -61,134 +61,143 @@ The project also includes automated mathematical validation, unit and integratio
 - Unit and integration testing with Vitest
 - End-to-end testing with Playwright
 - Desktop and mobile E2E projects
-- Stress testing of generators and user flows
+- Generator stress testing
+- User-flow stress testing
 - Production build validation
 
 ---
 
-## Supported Mathematics
+# Supported Mathematics
 
-The NMT course contains generators for a wide range of school mathematics topics.
+## NMT Mathematics
+
+The NMT course contains generators for the main school mathematics topics.
 
 ### Fractions
 
-- fraction operations
-- comparison
-- simplification
-- related fraction exercises
+- Fraction operations
+- Comparison
+- Simplification
+- Addition
+- Subtraction
+- Multiplication
+- Division
 
 ### Percentages
 
-- percentage of a number
-- finding a number from its percentage
-- percentage increase
-- percentage decrease
-- percentage change
-- ratios
+- Percentage of a number
+- Finding a number from its percentage
+- Percentage increase
+- Percentage decrease
+- Percentage change
+- Ratios
 
 ### Powers and Roots
 
-- powers
-- roots
-- exponent rules
-- simplification
+- Powers
+- Roots
+- Exponent rules
+- Simplification
 
 ### Algebraic Expressions
 
-- algebraic transformations
-- identities
-- difference of squares
-- simplification of expressions
+- Algebraic transformations
+- Identities
+- Difference of squares
+- Expression simplification
 
 ### Equations
 
-- linear equations
-- quadratic equations
-- rational equations
-- advanced equation forms
+- Linear equations
+- Quadratic equations
+- Rational equations
+- Advanced equations
 
 ### Inequalities
 
-- algebraic inequalities
-- interval reasoning
-- inequality transformations
+- Algebraic inequalities
+- Interval reasoning
+- Inequality transformations
 
 ### Functions
 
-- function values
-- function properties
-- graph-related questions
-- analytical interpretation
+- Function values
+- Function properties
+- Function graphs
+- Analytical interpretation
 
 ### Logarithms
 
-- logarithmic expressions
-- logarithmic equations
-- logarithm properties
+- Logarithmic expressions
+- Logarithmic equations
+- Logarithm properties
 
 ### Sequences and Progressions
 
-- arithmetic progressions
-- geometric progressions
-- sequence terms
-- progression formulas
+- Arithmetic progressions
+- Geometric progressions
+- Sequence terms
+- Progression formulas
 
 ### Trigonometry
 
-- trigonometric values
-- identities
-- equations
-- basic trigonometric relationships
+- Trigonometric values
+- Identities
+- Equations
+- Basic trigonometric relationships
 
 ### Plane Geometry
 
-- triangles
-- quadrilaterals
-- circles
-- areas
-- perimeters
-- extended geometry problems
+- Triangles
+- Quadrilaterals
+- Circles
+- Areas
+- Perimeters
+- Extended geometry problems
 
 ### Solid Geometry
 
-- three-dimensional figures
-- volumes
-- surface-related calculations
-- spheres and other solids
+- Three-dimensional figures
+- Volumes
+- Surface calculations
+- Spheres
+- Other solids
 
 ### Vectors
 
-- vector operations
-- coordinates
-- scalar products
-- vector relationships
+- Vector operations
+- Coordinates
+- Scalar products
+- Vector relationships
 
 ### Combinatorics
 
-- counting problems
-- permutations
-- combinations
-- related combinatorial calculations
+- Counting problems
+- Permutations
+- Combinations
+- Combinatorial calculations
 
 ### Probability
 
-- basic probability
-- event calculations
-- probability problems
+- Basic probability
+- Events
+- Probability calculations
 
 ### Statistics
 
-- statistical values
-- data analysis
-- basic descriptive statistics
+- Statistical values
+- Data analysis
+- Descriptive statistics
 
 ---
 
-## Advanced Mathematics
+# Advanced Mathematics
 
-The project also contains generators for advanced mathematical topics used to extend and stress-test the generation architecture.
+The project also contains generators for advanced mathematical topics.
 
-These include:
+These generators demonstrate that the architecture is not limited only to NMT mathematics.
+
+Supported advanced areas include:
 
 - Calculus
 - Advanced Calculus
@@ -202,13 +211,11 @@ These include:
 - Graph Theory
 - Numerical Methods
 
-These generators demonstrate that the training architecture is not limited only to NMT mathematics.
-
 ---
 
-## Training Modes
+# Training Modes
 
-### Single Topic
+## Single Topic
 
 The user selects one mathematical topic.
 
@@ -223,7 +230,9 @@ Typical flow:
 5. Answer the questions.
 6. View the final result.
 
-### Mixed Mode
+---
+
+## Mixed Mode
 
 Several topics can be selected simultaneously.
 
@@ -233,7 +242,7 @@ This makes it possible to practice several areas of mathematics in one session.
 
 ---
 
-## Training Flow
+# Training Flow
 
 The general user flow is:
 
@@ -250,31 +259,50 @@ The general user flow is:
 11. Continue to the next question.
 12. Complete the training session.
 13. Review the result.
-14. Review topic progress and training history.
+14. Review topic progress.
+15. Review training history.
 
 ---
 
-## Question Generation
+# Question Types
+
+The trainer supports several question formats.
+
+## Single Choice
+
+The user selects one answer from generated answer options.
+
+## Numeric Answer
+
+The user manually enters a numerical result.
+
+## Matching
+
+The user establishes correspondence between elements from two sets.
+
+---
+
+# Question Generation
 
 Questions are generated dynamically by dedicated mathematical generators.
 
 A generated question can contain:
 
-- unique question ID
-- generator ID
-- family ID
-- variant key
-- topic ID
-- question type
-- title
-- question text
-- mathematical expression
-- answer options
-- correct answer
-- solution steps
-- visual data
+- Unique question ID
+- Generator ID
+- Family ID
+- Variant key
+- Topic ID
+- Question type
+- Title
+- Text
+- Mathematical expression
+- Answer options
+- Correct answer
+- Solution steps
+- Visualization data
 
-A simplified generated question may look like:
+Example:
 
 ```ts
 {
@@ -287,129 +315,132 @@ A simplified generated question may look like:
   title: 'Розв’яжіть рівняння',
   math: '2x + 3 = 7',
   options: [
-    // ...
+    // generated options
   ],
   correctAnswer: '2',
   solution: [
-    // ...
+    // solution steps
   ]
 }
 ```
 
-Randomized generators are tested with large numbers of generated questions to help detect rare invalid combinations.
+Randomized generators are stress-tested with large numbers of generated questions.
+
+This helps detect rare invalid mathematical combinations.
 
 ---
 
-## Answer Validation
+# Answer Validation
 
-The application supports several question formats.
+The answer-checking engine validates user answers according to the question type.
 
-### Single Choice
+It supports:
 
-The user selects one answer from the generated options.
+```text
+single-choice
+numeric
+matching
+```
 
-### Numeric Answer
-
-The user enters a numerical result.
-
-### Matching
-
-The user matches elements from two sets.
-
-The answer-checking engine validates the user response according to the question type.
+The application checks the answer before displaying the result and solution.
 
 ---
 
-## Step-by-Step Solutions
+# Step-by-Step Solutions
 
 After checking an answer, the trainer displays:
 
-- whether the answer is correct
-- the correct answer when appropriate
-- a separate solution section
-- mathematical steps required to solve the problem
+- Whether the answer is correct
+- Correct answer when appropriate
+- Separate solution section
+- Mathematical solution steps
 
 Mathematical expressions are rendered using KaTeX.
 
 ---
 
-## Visualizations
+# Visualizations
 
-Some mathematical questions can contain visual information.
+Some questions contain generated visual information.
 
-The project uses visualization components for mathematical content such as:
+The project can display:
 
-- function graphs
-- geometry
-- charts
-- other generated visual representations
+- Function graphs
+- Geometry
+- Charts
+- Mathematical diagrams
+- Other generated visual representations
 
-The visualization stack includes:
+Visualization technologies include:
 
 - JSXGraph
 - Recharts
 
 ---
 
-## Progress and History
+# Progress and History
 
 The application tracks training activity locally.
 
-It can store information such as:
+It can store:
 
-- completed training sessions
-- results
-- topic progress
-- training history
+- Completed training sessions
+- Results
+- Topic progress
+- Training history
 
-Data is currently persisted using browser `localStorage`.
+User data is persisted through browser:
 
-This allows the application to work without a backend server or database.
+```text
+localStorage
+```
+
+Therefore, the current application does not require a backend or database for basic operation.
 
 ---
 
-## Tech Stack
+# Tech Stack
 
-### Core
+## Core
 
 - Next.js 16
 - React 19
 - TypeScript
 
-### Mathematics
+## Mathematics
 
 - KaTeX
 - React KaTeX
 - MathJS
 - JSXGraph
 
-### Visualization
+## Visualization
 
 - Recharts
 
-### Styling
+## Styling
 
 - CSS Modules
 - Global CSS
 
-### Testing
+## Testing
 
 - Vitest
 - Playwright
 
-### Development
+## Development
 
 - ESLint
 - npm
 - Git
 
-### Deployment
+## Deployment
 
 - Vercel
 
 ---
 
-## Project Structure
+# Project Structure
 
 ```text
 nmt-math-trainer/
@@ -424,29 +455,44 @@ nmt-math-trainer/
 │   ├── VisualRenderer/
 │   └── ...
 │
+├── data/
+│   ├── course.json
+│   ├── university-math.json
+│   └── activeCourse.ts
+│
 ├── engine/
 │   ├── answerChecker.ts
 │   ├── generatorRegistry.ts
 │   └── ...
 │
 ├── generators/
-│   ├── advancedCalculus/
-│   ├── calculus/
-│   ├── equations/
-│   ├── expressions/
 │   ├── fractions/
-│   ├── functions/
-│   ├── geometry/
-│   ├── inequalities/
+│   ├── percentages/
 │   ├── powersRoots/
-│   ├── probability/
+│   ├── expressions/
+│   ├── equations/
+│   ├── inequalities/
+│   ├── functions/
+│   ├── logarithms/
 │   ├── sequences/
 │   ├── trigonometry/
+│   ├── geometry/
 │   ├── vectors/
+│   ├── probability/
+│   ├── calculus/
+│   └── ...
+│
+├── types/
+│   ├── question.ts
+│   ├── generator.ts
+│   └── ...
+│
+├── utils/
 │   └── ...
 │
 ├── test/
-│   ├── helpers/
+│   ├── formulaSanity.test.ts
+│   ├── generatorStress.test.ts
 │   └── ...
 │
 ├── e2e/
@@ -454,9 +500,6 @@ nmt-math-trainer/
 │   ├── allTopics.spec.ts
 │   ├── userStress.spec.ts
 │   └── ...
-│
-├── types/
-├── utils/
 │
 ├── playwright.config.ts
 ├── vitest.config.mts
@@ -466,7 +509,587 @@ nmt-math-trainer/
 
 ---
 
-## Installation
+# Course Database Architecture
+
+One of the main ideas of the project is separating:
+
+```text
+UI
+↓
+Course configuration
+↓
+Generator registry
+↓
+Mathematical generators
+↓
+Generated Question
+```
+
+The user interface does not need to know how every mathematical problem is generated.
+
+Instead, the active course defines which topics and generators are available.
+
+This makes the trainer reusable for different mathematics courses.
+
+---
+
+# How to Change the Course Database
+
+The trainer is designed so that the visible course can be changed without rewriting the entire interface.
+
+Course definitions are stored in JSON files inside:
+
+```text
+data/
+├── course.json
+├── university-math.json
+└── activeCourse.ts
+```
+
+The project contains different course configurations, for example:
+
+```text
+nmt-math-2026
+university-math
+```
+
+---
+
+## Course JSON Structure
+
+A course contains:
+
+```text
+Course
+│
+├── id
+├── name
+├── description
+│
+└── topics
+    │
+    ├── Topic
+    │   ├── id
+    │   ├── name
+    │   │
+    │   └── generators
+    │       │
+    │       ├── id
+    │       └── config
+    │
+    └── ...
+```
+
+Example:
+
+```json
+{
+  "id": "my-course",
+  "name": "My Mathematics Course",
+  "description": "Custom mathematics course",
+  "topics": [
+    {
+      "id": "equations",
+      "name": "Equations",
+      "generators": [
+        {
+          "id": "linear-equation",
+          "config": {
+            "answerRange": [-10, 10],
+            "coefficientRange": [-9, 9],
+            "constantRange": [-15, 15],
+            "forms": [
+              "ax+b=c",
+              "ax=b"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+# What Can Be Changed Through JSON
+
+Depending on the generator, configuration can control:
+
+- Course name
+- Course description
+- Topic names
+- Topic order
+- Available generators
+- Generator configuration
+- Mathematical forms
+- Numeric ranges
+- Coefficient ranges
+- Coordinate ranges
+- Allowed negative values
+- Other generator-specific settings
+
+For example:
+
+```json
+{
+  "id": "fraction",
+  "config": {
+    "numeratorRange": [1, 12],
+    "denominatorRange": [2, 12],
+    "forms": [
+      "reduce",
+      "compare",
+      "add",
+      "subtract",
+      "multiply",
+      "divide"
+    ],
+    "allowNegative": false,
+    "allowImproper": false
+  }
+}
+```
+
+Changing:
+
+```json
+"numeratorRange": [1, 12]
+```
+
+to:
+
+```json
+"numeratorRange": [1, 50]
+```
+
+allows the generator to use a larger numerator range.
+
+Changing:
+
+```json
+"allowNegative": false
+```
+
+to:
+
+```json
+"allowNegative": true
+```
+
+allows negative values if the generator supports them.
+
+Removing a form from:
+
+```json
+"forms": [
+  "reduce",
+  "compare",
+  "add"
+]
+```
+
+means that form will no longer be selected.
+
+---
+
+# Important: JSON Does Not Create Generator Logic
+
+The JSON configuration describes which existing generators should be used and how they should be configured.
+
+It does not automatically create mathematical algorithms.
+
+For example:
+
+```json
+{
+  "id": "linear-equation"
+}
+```
+
+works only if:
+
+```text
+linear-equation
+```
+
+already exists in the generator registry.
+
+An unknown generator:
+
+```json
+{
+  "id": "my-new-generator"
+}
+```
+
+will not work until the generator is implemented and registered.
+
+Therefore:
+
+```text
+Changing existing course
+        ↓
+Usually JSON only
+
+Adding new mathematical algorithm
+        ↓
+Generator code + registry + config + tests
+```
+
+---
+
+# Adding a New Course
+
+Create a new JSON file.
+
+For example:
+
+```text
+data/my-course.json
+```
+
+Example:
+
+```json
+{
+  "id": "my-course",
+  "name": "My Custom Mathematics Course",
+  "description": "Custom training configuration",
+  "topics": [
+    {
+      "id": "basic-equations",
+      "name": "Basic Equations",
+      "generators": [
+        {
+          "id": "linear-equation",
+          "config": {
+            "answerRange": [-5, 5],
+            "coefficientRange": [1, 5],
+            "constantRange": [-10, 10],
+            "forms": [
+              "ax+b=c",
+              "ax=b"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+# Registering a New Course
+
+After creating the JSON file, import it in:
+
+```text
+data/activeCourse.ts
+```
+
+For example:
+
+```ts
+import nmtCourse from './course.json';
+import universityCourse from './university-math.json';
+import myCourse from './my-course.json';
+
+export const courses = {
+  'nmt-math-2026': nmtCourse,
+  'university-math': universityCourse,
+  'my-course': myCourse,
+} as const;
+```
+
+Now the application knows about the new course.
+
+---
+
+# Selecting the Active Course
+
+The active course can be selected using:
+
+```text
+NEXT_PUBLIC_COURSE_ID
+```
+
+For example:
+
+```env
+NEXT_PUBLIC_COURSE_ID=nmt-math-2026
+```
+
+or:
+
+```env
+NEXT_PUBLIC_COURSE_ID=university-math
+```
+
+or:
+
+```env
+NEXT_PUBLIC_COURSE_ID=my-course
+```
+
+---
+
+## Local Development
+
+Create:
+
+```text
+.env.local
+```
+
+Example:
+
+```env
+NEXT_PUBLIC_COURSE_ID=university-math
+```
+
+Restart the development server:
+
+```bash
+npm run dev
+```
+
+Environment variables are loaded when the application starts/builds, so the development server should be restarted after changing them.
+
+---
+
+## Changing Course on Vercel
+
+Open the Vercel project.
+
+Go to:
+
+```text
+Settings
+↓
+Environment Variables
+```
+
+Add or change:
+
+```text
+NEXT_PUBLIC_COURSE_ID
+```
+
+For example:
+
+```text
+university-math
+```
+
+Then redeploy the application.
+
+Because this variable starts with:
+
+```text
+NEXT_PUBLIC_
+```
+
+it is available to the client-side Next.js application and its value is included in the corresponding build.
+
+---
+
+# Adding a New Generator
+
+If an existing generator already supports the required type of question, usually only the JSON configuration needs to be changed.
+
+A completely new mathematical algorithm requires a new generator.
+
+Typical process:
+
+```text
+1. Create generator
+        ↓
+2. Create/update config type
+        ↓
+3. Register generator
+        ↓
+4. Add configuration validation
+        ↓
+5. Add generator to course JSON
+        ↓
+6. Add mathematical tests
+        ↓
+7. Add stress tests
+        ↓
+8. Run full project validation
+```
+
+---
+
+## 1. Create Generator
+
+Example:
+
+```text
+generators/myTopic/myGenerator.ts
+```
+
+The generator must produce a valid:
+
+```ts
+Question
+```
+
+---
+
+## 2. Add Generator Configuration Type
+
+Generator configuration types are defined in the project's TypeScript types.
+
+Example:
+
+```ts
+export interface MyGeneratorConfig {
+  valueRange: [number, number];
+  forms: MyGeneratorForm[];
+}
+```
+
+---
+
+## 3. Register Generator
+
+Open:
+
+```text
+engine/generatorRegistry.ts
+```
+
+Import the generator:
+
+```ts
+import { generateMyQuestion } from '@/generators/myTopic/myGenerator';
+```
+
+Then connect the generator ID to its implementation.
+
+Conceptually:
+
+```ts
+'my-generator': (config) => generateMyQuestion(config)
+```
+
+The exact implementation should follow the existing registry types and validation architecture.
+
+---
+
+## 4. Add Configuration Validation
+
+The application should reject invalid generator configuration.
+
+Validation should check things such as:
+
+- Required ranges exist
+- Ranges contain valid values
+- `min <= max`
+- Required forms exist
+- Forms are supported
+- Required generator options are present
+
+---
+
+## 5. Add Generator to Course JSON
+
+Example:
+
+```json
+{
+  "id": "my-topic",
+  "name": "My Topic",
+  "generators": [
+    {
+      "id": "my-generator",
+      "config": {
+        "valueRange": [1, 10],
+        "forms": [
+          "form-a",
+          "form-b"
+        ]
+      }
+    }
+  ]
+}
+```
+
+---
+
+## 6. Test the Generator
+
+At minimum, verify:
+
+- Generator does not crash
+- Question contains a valid ID
+- `variantKey` is valid
+- Correct answer exists
+- Correct answer is mathematically correct
+- Answer options are valid
+- No empty answer options exist
+- Generated formulas are valid
+- Solution corresponds to the problem
+- Random generation remains stable
+
+---
+
+# Course Data vs User Data
+
+The project contains two fundamentally different types of data.
+
+## Course Data
+
+Stored in files such as:
+
+```text
+data/course.json
+data/university-math.json
+```
+
+Course data controls:
+
+- Topics
+- Generators
+- Generator configuration
+- Mathematical ranges
+- Mathematical forms
+- Course structure
+
+---
+
+## User Data
+
+Stored in:
+
+```text
+localStorage
+```
+
+User data contains information such as:
+
+- Training history
+- Results
+- Topic progress
+
+These systems are independent.
+
+Changing:
+
+```text
+course.json
+```
+
+does not automatically remove user history.
+
+During development, after major changes to the course structure, it may be useful to clear browser storage.
+
+---
+
+# Installation
 
 Clone the repository:
 
@@ -486,55 +1109,49 @@ Install dependencies:
 npm install
 ```
 
-Start the development server:
+Start development:
 
 ```bash
 npm run dev
 ```
-
-Then open the local application in your browser.
 
 ---
 
-## Available Commands
+# Available Commands
 
-### Development
-
-Start the Next.js development server:
+## Development
 
 ```bash
 npm run dev
 ```
 
-### Production Build
+---
 
-Create an optimized production build:
-
-```bash
-npm run build
-```
-
-Start the production server:
-
-```bash
-npm run start
-```
-
-### ESLint
+## ESLint
 
 ```bash
 npm run lint
 ```
 
-### TypeScript
+---
+
+## TypeScript
 
 ```bash
 npm run typecheck
 ```
 
-### Vitest
+Equivalent:
 
-Run unit and integration tests:
+```bash
+npx tsc --noEmit
+```
+
+---
+
+## Vitest
+
+Run unit/integration tests:
 
 ```bash
 npm run test
@@ -552,7 +1169,9 @@ Watch mode:
 npm run test:watch
 ```
 
-### Playwright
+---
+
+## Playwright
 
 Run all E2E tests:
 
@@ -560,39 +1179,67 @@ Run all E2E tests:
 npm run test:e2e
 ```
 
-Open Playwright UI mode:
+Open Playwright UI:
 
 ```bash
 npm run test:e2e:ui
 ```
 
-Run tests in a visible browser:
+Important:
+
+```bash
+npm run test:e2e:ui
+```
+
+not:
+
+```bash
+npm test:e2e:ui
+```
+
+Run with visible browser:
 
 ```bash
 npm run test:e2e:headed
 ```
 
-Run Chromium tests:
+Run Chromium:
 
 ```bash
 npm run test:e2e:chromium
 ```
 
-Run mobile tests:
+Run mobile:
 
 ```bash
 npm run test:e2e:mobile
 ```
 
-### Complete Project Check
+---
 
-Run the complete validation pipeline:
+## Production Build
+
+```bash
+npm run build
+```
+
+Start production server:
+
+```bash
+npm run start
+```
+
+---
+
+# Complete Pre-Deployment Check
+
+Run:
 
 ```bash
 npm run test:full
 ```
 
-This runs:
+The command runs:
 
 ```text
 ESLint
@@ -606,17 +1253,19 @@ Playwright
 Next.js production build
 ```
 
+This provides one complete validation pipeline before deployment.
+
 ---
 
-## Testing Strategy
+# Testing Strategy
 
 The project uses several levels of automated validation.
 
-### 1. TypeScript
+---
 
-TypeScript verifies the static type safety of the application.
+## 1. TypeScript
 
-Run:
+TypeScript checks the application's static type safety.
 
 ```bash
 npm run typecheck
@@ -624,11 +1273,9 @@ npm run typecheck
 
 ---
 
-### 2. ESLint
+## 2. ESLint
 
 ESLint checks source-code quality and common programming problems.
-
-Run:
 
 ```bash
 npm run lint
@@ -636,232 +1283,275 @@ npm run lint
 
 ---
 
-### 3. Vitest
+## 3. Vitest
 
-Vitest tests mathematical generators and internal application logic.
+Vitest checks internal application and mathematical logic.
 
-The tests cover areas such as:
+Tests can cover:
 
-- mathematical correctness
-- generator output
-- fraction calculations
-- percentages
-- expressions
-- equations
-- inequalities
-- functions
-- logarithms
-- sequences
-- trigonometry
-- geometry
-- vectors
-- combinatorics
-- probability
-- statistics
-- advanced mathematics
-- answer validation
-- training sessions
-- storage
-- progress calculations
-- generated answer options
-- formula sanity
-- generator stress scenarios
+- Mathematical correctness
+- Generator output
+- Fractions
+- Percentages
+- Powers and roots
+- Expressions
+- Equations
+- Inequalities
+- Functions
+- Logarithms
+- Sequences
+- Trigonometry
+- Geometry
+- Vectors
+- Combinatorics
+- Probability
+- Statistics
+- Advanced mathematics
+- Answer validation
+- Training sessions
+- Storage
+- Progress
+- Answer options
+- Formula sanity
+- Generator stress scenarios
 
-Some generator tests create thousands of randomized questions to detect rare mathematical or generation errors.
+---
 
-Run:
+# Formula Sanity Testing
 
-```bash
-npm run test
+Because questions are dynamically generated, formulas require automated validation.
+
+Formula sanity tests can detect suspicious output such as:
+
+```text
++-
+x--
+NaN
+Infinity
+undefined
 ```
 
----
+They also detect unexpectedly long floating-point values such as:
 
-### 4. Formula Sanity Testing
+```text
+0.3333333333333333
+```
 
-Generated mathematical formulas are checked for suspicious output such as:
+when such representation should not be displayed to the user.
 
-- malformed signs
-- invalid expression formatting
-- unexpectedly long floating-point representations
-- malformed generated mathematical notation
-
-This is especially useful because the application dynamically generates questions.
+Formula tests help ensure generated mathematical notation remains readable and valid.
 
 ---
 
-### 5. Generator Stress Testing
+# Generator Stress Testing
 
-Generators are repeatedly executed with many randomized inputs.
+Generator stress tests repeatedly create randomized questions.
 
-This helps detect problems that may only occur for rare combinations of generated values.
+For example, a generator can be executed thousands of times.
+
+This is important because a generator may work correctly for most values but fail for one rare combination.
+
+Stress tests can detect:
+
+- Crashes
+- Empty options
+- Invalid correct answers
+- Invalid formulas
+- Duplicate options
+- Unsupported states
+- Invalid random ranges
+- Rare mathematical edge cases
+
+---
+
+# Playwright E2E Testing
+
+Playwright tests the application from the perspective of a real user.
+
+The E2E suite checks scenarios such as:
+
+- Opening the trainer
+- Selecting training mode
+- Selecting topics
+- Selecting question count
+- Starting training
+- Answering questions
+- Checking answers
+- Viewing feedback
+- Viewing solutions
+- Going to the next question
+- Finishing training
+- Viewing results
+- Reload behavior
+- History persistence
+- Duplicate-history prevention
+- Horizontal overflow
+- Desktop behavior
+- Mobile behavior
+
+---
+
+# All Topics E2E Test
+
+The NMT topics are also tested individually through a complete user flow.
+
+For each topic the browser can verify:
+
+```text
+Select topic
+    ↓
+Start training
+    ↓
+Question appears
+    ↓
+Answer question
+    ↓
+Feedback appears
+    ↓
+Solution appears
+    ↓
+Continue
+    ↓
+Result appears
+```
+
+This provides browser-level verification that every available NMT topic can participate in a real training session.
+
+---
+
+# User Stress Testing
+
+The project contains user-oriented stress scenarios.
 
 Examples include:
 
-- invalid answer options
-- empty values
-- malformed formulas
-- duplicate or inconsistent answers
-- invalid generated states
+- Several questions from every NMT topic
+- 50 questions without UI freezing
+- Starting a 100-question training session
+- Double-clicking the Check button
+- Preventing answer changes after checking
+- Reload during configuration
+- History persistence
+- Preventing duplicate history after reload
+- Horizontal overflow checks after multiple questions
+
+These tests go beyond the standard happy-path scenario.
 
 ---
 
-### 6. Playwright E2E Testing
+# Desktop and Mobile E2E
 
-Playwright tests the application from the perspective of a real browser user.
+Playwright contains separate projects for desktop and mobile testing.
 
-The E2E suite covers scenarios such as:
-
-- opening the application
-- selecting a mode
-- selecting topics
-- changing the number of questions
-- starting training
-- answering questions
-- checking answers
-- viewing solutions
-- moving to the next question
-- completing training
-- viewing results
-- saving history
-- restoring state after reload
-- avoiding duplicate history entries
-- mixed-topic training
-- desktop layouts
-- mobile layouts
-- horizontal overflow checks
-- repeated user interactions
-
----
-
-### 7. User Stress Scenarios
-
-The E2E suite also contains stress-oriented user scenarios.
-
-Examples include:
-
-- completing several questions from every NMT topic
-- completing 50 questions without UI freezing
-- starting a 100-question training session
-- double-clicking the answer-check button
-- attempting to change an answer after it has been checked
-- reloading the page during configuration
-- checking history persistence
-- checking that reload does not duplicate history
-- checking horizontal overflow after multiple questions
-
-These tests help validate the application beyond the normal "happy path".
-
----
-
-### 8. Desktop and Mobile Testing
-
-Playwright contains separate projects for desktop Chromium and mobile viewport testing.
-
-Run desktop Chromium:
+Desktop:
 
 ```bash
 npm run test:e2e:chromium
 ```
 
-Run mobile:
+Mobile:
 
 ```bash
 npm run test:e2e:mobile
 ```
 
-This helps ensure that the trainer remains usable across different screen sizes.
+This helps verify that the main user flows remain usable at different viewport sizes.
 
 ---
 
-## Pre-Deployment Check
+# Testing Before Deployment
 
-Before deployment, run:
+Recommended final check:
 
 ```bash
 npm run test:full
 ```
 
-For an additional clean TypeScript check on Windows:
+If necessary, TypeScript build information can also be cleared on Windows:
 
 ```powershell
 Remove-Item tsconfig.tsbuildinfo -ErrorAction SilentlyContinue
 npm run typecheck
 ```
 
-The deployment checklist therefore validates:
+The final validation therefore checks:
 
-- source-code quality
-- TypeScript
-- mathematical logic
-- generator logic
-- answer validation
-- application state
-- browser user flows
-- desktop behavior
-- mobile behavior
-- production compilation
+```text
+Source code
+     ↓
+Types
+     ↓
+Mathematics
+     ↓
+Generators
+     ↓
+Application logic
+     ↓
+Browser interaction
+     ↓
+Responsive behavior
+     ↓
+Production build
+```
 
 ---
 
-## Data Storage
+# Data Storage
 
-Training progress and history are currently stored in the browser using:
+The current application stores progress locally through:
 
 ```text
 localStorage
 ```
 
-Therefore, the current version does not require a backend server or database for its basic functionality.
+Advantages:
 
-### Advantages
+- No backend required
+- Simple deployment
+- Fast local persistence
+- History survives page reloads
 
-- simple deployment
-- no server required
-- fast local persistence
-- training history survives page reloads
+Limitation:
 
-### Limitation
-
-The data belongs to the current browser/device.
-
-It is not currently synchronized between different devices.
+- Data belongs to the current browser/device
+- Data is not automatically synchronized between devices
 
 ---
 
-## Possible Backend Expansion
+# Possible Backend Expansion
 
-A backend and database can be added in the future for features such as:
+A backend and database can be added in the future for:
 
-- user accounts
-- authentication
-- cloud training history
-- synchronization between devices
-- global statistics
-- leaderboards
-- shared progress
-- teacher/student functionality
+- User accounts
+- Authentication
+- Cloud training history
+- Cross-device synchronization
+- Global statistics
+- Leaderboards
+- Shared progress
+- Teacher/student functionality
 
-The current generator architecture can continue working independently of the storage layer.
+The mathematical generator architecture can remain independent from the persistence layer.
 
 ---
 
-## Future Improvements
+# Future Improvements
 
-Possible future improvements include:
+Possible future improvements:
 
-- user authentication
-- database integration
-- cloud progress synchronization
-- additional NMT question types
-- additional mathematical generators
-- difficulty levels
-- timed exam mode
-- full NMT simulation
-- detailed analytics
-- additional visualizations
-- accessibility improvements
-- further mobile optimization
+- Authentication
+- Backend
+- Database
+- Cloud synchronization
+- Additional NMT question types
+- Additional generators
+- Difficulty levels
+- Timed exam mode
+- Full NMT simulation
+- Advanced analytics
+- More visualizations
+- Accessibility improvements
+- Further mobile optimization
 
 ---
 
@@ -871,7 +1561,7 @@ Possible future improvements include:
 
 **NMT Math Trainer** — інтерактивний математичний тренажер для підготовки до українського Національного мультипредметного тесту (НМТ).
 
-На відміну від застосунків, які використовують лише фіксований набір запитань, NMT Math Trainer використовує математичні генератори для динамічного створення нових завдань.
+Замість використання лише фіксованого набору запитань застосунок використовує математичні генератори, які динамічно створюють нові завдання.
 
 Це дозволяє отримувати багато різних варіантів задач, зберігаючи правильну математичну логіку.
 
@@ -893,7 +1583,7 @@ Possible future improvements include:
 
 ---
 
-## Можливості
+# Можливості
 
 - Тренування однієї теми
 - Змішаний режим
@@ -904,147 +1594,50 @@ Possible future improvements include:
 - Завдання на встановлення відповідності
 - Автоматична перевірка відповідей
 - Покрокові розв'язання
-- Відображення математичних формул через KaTeX
+- Формули через KaTeX
 - Візуалізація функцій і геометрії
 - Результати тренування
 - Статистика
 - Прогрес за темами
 - Історія тренувань
-- Збереження даних у `localStorage`
+- Збереження через `localStorage`
 - Адаптивний інтерфейс
-- Desktop-версія
-- Mobile-версія
-- Автоматичне тестування математичної логіки
-- Unit та integration-тести через Vitest
-- E2E-тестування через Playwright
-- Окремі desktop та mobile E2E-проєкти
-- Stress-тестування генераторів
-- Stress-тестування користувацьких сценаріїв
+- Desktop
+- Mobile
+- Vitest
+- Playwright
+- Stress-тести генераторів
+- Stress-тести користувацьких сценаріїв
 - Перевірка production build
 
 ---
 
-## Математичні теми НМТ
+# Теми НМТ
 
-Тренажер містить генератори для основних математичних тем.
+Тренажер містить генератори для:
 
-### Звичайні дроби
-
-- операції з дробами
-- порівняння
-- скорочення
-- пов'язані задачі з дробами
-
-### Відсотки
-
-- відсоток від числа
-- знаходження числа за відсотком
-- збільшення на відсоток
-- зменшення на відсоток
-- відсоткова зміна
-- відношення
-
-### Степені та корені
-
-- степені
-- корені
-- властивості степенів
-- спрощення
-
-### Алгебраїчні вирази
-
-- перетворення виразів
-- тотожності
-- різниця квадратів
-- спрощення виразів
-
-### Рівняння
-
-- лінійні рівняння
-- квадратні рівняння
-- раціональні рівняння
-- складніші види рівнянь
-
-### Нерівності
-
-- алгебраїчні нерівності
-- інтервали
-- перетворення нерівностей
-
-### Функції
-
-- значення функції
-- властивості функцій
-- графічні завдання
-- аналіз функцій
-
-### Логарифми
-
-- логарифмічні вирази
-- логарифмічні рівняння
-- властивості логарифмів
-
-### Послідовності та прогресії
-
-- арифметична прогресія
-- геометрична прогресія
-- члени послідовностей
-- формули прогресій
-
-### Тригонометрія
-
-- тригонометричні значення
-- тотожності
-- рівняння
-- основні тригонометричні співвідношення
-
-### Планіметрія
-
-- трикутники
-- чотирикутники
-- кола
-- площі
-- периметри
-- розширені геометричні задачі
-
-### Стереометрія
-
-- просторові фігури
-- об'єми
-- площі поверхонь
-- сфери та інші тіла
-
-### Вектори
-
-- операції з векторами
-- координати
-- скалярний добуток
-- співвідношення між векторами
-
-### Комбінаторика
-
-- задачі на підрахунок
-- перестановки
-- комбінації
-- комбінаторні обчислення
-
-### Ймовірність
-
-- базова ймовірність
-- події
-- задачі на обчислення ймовірності
-
-### Статистика
-
-- статистичні величини
-- аналіз даних
-- базова описова статистика
+- Звичайних дробів
+- Відсотків
+- Степенів та коренів
+- Алгебраїчних виразів
+- Рівнянь
+- Нерівностей
+- Функцій
+- Логарифмів
+- Послідовностей та прогресій
+- Тригонометрії
+- Планіметрії
+- Стереометрії
+- Векторів
+- Комбінаторики
+- Ймовірності
+- Статистики
 
 ---
 
-## Розширена математика
+# Розширена математика
 
-У проєкті також є генератори складніших математичних тем, які використовуються для розширення та stress-тестування архітектури:
+У проєкті також є генератори складніших математичних тем:
 
 - Calculus
 - Advanced Calculus
@@ -1058,192 +1651,649 @@ Possible future improvements include:
 - Graph Theory
 - Numerical Methods
 
-Це демонструє, що архітектура генераторів не обмежується лише програмою НМТ.
+Це показує, що архітектура тренажера не обмежується лише НМТ.
 
 ---
 
-## Режими тренування
+# Режими тренування
 
-### Одна тема
+## Одна тема
 
-Користувач обирає одну математичну тему.
+Користувач:
 
-Тренажер створює завдання саме з цієї теми.
-
-Основний сценарій:
-
-1. Обрати режим однієї теми.
-2. Обрати тему.
-3. Вказати кількість завдань.
-4. Почати тренування.
-5. Виконати завдання.
-6. Переглянути результат.
-
-### Змішаний режим
-
-Користувач може обрати декілька тем одночасно.
-
-Тренажер формує одну сесію із завдань вибраних категорій.
+1. Обирає режим.
+2. Обирає тему.
+3. Вказує кількість завдань.
+4. Запускає тренування.
+5. Виконує завдання.
+6. Переглядає результат.
 
 ---
 
-## Як працює тренування
+## Змішаний режим
 
-Основний сценарій користувача:
+Можна обрати декілька тем одночасно.
 
-1. Відкрити тренажер.
-2. Обрати режим.
-3. Обрати одну або декілька тем.
-4. Вказати кількість завдань.
-5. Почати тренування.
-6. Прочитати згенероване завдання.
-7. Обрати або ввести відповідь.
-8. Натиснути «Перевірити».
-9. Побачити результат перевірки.
-10. Переглянути покрокове розв'язання.
-11. Перейти до наступного завдання.
-12. Завершити тренування.
-13. Переглянути результат.
-14. Переглянути прогрес та історію.
+Тренажер створює одну тренувальну сесію із завдань вибраних категорій.
 
 ---
 
-## Генерація завдань
+# Типи завдань
 
-Завдання створюються динамічно спеціалізованими математичними генераторами.
+Підтримуються:
 
-Згенероване завдання може містити:
+```text
+single-choice
+numeric
+matching
+```
 
-- унікальний ID
-- ID генератора
-- family ID
-- variant key
-- ID теми
-- тип завдання
-- заголовок
-- текст
-- математичну формулу
-- варіанти відповідей
-- правильну відповідь
-- кроки розв'язання
-- дані для візуалізації
+Тобто:
 
-Генератори тестуються на великій кількості випадково створених завдань.
-
-Це допомагає знаходити рідкісні помилки у випадкових комбінаціях.
+- вибір одного варіанта
+- введення числової відповіді
+- встановлення відповідності
 
 ---
 
-## Перевірка відповідей
+# Генерація завдань
 
-Тренажер підтримує декілька форматів завдань.
+Кожне завдання генерується спеціалізованим математичним генератором.
 
-### Вибір відповіді
+Завдання може містити:
 
-Користувач обирає один варіант із запропонованих.
+- `id`
+- `generatorId`
+- `familyId`
+- `variantKey`
+- `topicId`
+- `type`
+- `title`
+- `text`
+- `math`
+- `options`
+- `correctAnswer`
+- `solution`
+- `visual`
 
-### Числова відповідь
-
-Користувач самостійно вводить числовий результат.
-
-### Встановлення відповідності
-
-Користувач встановлює відповідність між елементами двох наборів.
-
-Система перевірки відповіді враховує тип конкретного завдання.
+Генератори можуть створювати велику кількість різних варіантів однієї математичної задачі.
 
 ---
 
-## Покрокове розв'язання
+# Перевірка відповідей
 
-Після перевірки відповіді користувач бачить:
+Окремий механізм перевірки визначає правильність відповіді залежно від типу завдання.
+
+Після перевірки користувач бачить:
 
 - правильна відповідь чи ні
-- правильну відповідь, коли це необхідно
-- окремий блок розв'язання
-- математичні кроки
-
-Формули відображаються за допомогою KaTeX.
+- правильну відповідь, коли потрібно
+- покрокове розв'язання
 
 ---
 
-## Прогрес та історія
+# Візуалізація
 
-Тренажер локально зберігає інформацію про навчання.
-
-Зберігатися можуть:
-
-- завершені тренування
-- результати
-- прогрес за темами
-- історія тренувань
-
-Для збереження використовується браузерний `localStorage`.
-
----
-
-## Технології
-
-### Основні
-
-- Next.js 16
-- React 19
-- TypeScript
-
-### Математика
+Для математичного контенту використовуються:
 
 - KaTeX
-- React KaTeX
-- MathJS
 - JSXGraph
-
-### Візуалізація
-
 - Recharts
 
-### Стилізація
+Це дозволяє відображати:
 
-- CSS Modules
-- Global CSS
-
-### Тестування
-
-- Vitest
-- Playwright
-
-### Розробка
-
-- ESLint
-- npm
-- Git
-
-### Deploy
-
-- Vercel
+- формули
+- функції
+- графіки
+- геометричні елементи
+- інші математичні візуалізації
 
 ---
 
-## Встановлення
+# Архітектура бази курсу
 
-Клонуйте репозиторій:
+Одна з основних ідей проєкту — відокремити інтерфейс від конкретного набору математичних тем.
+
+Схематично:
+
+```text
+Інтерфейс
+    ↓
+JSON курсу
+    ↓
+Generator Registry
+    ↓
+Математичний генератор
+    ↓
+Question
+    ↓
+QuestionCard
+```
+
+Завдяки цьому для зміни курсу не потрібно переписувати весь інтерфейс.
+
+---
+
+# Як змінити базу курсу
+
+Конфігурації курсів знаходяться в:
+
+```text
+data/
+├── course.json
+├── university-math.json
+└── activeCourse.ts
+```
+
+У проєкті можуть використовуватися різні курси, наприклад:
+
+```text
+nmt-math-2026
+university-math
+```
+
+---
+
+# Структура JSON бази
+
+Приклад:
+
+```json
+{
+  "id": "my-course",
+  "name": "Мій курс математики",
+  "description": "Опис курсу",
+  "topics": [
+    {
+      "id": "equations",
+      "name": "Рівняння",
+      "generators": [
+        {
+          "id": "linear-equation",
+          "config": {
+            "answerRange": [-10, 10],
+            "coefficientRange": [-9, 9],
+            "constantRange": [-15, 15],
+            "forms": [
+              "ax+b=c",
+              "ax=b"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+Структура:
+
+```text
+Курс
+│
+├── id
+├── name
+├── description
+│
+└── topics
+    │
+    ├── Тема
+    │   ├── id
+    │   ├── name
+    │   │
+    │   └── generators
+    │       ├── id
+    │       └── config
+    │
+    └── ...
+```
+
+---
+
+# Що можна змінювати в JSON
+
+Залежно від генератора можна змінювати:
+
+- Назву курсу
+- Опис
+- Назви тем
+- Порядок тем
+- Генератори
+- Діапазони чисел
+- Діапазони коефіцієнтів
+- Координати
+- Дозволені форми задач
+- Дозвіл від'ємних значень
+- Інші параметри генератора
+
+Наприклад:
+
+```json
+{
+  "id": "fraction",
+  "config": {
+    "numeratorRange": [1, 12],
+    "denominatorRange": [2, 12],
+    "forms": [
+      "reduce",
+      "compare",
+      "add",
+      "subtract",
+      "multiply",
+      "divide"
+    ],
+    "allowNegative": false,
+    "allowImproper": false
+  }
+}
+```
+
+Якщо змінити:
+
+```json
+"numeratorRange": [1, 12]
+```
+
+на:
+
+```json
+"numeratorRange": [1, 50]
+```
+
+генератор зможе використовувати більший діапазон чисельників.
+
+---
+
+# Важливо: JSON та генератор — не одне й те саме
+
+JSON не створює нову математичну логіку.
+
+Він лише говорить системі:
+
+```text
+який генератор використовувати
++
+з якими налаштуваннями
+```
+
+Наприклад:
+
+```json
+{
+  "id": "linear-equation"
+}
+```
+
+працює лише тоді, коли `linear-equation` уже реалізований у коді.
+
+Тому:
+
+```text
+Змінити параметри існуючих задач
+            ↓
+          JSON
+
+Створити новий тип математичних задач
+            ↓
+Generator + Registry + Config + Tests
+```
+
+---
+
+# Як створити новий курс
+
+Створіть:
+
+```text
+data/my-course.json
+```
+
+Наприклад:
+
+```json
+{
+  "id": "my-course",
+  "name": "Мій курс математики",
+  "description": "Власний курс",
+  "topics": [
+    {
+      "id": "basic-equations",
+      "name": "Прості рівняння",
+      "generators": [
+        {
+          "id": "linear-equation",
+          "config": {
+            "answerRange": [-5, 5],
+            "coefficientRange": [1, 5],
+            "constantRange": [-10, 10],
+            "forms": [
+              "ax+b=c",
+              "ax=b"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+# Реєстрація нового курсу
+
+Відкрийте:
+
+```text
+data/activeCourse.ts
+```
+
+Імпортуйте файл:
+
+```ts
+import myCourse from './my-course.json';
+```
+
+Після цього додайте його до доступних курсів:
+
+```ts
+export const courses = {
+  'nmt-math-2026': nmtCourse,
+  'university-math': universityCourse,
+  'my-course': myCourse,
+} as const;
+```
+
+---
+
+# Вибір активної бази
+
+Для вибору курсу використовується:
+
+```text
+NEXT_PUBLIC_COURSE_ID
+```
+
+Для НМТ:
+
+```env
+NEXT_PUBLIC_COURSE_ID=nmt-math-2026
+```
+
+Для університетської математики:
+
+```env
+NEXT_PUBLIC_COURSE_ID=university-math
+```
+
+Для власної бази:
+
+```env
+NEXT_PUBLIC_COURSE_ID=my-course
+```
+
+---
+
+# Зміна бази локально
+
+Створіть:
+
+```text
+.env.local
+```
+
+Наприклад:
+
+```env
+NEXT_PUBLIC_COURSE_ID=university-math
+```
+
+Після зміни перезапустіть:
+
+```bash
+npm run dev
+```
+
+---
+
+# Зміна бази на Vercel
+
+Відкрийте:
+
+```text
+Vercel
+↓
+Project
+↓
+Settings
+↓
+Environment Variables
+```
+
+Створіть:
+
+```text
+NEXT_PUBLIC_COURSE_ID
+```
+
+Наприклад:
+
+```text
+nmt-math-2026
+```
+
+або:
+
+```text
+university-math
+```
+
+Після зміни потрібно виконати Redeploy.
+
+---
+
+# Як додати новий генератор
+
+Якщо потрібно створити абсолютно новий тип задач:
+
+```text
+Новий Generator
+       ↓
+Generator Config
+       ↓
+Generator Registry
+       ↓
+Course JSON
+       ↓
+Tests
+```
+
+---
+
+## Крок 1 — створити генератор
+
+Наприклад:
+
+```text
+generators/myTopic/myGenerator.ts
+```
+
+Генератор має повертати:
+
+```ts
+Question
+```
+
+---
+
+## Крок 2 — створити config
+
+Наприклад:
+
+```ts
+export interface MyGeneratorConfig {
+  valueRange: [number, number];
+  forms: MyGeneratorForm[];
+}
+```
+
+---
+
+## Крок 3 — зареєструвати generator
+
+У:
+
+```text
+engine/generatorRegistry.ts
+```
+
+потрібно зв'язати:
+
+```text
+generator ID
+```
+
+з:
+
+```text
+generator function
+```
+
+---
+
+## Крок 4 — додати validation
+
+Config повинен перевірятися.
+
+Наприклад:
+
+```text
+range існує
+min <= max
+forms не порожній
+form підтримується
+required properties існують
+```
+
+---
+
+## Крок 5 — додати в JSON
+
+```json
+{
+  "id": "my-topic",
+  "name": "Моя тема",
+  "generators": [
+    {
+      "id": "my-generator",
+      "config": {
+        "valueRange": [1, 10],
+        "forms": [
+          "form-a",
+          "form-b"
+        ]
+      }
+    }
+  ]
+}
+```
+
+---
+
+## Крок 6 — протестувати
+
+Для нового генератора потрібно перевірити:
+
+- генератор не падає
+- `Question` валідний
+- `correctAnswer` існує
+- відповідь математично правильна
+- options коректні
+- немає порожніх options
+- немає неправильних формул
+- solution відповідає задачі
+- stress generation працює
+
+Після цього:
+
+```bash
+npm run test:full
+```
+
+---
+
+# База курсу та дані користувача
+
+Це дві різні системи.
+
+## База математичного курсу
+
+```text
+data/course.json
+data/university-math.json
+```
+
+Визначає:
+
+```text
+Теми
+Генератори
+Форми задач
+Діапазони
+Математичну конфігурацію
+```
+
+## Дані користувача
+
+Зберігаються через:
+
+```text
+localStorage
+```
+
+Там можуть знаходитися:
+
+```text
+Історія
+Результати
+Прогрес
+```
+
+Тобто:
+
+```text
+JSON
+=
+що тренувати
+
+localStorage
+=
+що вже пройшов користувач
+```
+
+---
+
+# Встановлення
+
+Клонувати:
 
 ```bash
 git clone https://github.com/SuperCat2812/Nmt.git
 ```
 
-Перейдіть до папки проєкту:
+Перейти до проєкту:
 
 ```bash
 cd nmt-math-trainer
 ```
 
-Встановіть залежності:
+Встановити залежності:
 
 ```bash
 npm install
 ```
 
-Запустіть dev-сервер:
+Запустити:
 
 ```bash
 npm run dev
@@ -1251,27 +2301,27 @@ npm run dev
 
 ---
 
-## Команди
+# Команди
 
-### Dev-сервер
+## Development
 
 ```bash
 npm run dev
 ```
 
-### ESLint
+## ESLint
 
 ```bash
 npm run lint
 ```
 
-### TypeScript
+## TypeScript
 
 ```bash
 npm run typecheck
 ```
 
-### Vitest
+## Vitest
 
 ```bash
 npm run test
@@ -1283,33 +2333,45 @@ npm run test
 npm run test:unit
 ```
 
-Watch mode:
+Watch:
 
 ```bash
 npm run test:watch
 ```
 
-### Playwright
+## Playwright
 
-Усі E2E-тести:
+Усі E2E:
 
 ```bash
 npm run test:e2e
 ```
 
-Playwright UI:
+UI:
 
 ```bash
 npm run test:e2e:ui
 ```
 
-Видимий браузер:
+Важливо використовувати саме:
+
+```bash
+npm run test:e2e:ui
+```
+
+а не:
+
+```bash
+npm test:e2e:ui
+```
+
+Headed:
 
 ```bash
 npm run test:e2e:headed
 ```
 
-Chromium:
+Desktop Chromium:
 
 ```bash
 npm run test:e2e:chromium
@@ -1321,180 +2383,23 @@ Mobile:
 npm run test:e2e:mobile
 ```
 
-### Production Build
+## Build
 
 ```bash
 npm run build
 ```
 
-### Повна перевірка
+---
+
+# Повна перевірка перед Deploy
+
+Запустіть:
 
 ```bash
 npm run test:full
 ```
 
----
-
-## Система тестування
-
-Проєкт використовує декілька рівнів автоматичної перевірки.
-
-### TypeScript
-
-Перевіряє типи та допомагає знаходити помилки ще до запуску застосунку.
-
-```bash
-npm run typecheck
-```
-
-### ESLint
-
-Перевіряє якість коду та потенційні проблеми.
-
-```bash
-npm run lint
-```
-
-### Vitest
-
-Vitest використовується для перевірки математичних генераторів та внутрішньої логіки застосунку.
-
-Перевіряються, зокрема:
-
-- математична коректність
-- генератори дробів
-- відсотки
-- степені та корені
-- вирази
-- рівняння
-- нерівності
-- функції
-- логарифми
-- послідовності
-- тригонометрія
-- геометрія
-- вектори
-- комбінаторика
-- ймовірність
-- статистика
-- складні математичні генератори
-- перевірка відповідей
-- тренувальні сесії
-- storage
-- прогрес
-- варіанти відповідей
-- коректність формул
-- stress-сценарії генераторів
-
-Частина тестів генерує тисячі випадкових задач для пошуку рідкісних математичних помилок.
-
----
-
-## Formula Sanity Tests
-
-Автоматичні тести перевіряють згенеровані формули на підозрілі конструкції, наприклад:
-
-- некоректні знаки
-- неправильне форматування
-- надто довгі десяткові числа
-- пошкоджений математичний запис
-
-Це особливо важливо для системи з випадковою генерацією завдань.
-
----
-
-## Generator Stress Tests
-
-Генератори багаторазово запускаються з випадковими значеннями.
-
-Це допомагає знайти проблеми, які можуть виникати лише в рідкісних комбінаціях.
-
-Наприклад:
-
-- порожні варіанти відповіді
-- неправильні значення
-- некоректні формули
-- дублікати
-- суперечливі відповіді
-- неправильний стан згенерованого завдання
-
----
-
-## Playwright E2E
-
-Playwright перевіряє застосунок з точки зору реального користувача.
-
-Перевіряються:
-
-- відкриття застосунку
-- вибір режиму
-- вибір тем
-- кількість завдань
-- змішаний режим
-- запуск тренування
-- відповіді на завдання
-- перевірка відповіді
-- перегляд розв'язання
-- перехід до наступного завдання
-- завершення тренування
-- результати
-- історія
-- відновлення після reload
-- відсутність дублювання історії
-- desktop
-- mobile
-- horizontal overflow
-- багаторазові взаємодії користувача
-
----
-
-## User Stress Tests
-
-Окремі E2E-сценарії перевіряють поведінку застосунку при тривалішому використанні.
-
-Серед них:
-
-- декілька задач підряд з кожної теми НМТ
-- проходження 50 задач без зависання UI
-- запуск тренування зі 100 задач
-- подвійне натискання «Перевірити»
-- блокування зміни відповіді після перевірки
-- reload під час налаштування
-- збереження історії
-- відсутність дублювання історії після reload
-- перевірка horizontal overflow після декількох завдань
-
----
-
-## Desktop та Mobile
-
-Playwright містить окремі конфігурації для desktop Chromium та mobile.
-
-Desktop:
-
-```bash
-npm run test:e2e:chromium
-```
-
-Mobile:
-
-```bash
-npm run test:e2e:mobile
-```
-
-Це дозволяє автоматично перевіряти адаптивність основних користувацьких сценаріїв.
-
----
-
-## Перевірка перед Deploy
-
-Перед commit або deploy достатньо виконати:
-
-```bash
-npm run test:full
-```
-
-Ця команда послідовно запускає:
+Послідовність:
 
 ```text
 ESLint
@@ -1505,78 +2410,228 @@ Vitest
    ↓
 Playwright
    ↓
-Next.js production build
+Next.js Build
 ```
-
-Таким чином перевіряються:
-
-- якість коду
-- TypeScript
-- математична логіка
-- генератори
-- перевірка відповідей
-- внутрішня логіка застосунку
-- користувацькі сценарії
-- desktop
-- mobile
-- production build
 
 ---
 
-## Збереження даних
+# Formula Sanity Tests
 
-У поточній версії прогрес та історія тренувань зберігаються локально в браузері через:
+Оскільки задачі генеруються випадково, формули також автоматично перевіряються.
+
+Наприклад, тести можуть знаходити:
+
+```text
++-
+x--
+NaN
+Infinity
+undefined
+```
+
+а також надто довгі десяткові числа:
+
+```text
+0.3333333333333333
+```
+
+Це допомагає знаходити рідкісні помилки генераторів.
+
+---
+
+# Generator Stress Tests
+
+Генератори багаторазово запускаються з випадковими параметрами.
+
+Stress-тести допомагають знаходити:
+
+- crashes
+- порожні options
+- неправильні відповіді
+- неправильні формули
+- дублікати
+- неправильні random ranges
+- рідкісні математичні edge cases
+
+---
+
+# Playwright E2E
+
+Playwright перевіряє застосунок як реальний користувач.
+
+Перевіряються:
+
+- вибір режиму
+- вибір теми
+- кількість задач
+- запуск тренування
+- відповіді
+- перевірка відповіді
+- solution
+- наступне завдання
+- завершення
+- результати
+- history
+- reload
+- desktop
+- mobile
+- overflow
+
+---
+
+# User Stress Tests
+
+Окремо перевіряються складніші користувацькі сценарії:
+
+- декілька задач з кожної теми
+- 50 задач без зависання UI
+- запуск 100 задач
+- подвійний клік по «Перевірити»
+- неможливість змінити відповідь після перевірки
+- reload під час налаштування
+- збереження history
+- відсутність дублювання history
+- horizontal overflow
+
+---
+
+# Перевірка всіх тем
+
+Для кожної теми НМТ перевіряється повний цикл:
+
+```text
+Вибір теми
+    ↓
+Старт
+    ↓
+Генерація питання
+    ↓
+Відповідь
+    ↓
+Перевірка
+    ↓
+Feedback
+    ↓
+Розв'язання
+    ↓
+Наступне завдання
+    ↓
+Результат
+```
+
+Тести запускаються для desktop та mobile конфігурацій.
+
+---
+
+# Перед Deploy
+
+Основна команда:
+
+```bash
+npm run test:full
+```
+
+За необхідності на Windows можна також очистити TypeScript build cache:
+
+```powershell
+Remove-Item tsconfig.tsbuildinfo -ErrorAction SilentlyContinue
+npm run typecheck
+```
+
+Після успішного проходження:
+
+```text
+Lint
+✓
+
+TypeScript
+✓
+
+Unit / Integration
+✓
+
+Generator Stress
+✓
+
+Formula Sanity
+✓
+
+E2E
+✓
+
+Desktop
+✓
+
+Mobile
+✓
+
+Production Build
+✓
+```
+
+проєкт можна відправляти на deploy.
+
+---
+
+# Збереження даних
+
+У поточній версії дані користувача зберігаються через:
 
 ```text
 localStorage
 ```
 
-Тому для базової роботи застосунку не потрібні:
+Переваги:
 
-- backend
-- база даних
-- авторизація
+- backend не потрібен
+- база даних не потрібна
+- простий deploy
+- швидке локальне збереження
 
-Дані зберігаються на поточному пристрої та в поточному браузері.
+Обмеження:
 
----
-
-## Можливе підключення Backend
-
-У майбутньому backend і базу даних можна використати для:
-
-- акаунтів користувачів
-- авторизації
-- синхронізації між пристроями
-- хмарної історії тренувань
-- глобальної статистики
-- рейтингу користувачів
-- спільного прогресу
-- функціоналу викладач/учень
-
-При цьому математичні генератори можуть залишатися незалежними від способу збереження даних.
+- дані прив'язані до браузера
+- немає автоматичної синхронізації між пристроями
 
 ---
 
-## Подальший розвиток
+# Можливе підключення Backend
 
-Можливі наступні покращення:
+У майбутньому можна додати:
 
-- авторизація користувачів
-- база даних
-- синхронізація прогресу
-- нові типи завдань НМТ
-- нові генератори
-- рівні складності
-- таймер
-- повна симуляція НМТ
-- розширена статистика
-- додаткові візуалізації
-- accessibility
-- подальше покращення mobile UI
+- Авторизацію
+- User accounts
+- Database
+- Cloud history
+- Синхронізацію
+- Загальну статистику
+- Leaderboard
+- Teacher/student functionality
+
+При цьому математичні генератори можуть залишитися незалежними від backend.
 
 ---
 
-## License
+# Подальший розвиток
+
+Можливі покращення:
+
+- Авторизація
+- Backend
+- Database
+- Cloud synchronization
+- Нові типи завдань НМТ
+- Нові генератори
+- Рівні складності
+- Таймер
+- Повна симуляція НМТ
+- Розширена статистика
+- Нові графіки
+- Accessibility
+- Покращення mobile UI
+
+---
+
+# License
 
 This project was created for educational purposes.

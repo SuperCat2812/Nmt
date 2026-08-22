@@ -4,7 +4,7 @@ Interactive mathematics training application for preparation for the Ukrainian N
 
 The application dynamically generates mathematics problems, checks answers, provides step-by-step solutions, tracks progress, and stores training history locally in the browser.
 
-[English](#english) | [Українська](#українська)
+[English](#english) | [Ukrainian](#ukrainian)
 
 ---
 
@@ -32,7 +32,7 @@ The project also includes automated mathematical validation, unit and integratio
 
 ## Repository
 
-[GitHub Repository](https://github.com/SuperCat2812/Nmt/)
+[GitHub Repository](https://github.com/SuperCat2812/Nmt-english.git)
 
 ---
 
@@ -312,7 +312,7 @@ Example:
   variantKey: 'linear:2:3:7',
   topicId: 'equations',
   type: 'single-choice',
-  title: 'Розв’яжіть рівняння',
+  title: 'Solve the equation',
   math: '2x + 3 = 7',
   options: [
     // generated options
@@ -1573,13 +1573,13 @@ Possible future improvements:
 
 ## Demo
 
-[NMT Math Trainer](https://nmt-two.vercel.app/)
+[NMT Math Trainer]([https://nmt-two.vercel.app/](https://nmt-english.vercel.app/))
 
 ---
 
 ## Repository
 
-[GitHub Repository](https://github.com/SuperCat2812/Nmt/)
+[GitHub Repository]([https://github.com/SuperCat2812/Nmt/](https://github.com/SuperCat2812/Nmt-english.git))
 
 ---
 

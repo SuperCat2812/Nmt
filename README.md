@@ -4,7 +4,7 @@ Interactive mathematics training application for preparation for the Ukrainian N
 
 The application dynamically generates mathematics problems, checks answers, provides step-by-step solutions, tracks progress, and stores training history locally in the browser.
 
-[English](#english) | [Ukrainian](#ukrainian)
+[English](#english) | [Українська](#українська)
 
 ---
 
